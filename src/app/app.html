@@ -1,8 +1,31 @@
 <div class="d-flex flex-column min-vh-100">
   <app-layout></app-layout>
+  <h1 class="d-flex justify-content-center mt-4">Welcome to NBA FANTASY !!!</h1>
 
+  <div class="row g-4">
+    @for (league of leagues(); track league.id) {
+      <div class="col-md-4">
+        <div class="card shadow-sm border-primary">
+          <div class="card-body">
+            <h5 class="card-title text-primary">{{ league.name }}</h5>
+            <p class="card-text text-muted">
+              Players: <strong>{{ league.playerCount }}</strong> <br>
+              Draft Date: {{ league.draftDate }}
+            </p>
+            <button class="btn btn-outline-primary btn-sm">Enter League</button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="text-center">
+        <p class="lead">No leagues found. Join one to get started!</p>
+        <button class="btn btn-primary">Find a League</button>
+      </div>
+    }
+  </div>
+
+  
   <main class="flex-grow-1">
-    <h1 class="d-flex justify-content-center mt-4">Welcome to NBA FANTASY !!!</h1>
     <router-outlet />
   </main>
 
