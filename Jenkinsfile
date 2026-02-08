@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-             args '-v /var/run/docker.sock:/var/run/docker.sock  -u root'
-        }
-    }
+    agent any
 
     environment{
         DOTNET_ENVIRONMENT = 'Development'
