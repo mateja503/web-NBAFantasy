@@ -10,6 +10,6 @@ RUN npm run build -- --configuration production
 FROM nginx:alpine
 # Note: Angular 19 usually outputs to dist/[project-name]/browser
 # Update 'web-nba-fantasy' to match your actual project name in angular.json
-COPY --from=build /app/dist/web-nba-fantasy/browser /usr/share/nginx/html
+COPY --from=build /app/dist/web-NBAFantasy/browser /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
