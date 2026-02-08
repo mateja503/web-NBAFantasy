@@ -4,11 +4,12 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build --configuration=production
+RUN npm run build -- --configuration production
 
-# Stage 2: Serve with Nginx
-FROM nginx:stable-alpine
-# This path is based on your project name from angular.json
-COPY --from=build /app/dist/web-NBAFantasy/browser /usr/share/nginx/html
+# Stage 2: Serve
+FROM nginx:alpine
+# Note: Angular 19 usually outputs to dist/[project-name]/browser
+# Update 'web-nba-fantasy' to match your actual project name in angular.json
+COPY --from=build /app/dist/web-nba-fantasy/browser /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
