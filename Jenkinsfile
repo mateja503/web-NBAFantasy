@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Initialize Application') {
             steps {
-                githubNotify{
+                githubNotify(
                     account: env.GIT_ACCOUNT,
 					repo: env.GIT_REPO,
 					credentialsId: env.GITHUB_CRED_ID, // Use the ID from your logs
@@ -27,7 +27,7 @@ pipeline {
 					status: 'PENDING',
 					context: env.GITHUB_CONTEXT,
 					description: "Building Pipeline...."
-                }
+                )
             }
         }
 
