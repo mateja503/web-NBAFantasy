@@ -29,7 +29,7 @@ pipeline {
 
         stage('Build Image') {
             steps {
-                sh 'docker build -t ${env.IMAGE_NAME}:${env.IMAGE_TAG} .'
+                sh "docker build -t ${env.IMAGE_NAME}:${env.IMAGE_TAG} ."
             }
         }
 
