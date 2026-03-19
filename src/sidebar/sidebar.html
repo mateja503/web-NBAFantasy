@@ -1,0 +1,9 @@
+<mat-sidenav-container>
+ <mat-sidenav #sidenav mode="side" opened>
+   Sidebar Content
+ </mat-sidenav>
+ <mat-sidenav-content>
+   Main Content
+   <button mat-button (click)="sidenav.toggle()">Toggle Sidebar</button>
+ </mat-sidenav-content>
+</mat-sidenav-container>
