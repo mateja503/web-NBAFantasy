@@ -4,8 +4,10 @@
     border: white solid 1px;
     padding: 10px 20px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 15px;
+    width: 100px;
     transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+
 }
 .button:hover{
     background-color: #01101a;

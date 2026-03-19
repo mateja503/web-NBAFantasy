@@ -5,18 +5,23 @@
   display: flex;
   justify-content: space-between;
   text-align: center;
-  align-items: baseline;
+  align-items: center;
 }
 
 .header-tittle{
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 1rem;
 }
 
 .header-tittle .logo{
   width: 2.5%;
   height: 2.5%;
+}
+
+.header-tittle .tittle .logo{
+  display: flex;
+  align-items: center;
 }
 
 .header-elements{
