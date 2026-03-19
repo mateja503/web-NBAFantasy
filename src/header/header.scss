@@ -1,0 +1,25 @@
+.nba-header{
+  background-color: #2f71f4;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: baseline;
+}
+
+.header-tittle{
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.header-tittle .logo{
+  width: 2.5%;
+  height: 2.5%;
+}
+
+.header-elements{
+  display: flex;
+  gap: 1rem;
+}

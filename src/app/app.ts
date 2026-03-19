@@ -5,10 +5,11 @@ import { Footer } from '../footer/footer';
 import { LeagueService } from '../services/league-service';
 import { NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Layout, Footer],
+  imports: [RouterOutlet, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
