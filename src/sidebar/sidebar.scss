@@ -25,7 +25,8 @@ mat-sidenav .sidebar-content {
 
 .sidebar-toggle {
     cursor: pointer;
-    color: #4a83f5;
+    color: white;
+    // background-color: ;
     width: fit-content;
 }
 
@@ -57,4 +58,7 @@ mat-sidenav .sidebar-content li:active {
     transform: scale(0.98);
 }
 
+.mat-drawer-content{
+    background-color: darkblue;
+}
 

@@ -1,0 +1,25 @@
+:host {
+  display: block; /* Custom elements are inline by default; change to block */
+  width: 100%;
+  background-color: antiquewhite;
+}
+
+.draft-container {
+ display: flex;
+ width: 100%;
+ justify-content: center;
+ align-items: center;
+ text-align: center;
+flex-direction: column;
+}
+
+mat-grid-list {
+  width: 100%;
+  // margin-top: 20px;
+}
+
+mat-grid-tile {
+  outline: 1px solid white; /* Temporary: helps you see the boxes if colors fail */
+  color: white;             /* Make sure text is visible */
+  font-weight: bold;
+}
