@@ -1,18 +1,18 @@
 <mat-sidenav-container>
- <mat-sidenav #sidenav mode="side" opened>
-   <ul class="sidebar-content">
-    <li>Home</li>
-    <li>Players</li>
-    <li>Teams</li>
-    <li>Leagues</li>
-    <li>Games</li>
-    <li>Draft</li>
-    <li>Trade</li>
-    <li>FreeAgency</li>
-   </ul>
- </mat-sidenav>
- <mat-sidenav-content>
-  <div class="sidebar-toggle" (click)="sidenav.toggle()"><mat-icon>list</mat-icon></div>
-   <!-- <button mat-button (click)="sidenav.toggle()"><mat-icon>list</mat-icon></button> -->
- </mat-sidenav-content>
+  <mat-sidenav #sidenav mode="side" opened>
+    <ul class="sidebar-content">
+      <li routerLink="/draft">Draft</li>
+      <li routerLink="/trade">Trade</li>
+      <li>Home</li>
+      <li>Players</li>
+      <li>Teams</li>
+      <li>Leagues</li>
+      <li>Games</li>
+      <li>FreeAgency</li>
+    </ul>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="sidebar-toggle" (click)="sidenav.toggle()"><mat-icon>list</mat-icon></div>
+    <!-- <button mat-button (click)="sidenav.toggle()"><mat-icon>list</mat-icon></button> -->
+  </mat-sidenav-content>
 </mat-sidenav-container>
