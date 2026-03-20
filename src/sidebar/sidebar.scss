@@ -1,5 +1,5 @@
 mat-sidenav-container {
-    height: 100vh;
+    height: 100%;
 
 }
 
@@ -26,7 +26,6 @@ mat-sidenav .sidebar-content {
 .sidebar-toggle {
     cursor: pointer;
     color: white;
-    // background-color: ;
     width: fit-content;
 }
 
@@ -46,7 +45,6 @@ mat-sidenav .sidebar-content li {
     border-radius: 0 !important;
     border-bottom: white solid 1px;
     transition: background-color 0.1s ease, opacity 0.1s ease, transform 0.1s ease;
-    // box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4); /* Deeper shadow when lifted */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 

@@ -1,13 +1,11 @@
 <div class="draft-container">
 
-  <mat-grid-list cols="12" rowHeight="9.9vh">
+  <mat-grid-list cols="12" rowHeight="10vh">
     @for (tile of tiles; track tile) {
     <mat-grid-tile [colspan]="tile.cols" [rowspan]="tile.rows"
       [style.background]="tile.color">{{tile.text}}</mat-grid-tile>
     }
   </mat-grid-list>
-
-
 
 
 </div>
