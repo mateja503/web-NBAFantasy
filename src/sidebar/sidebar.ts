@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon'; // Import this
+import { MatIconModule } from '@angular/material/icon'; 
 @Component({
   selector: 'app-sidebar',
   imports: [MatSidenavModule, MatIconModule],

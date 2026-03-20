@@ -1,13 +1,59 @@
-mat-sidenav {
- width: 250px;
- background-color: #4a83f5 !important;
- color: white;
- border-radius: 0 0 0 0 !important;
+mat-sidenav-container {
+    height: 80vh;
 }
 
-.sidebar-toggle{
- cursor: pointer;
- color: #4a83f5;
- background-color: darkblue;
- width: fit-content;
+mat-sidenav {
+    width: 250px;
+    height: 100%;
+    background-color: #4a83f5 !important;
+    color: white;
+    border-radius: 0 0 0 0 !important;
 }
+
+mat-sidenav .sidebar-content {
+    list-style: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 2px;
+    padding: 1px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.sidebar-toggle {
+    cursor: pointer;
+    color: #4a83f5;
+    width: fit-content;
+}
+
+mat-icon {
+    font-size: 40px; 
+    height: 40px; 
+    width: 40px;
+}
+
+mat-sidenav .sidebar-content li {
+    background-color: #3b6fd1;
+    height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 0 !important;
+    border-bottom: white solid 1px;
+    transition: background-color 0.1s ease, opacity 0.1s ease, transform 0.1s ease;
+    // box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4); /* Deeper shadow when lifted */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+mat-sidenav .sidebar-content li:hover {
+    background-color: #2a4e9c;
+}
+
+mat-sidenav .sidebar-content li:active {
+    transform: scale(0.98);
+}
+
+
