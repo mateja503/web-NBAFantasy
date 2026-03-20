@@ -1,4 +1,13 @@
 mat-sidenav {
  width: 250px;
- background-color: aqua !important;
+ background-color: #4a83f5 !important;
+ color: white;
+ border-radius: 0 0 0 0 !important;
+}
+
+.sidebar-toggle{
+ cursor: pointer;
+ color: #4a83f5;
+ background-color: darkblue;
+ width: fit-content;
 }
