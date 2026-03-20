@@ -1,0 +1,28 @@
+@use '../../styles.scss' as s;
+
+:host{
+    display: block;
+    width: 100%;
+    background-color: s.$dashboard-background
+}
+
+.league-container{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+ .league-container form{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 5rem;
+    background-color: s.$nba-primary;
+    border-radius: 100px;
+}
+
+.league-input{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
