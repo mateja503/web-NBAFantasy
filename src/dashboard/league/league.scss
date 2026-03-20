@@ -1,9 +1,9 @@
-@use '../../styles.scss' as s;
+// @use '../../styles.scss' as s;
 
 :host{
     display: block;
     width: 100%;
-    background-color: s.$dashboard-background
+    background-color: rgb(212, 215, 249)
 }
 
 .league-container{
@@ -17,7 +17,7 @@
     justify-content: center;
     flex-direction: row;
     padding: 5rem;
-    background-color: s.$nba-primary;
+    background-color: #2f71f4;
     border-radius: 100px;
 }
 
