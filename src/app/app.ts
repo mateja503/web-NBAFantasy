@@ -1,6 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Footer } from '../footer/footer';
 import { LeagueService } from '../services/league-service';
 import { NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -9,7 +8,7 @@ import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer, Sidebar],
+  imports: [RouterOutlet, Header, Sidebar],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

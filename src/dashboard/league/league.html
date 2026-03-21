@@ -1,38 +1,156 @@
-
-
+<div class="container text-center pt-3">
+    <h1>Create your own league</h1>
+</div>
 <div class="league-container">
-<form>
-      <div class="league-input">
-        <mat-form-field>
-        <mat-label>Enter League Name</mat-label>
-        <input matInput>
-        </mat-form-field>
-    </div>
-    
-    <div class="league-input">
-        <mat-form-field>
-        <mat-label>Weeks For Seasson</mat-label>
-        <input matInput>
-        </mat-form-field>
-    </div>
+    <form>
 
-    <div class="league-input">
-        <mat-form-field>
-        <mat-label>Transaction Limit</mat-label>
-        <input matInput>
-        </mat-form-field>
-    </div>
-    
+        <div class="column">
+            <div class="league-input">
+                <mat-form-field>
+                    <mat-label>Enter League Name</mat-label>
+                    <input type="text" matInput>
+                </mat-form-field>
+            </div>
 
-    <div class="league-input">
-        <mat-form-field>
-        <mat-label>Transaction Limit</mat-label>
-        <input matInput>
-        </mat-form-field>
-    </div>
+            <div class="league-input">
+                <mat-form-field>
+                    <mat-label>Weeks For Seasson</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
+
+               <div class="league-input">
+                <label id="radiobtn-label">TransactionLimit Type</label>
+                <mat-radio-group aria-labelledby="auto-start-label" class="auto-start-buttons">
+                    <mat-radio-button value="true">PerWeek</mat-radio-button>
+                    <mat-radio-button value="false">Seasson</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="league-input">
+                <mat-form-field>
+                    <mat-label>Transaction Limit</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
 
 
-</form>
-  
+            <div class="league-input">
+                <label id="radiobtn-label">Auto Start</label>
+                <mat-radio-group aria-labelledby="auto-start-label" class="auto-start-buttons">
+                    <mat-radio-button value="true">Yes</mat-radio-button>
+                    <mat-radio-button value="false">No</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+
+        </div>
+
+        <div class="column">
+            <div class="league-input">
+                <label id="radiobtn-label">Type League</label>
+                <mat-radio-group aria-labelledby="auto-start-label" class="auto-start-buttons">
+                    <mat-radio-button value="1">Public</mat-radio-button>
+                    <mat-radio-button value="2">Custom</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="league-input">
+                <label id="radiobtn-label">Draft Style</label>
+                <mat-radio-group aria-labelledby="auto-start-label" class="auto-start-buttons">
+                    <mat-radio-button value="1">Snake</mat-radio-button>
+                    <mat-radio-button value="2">Auction</mat-radio-button>
+                    <mat-radio-button value="3">Liner</mat-radio-button>
+                    <mat-radio-button value="4">RRR</mat-radio-button>
+                    <mat-radio-button value="5">Offline</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="league-input">
+                <label id="radiobtn-label">Stats:</label>
+                <mat-radio-group aria-labelledby="auto-start-label" class="auto-start-buttons">
+                    <mat-radio-button value="1">Default</mat-radio-button>
+                    <mat-radio-button value="2">Custom</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="league-input gap-2">
+                <mat-form-field>
+                    <mat-label>PointsValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+
+                 <mat-form-field>
+                    <mat-label>AssistsValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
+
+             <div class="league-input gap-2">
+                <mat-form-field>
+                    <mat-label>ReboundsValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+
+                 <mat-form-field>
+                    <mat-label>BlocksValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
+
+            <div class="league-input gap-2">
+                <mat-form-field>
+                    <mat-label>StealsValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+
+                 <mat-form-field>
+                    <mat-label>TurnoversValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
+
+             <div class="league-input gap-2">
+                <mat-form-field>
+                    <mat-label>FreeThrowsMissedValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+
+                 <mat-form-field>
+                    <mat-label>FreeThrowsMadeValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
+
+              <div class="league-input gap-2">
+                <mat-form-field>
+                    <mat-label>FieldGoalsMissedValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+
+                 <mat-form-field>
+                    <mat-label>FieldGoalsMadeValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
+
+            
+              <div class="league-input gap-2">
+                <mat-form-field>
+                    <mat-label>ThreePointersMissedValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+
+                 <mat-form-field>
+                    <mat-label>ThreePointersMadeValue</mat-label>
+                    <input type="number" matInput>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+
+    </form>
+
 
 </div>

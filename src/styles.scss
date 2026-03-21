@@ -16,6 +16,19 @@ html {
     typography: Roboto,
     density: 0,
   ));
+  @include mat.radio-overrides((
+    label-text-color: white,
+    label-text-size: 16px,
+    selected-focus-icon-color: white,
+    selected-icon-color: white,
+    selected-pressed-icon-color: white,
+    selected-hover-icon-color: white,
+    unselected-hover-icon-color: white,
+    unselected-icon-color: white,
+    unselected-pressed-icon-color: white
+
+
+  ));
 }
 
 body {
@@ -40,3 +53,6 @@ body {
 
 $nba-primary: #2f71f4;
 $dashboard-background:  rgb(212, 215, 249)
+
+
+

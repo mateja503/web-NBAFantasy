@@ -3,6 +3,7 @@
 :host{
     display: block;
     width: 100%;
+    height: 100%;
     background-color: rgb(212, 215, 249)
 }
 
@@ -26,3 +27,16 @@
     justify-content: center;
     padding: 10px;
 }
+
+.league-input mat-form-field{
+    width: 13.5vw;
+}
+
+#radiobtn-label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+}
+
