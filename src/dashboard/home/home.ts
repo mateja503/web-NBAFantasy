@@ -3,13 +3,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatRadioModule} from '@angular/material/radio' 
 import { MatIconModule } from '@angular/material/icon';
-import { Button } from '../../components/button/button';
 @Component({
-  selector: 'app-league',
-  imports: [MatInputModule,MatFormFieldModule,MatRadioModule,MatIconModule,Button],
-  templateUrl: './league.html',
-  styleUrl: './league.scss',
+  selector: 'app-home',
+  imports: [MatInputModule,MatFormFieldModule,MatRadioModule,MatIconModule],
+  templateUrl: './home.html',
+  styleUrl: './home.scss',
 })
-export class League {
+export class Home {
 
 }

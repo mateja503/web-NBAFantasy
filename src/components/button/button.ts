@@ -10,4 +10,5 @@ import { MatButtonModule } from '@angular/material/button';
 export class Button {
   @Input() label: string = 'Click Me';
   @Input() disabled: boolean = false;
+  @Input() width: string = '100px'
 }
