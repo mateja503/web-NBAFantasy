@@ -10,8 +10,8 @@ import { LeagueService } from '../../services/league-service';
 @Component({
   selector: 'app-league',
   imports: [MatInputModule, MatFormFieldModule, MatRadioModule, MatIconModule, Button, ReactiveFormsModule],
-  templateUrl: './league.html',
-  styleUrl: './league.scss',
+  templateUrl: './league-create.html',
+  styleUrl: './league-create.scss',
 })
 export class LeagueCreate implements OnInit {
 
