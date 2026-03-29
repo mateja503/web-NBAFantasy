@@ -10,9 +10,9 @@ export class LeagueService {
 
   constructor(private http: HttpClient){}
 
-  // getLeages(): Observable<any[]>{
-  //    return this.http.get<any[]>(this.all_league)
-  // }
+  getLeagues(): Observable<any[]>{
+     return this.http.get<any[]>(this.leagueurl)
+  }
 
   addleague(data: any): Observable<any>{
     return this.http.post<any>(`${this.leagueurl}/add`, data)

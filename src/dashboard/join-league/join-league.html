@@ -2,4 +2,84 @@
     <h1>Join League</h1>
 </div>
 
+<div class="join-league-container">
+    <form class="join-league-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <section class="form-section">
+            <h3><mat-icon>settings</mat-icon> Team </h3>
+            <div class="pt-1">
+                <mat-form-field class="w-50">
+                    <mat-label>Team Name</mat-label>
+                    <input type="text" matInput placeholder="Enter your team Name" formControlName="teamName">
+                </mat-form-field>
+            </div>
+        </section>
 
+        <hr class="divider">
+
+        <section class="form-section">
+            <div>
+                <h3 class="pb-1"><mat-icon>table_chart</mat-icon> Leagues </h3>
+                <table mat-table class="league-table" [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="commissioner">
+                        <th mat-header-cell *matHeaderCellDef> Commissioner </th>
+                        <td mat-cell *matCellDef="let element"> {{element.commissioner}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="seasonyear">
+                        <th mat-header-cell *matHeaderCellDef> SeasonYear </th>
+                        <td mat-cell *matCellDef="let element"> {{element.seasonyear}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="weeksforseason">
+                        <th mat-header-cell *matHeaderCellDef> WeeksForSeason </th>
+                        <td mat-cell *matCellDef="let element"> {{element.weeksforseason}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="transactionlimit">
+                        <th mat-header-cell *matHeaderCellDef> Transaction Limit </th>
+                        <td mat-cell *matCellDef="let element"> {{element.transactionlimit}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="autostart">
+                        <th mat-header-cell *matHeaderCellDef> Auto Start </th>
+                        <td mat-cell *matCellDef="let element"> {{element.autostart}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="typetransactionlimits">
+                        <th mat-header-cell *matHeaderCellDef> TypeOfTransactionLimits </th>
+                        <td mat-cell *matCellDef="let element"> {{element.typetransactionlimits}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="typeleague">
+                        <th mat-header-cell *matHeaderCellDef> TypeLeague </th>
+                        <td mat-cell *matCellDef="let element"> {{element.typeleague}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="draftstyle">
+                        <th mat-header-cell *matHeaderCellDef> DraftStyle </th>
+                        <td mat-cell *matCellDef="let element"> {{element.draftstyle}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of leagues">
+                </mat-paginator>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <div class="submit-btn">
+            <app-button label="Join League" width="350px"></app-button>
+        </div>
+    </form>
+</div>
