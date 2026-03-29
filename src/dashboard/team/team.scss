@@ -1,0 +1,23 @@
+:host{
+    display: inline;
+    width: 100%;
+    background-color: rgb(212, 215, 249)
+}
+
+
+.team-container{
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+}
+
+ .team-container .team-form{
+    display: flex;
+    justify-content: center;
+    // flex-wrap: wrap;
+    flex-direction: column;
+    padding: 5rem;
+    gap: 1rem;
+    background-color: #2f71f4;
+    border-radius: 100px;
+}
