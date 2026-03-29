@@ -8,7 +8,7 @@ import { Button } from '../../components/button/button';
 
 @Component({
   selector: 'app-team',
-  imports: [MatInputModule, MatFormFieldModule, MatRadioModule, MatIconModule, Button, ReactiveFormsModule],
+  imports: [MatInputModule, MatFormFieldModule, MatRadioModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './team.html',
   styleUrl: './team.scss',
 })

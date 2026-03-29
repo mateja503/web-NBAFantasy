@@ -1,17 +1,24 @@
 mat-sidenav-container {
     height: 100%;
-
+    width: 100%;
+}
+mat-sidenav * {
+    box-sizing: border-box;
 }
 
-mat-sidenav {
-    width: 250px;
-    height: 100%;
+mat-sidenav, mat-accordion, mat-expansion-panel {
+    width: 250px !important;
+    height: 100% !important;
     background-color: #4a83f5 !important;
-    color: white;
+    color: white !important;
     border-radius: 0 0 0 0 !important;
 }
 
-mat-sidenav .sidebar-content {
+mat-accordion, mat-expansion-panel {
+    width: 100% !important;
+}
+
+mat-sidenav .sidebar-content , .submenu ,.mat-expansion-panel-header{
     list-style: none;
     color: white;
     display: flex;
@@ -35,8 +42,12 @@ mat-icon {
     width: 40px;
 }
 
-mat-sidenav .sidebar-content li {
+
+mat-sidenav .sidebar-content li, mat-expansion-panel-header{
     background-color: #3b6fd1;
+    font-weight: 450 !important;
+    font-size: 18px !important;
+    color: white !important;
     height: 4vh;
     display: flex;
     justify-content: center;
@@ -47,12 +58,17 @@ mat-sidenav .sidebar-content li {
     transition: background-color 0.1s ease, opacity 0.1s ease, transform 0.1s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
-
-mat-sidenav .sidebar-content li:hover {
-    background-color: #2a4e9c;
+mat-sidenav .sidebar-content .submenu li{
+    border-left: white solid 1px;
+    border-right: white solid 1px;
 }
 
-mat-sidenav .sidebar-content li:active {
+mat-sidenav .sidebar-content li:hover,mat-sidenav .sidebar-content mat-expansion-panel-header:hover {
+    background-color: #2a4e9c;
+    border-radius: 0 !important;
+}
+
+mat-sidenav .sidebar-content li:active,mat-sidenav .sidebar-content mat-expansion-panel-header:active {
     transform: scale(0.98);
 }
 
@@ -60,3 +76,26 @@ mat-sidenav .sidebar-content li:active {
     background-color: darkblue;
 }
 
+.mat-expansion-panel {
+    background-color: transparent !important;
+    // height: 4rem;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+.mat-expansion-panel-header-title{
+    border-radius: 0 !important;
+    color: white;
+    margin: 0 0 0 0 !important;
+}
+
+mat-accordion .mat-expansion-panel-header.mat-expanded {
+    background-color:  #2a4e9c !important;
+}
+
+
+::ng-deep .mat-expansion-panel-body {
+    padding: 0 1rem 0 1rem !important;
+    background-color:  #2a4e9c !important;
+}

@@ -13,7 +13,7 @@ import { LeagueService } from '../../services/league-service';
   templateUrl: './league.html',
   styleUrl: './league.scss',
 })
-export class League implements OnInit {
+export class LeagueCreate implements OnInit {
 
   constructor(private leagueService: LeagueService) { }
 
