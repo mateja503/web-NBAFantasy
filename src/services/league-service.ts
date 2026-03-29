@@ -1,16 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { League } from '../dashboard/league/league';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LeagueService {
-  private all_league = 'https://localhost:7041/v1/league/all'
+  private leagueurl = 'https://localhost:7041/v1/league'
 
   constructor(private http: HttpClient){}
 
-  getLeages(): Observable<any[]>{
-    return this.http.get<any[]>(this.all_league)
+  // getLeages(): Observable<any[]>{
+  //    return this.http.get<any[]>(this.all_league)
+  // }
+
+  addleague(data: any): Observable<any>{
+    return this.http.post<any>(`${this.leagueurl}/add`, data)
   }
 }

@@ -25,16 +25,16 @@ export class App implements OnInit {
 
 
   loadLeagues(){
-     let subscribe = this.leagueService.getLeages().subscribe({
-      next: (data: any) => {
-        console.log('NBA Leagues loaded:', data);
-        this.leagues.set(data)
-      },
-      error: (err: any) => {
-        console.error('Error fetching leagues', err)
-      }
-    })
-    this.subscriptions.push(subscribe)
+    //  let subscribe = this.leagueService.getLeages().subscribe({
+    //   next: (data: any) => {
+    //     console.log('NBA Leagues loaded:', data);
+    //     this.leagues.set(data)
+    //   },
+    //   error: (err: any) => {
+    //     console.error('Error fetching leagues', err)
+    //   }
+    // })
+    // this.subscriptions.push(subscribe)
   }
 
   ngOnDestroy(): void {

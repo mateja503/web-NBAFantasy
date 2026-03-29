@@ -3,33 +3,33 @@
 </div>
 
 <div class="league-container">
-    <form class="league-form">
+    <form class="league-form" [formGroup]="form" (ngSubmit)="onSubmit()">
         <section class="form-section">
             <h3><mat-icon>settings</mat-icon> General Information</h3>
             <div class="form-row">
                 <mat-form-field class="full-width">
                     <mat-label>League Name</mat-label>
-                    <input type="text" matInput>
+                    <input type="text" matInput formControlName="leagueName">
                 </mat-form-field>
             </div>
 
             <div class="form-grid">
                 <div class="input-group">
                     <label class="radiobtn-label">League Visibility</label>
-                    <mat-radio-group class="radio-row">
-                        <mat-radio-button value="1">Public</mat-radio-button>
-                        <mat-radio-button value="2">Private/Custom</mat-radio-button>
+                    <mat-radio-group class="radio-row" formControlName="leagueType">
+                        <mat-radio-button [value]="1">Public</mat-radio-button>
+                        <mat-radio-button [value]="2">Private/Custom</mat-radio-button>
                     </mat-radio-group>
                 </div>
 
                 <div class="input-group">
                     <label class="radiobtn-label">Draft Style</label>
-                    <mat-radio-group class="radio-row-wrap">
-                        <mat-radio-button value="1">Snake</mat-radio-button>
-                        <mat-radio-button value="2">Auction</mat-radio-button>
-                        <mat-radio-button value="3">Linear</mat-radio-button>
-                        <mat-radio-button value="3">RRR</mat-radio-button>
-                        <mat-radio-button value="5">Offline</mat-radio-button>
+                    <mat-radio-group class="radio-row-wrap" formControlName="draftStyle">
+                        <mat-radio-button [value]="1">Snake</mat-radio-button>
+                        <mat-radio-button [value]="2">Auction</mat-radio-button>
+                        <mat-radio-button [value]="3">Linear</mat-radio-button>
+                        <mat-radio-button [value]="3">RRR</mat-radio-button>
+                        <mat-radio-button [value]="5">Offline</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
@@ -41,30 +41,30 @@
             <h3><mat-icon>event</mat-icon> Season Rules</h3>
             <div class="form-grid season-rules">
                 <mat-form-field>
-                    <mat-label>Weeks per Season</mat-label>
-                    <input type="number" matInput>
+                    <mat-label>Weeks for Season</mat-label>
+                    <input type="number" matInput formControlName="weeksForSeason">
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Transaction Limit</mat-label>
-                    <input type="number" matInput>
+                    <input type="number" matInput formControlName="transactionLimit">
                 </mat-form-field>
             </div>
 
             <div class="form-grid">
                 <div class="input-group">
                     <label class="radiobtn-label">Limit Transactions</label>
-                    <mat-radio-group class="radio-row">
-                        <mat-radio-button value="true">Per Week</mat-radio-button>
-                        <mat-radio-button value="false">Full Season</mat-radio-button>
+                    <mat-radio-group class="radio-row" formControlName="typeTransactionsLimit">
+                        <mat-radio-button [value]="1">Per Week</mat-radio-button>
+                        <mat-radio-button [value]="2">Full Season</mat-radio-button>
                     </mat-radio-group>
                 </div>
 
                 <div class="input-group">
                     <label class="radiobtn-label">Auto Start Players</label>
-                    <mat-radio-group class="radio-row">
-                        <mat-radio-button value="true">Yes</mat-radio-button>
-                        <mat-radio-button value="false">No</mat-radio-button>
+                    <mat-radio-group class="radio-row" formControlName="autoStartPlayer">
+                        <mat-radio-button [value]="true">Yes</mat-radio-button>
+                        <mat-radio-button [value]="false">No</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
@@ -75,41 +75,41 @@
         <section class="form-section scoring-section">
             <div class="section-header">
                 <h3><mat-icon>assessment</mat-icon> Scoring System</h3>
-                <mat-radio-group>
-                    <mat-radio-button value="1">Default</mat-radio-button>
-                    <mat-radio-button value="2">Custom</mat-radio-button>
+                <mat-radio-group formControlName="scoringSystem">
+                    <mat-radio-button [value]="1">Default</mat-radio-button>
+                    <mat-radio-button [value]="2">Custom</mat-radio-button>
                 </mat-radio-group>
             </div>
 
             <div class="scoring-grid d-flex">
                 <mat-form-field appearance="fill"><mat-label>Points</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="points"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>Assists</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="assists"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>Rebounds</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="rebounds"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>Blocks</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="blocks"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>Steals</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="steals"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>Turnovers</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="turnovers"></mat-form-field>
             </div>
 
             <h4 class="sub-header">Field Goals & Free Throws</h4>
             <div class="scoring-grid d-flex">
                 <mat-form-field appearance="fill"><mat-label>FG Made</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="fgMade"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>FG Missed</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="fgMissed"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>FT Made</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="ftMade"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>FT Missed</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="ftMissed"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>3PT Made</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="threePointsMade"></mat-form-field>
                 <mat-form-field appearance="fill"><mat-label>3PT Missed</mat-label><input type="number"
-                        matInput></mat-form-field>
+                        matInput formControlName="threePointsMissed"></mat-form-field>
             </div>
         </section>
 
