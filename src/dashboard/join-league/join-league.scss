@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    flex-direction: column;
+    flex-direction: row;
     padding: 3rem;
     gap: 1rem;
     background-color: #2f71f4;
@@ -24,4 +24,32 @@
 
 .mat-mdc-table {
     border-radius: 100px;
+    width: 100%;
 }
+
+mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+mat-mdc-row:hover mat-mdc-cell {
+  border-color: currentColor;
+}
+
+.mat-mdc-header-cell{
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+     background-color: #1e4472e4 !important;
+    border: 1px solid white !important;
+}
+.mat-mdc-cell{
+    flex-direction: row;
+    font-size: 14px;
+    color: white;
+    background-color: #1e447280 !important;
+    border: 1px solid white !important;
+    text-align: center;
+}
+

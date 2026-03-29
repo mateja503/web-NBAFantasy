@@ -4,17 +4,6 @@
 
 <div class="join-league-container">
     <form class="join-league-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <section class="form-section">
-            <h3><mat-icon>settings</mat-icon> Team </h3>
-            <div class="pt-1">
-                <mat-form-field class="w-50">
-                    <mat-label>Team Name</mat-label>
-                    <input type="text" matInput placeholder="Enter your team Name" formControlName="teamName">
-                </mat-form-field>
-            </div>
-        </section>
-
-        <hr class="divider">
 
         <section class="form-section">
             <div>
@@ -67,11 +56,12 @@
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-row (click)="joinLeague(row)" 
+                        *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
                 </table>
 
-                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                    aria-label="Select page of leagues">
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of leagues">
                 </mat-paginator>
             </div>
         </section>

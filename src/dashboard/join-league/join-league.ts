@@ -34,6 +34,9 @@ export class JoinLeague implements OnInit {
     this.loadLeagues()
   }
 
+  joinLeague(row:any){
+    console.log('Join league', row)
+  }
 
   loadLeagues(){
    let subscription = this.leagueService.getLeagues().subscribe({
