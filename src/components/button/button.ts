@@ -11,4 +11,5 @@ export class Button {
   @Input() label: string = 'Click Me';
   @Input() disabled: boolean = false;
   @Input() width: string = '100px'
+  @Input() height: string = '40px'
 }

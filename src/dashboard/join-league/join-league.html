@@ -7,59 +7,71 @@
 
         <section class="form-section">
             <div>
-                <h3 class="pb-1"><mat-icon>table_chart</mat-icon> Leagues </h3>
-                <table mat-table class="league-table" [dataSource]="dataSource">
+                <div class="header">
+                    <h3 class="pb-1"><mat-icon>table_chart</mat-icon> Leagues </h3>
+                    <div class="sub-header">
+                        <h4>Total Leagues Selected: {{ selectedRows.length }}</h4>
+                        <app-button label="Clear Selection" (click)="selectedRows = []" width="150px" height="30px"></app-button>
+                    </div>
+                </div>
 
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Name </th>
-                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                    </ng-container>
+                <!-- <cdk-virtual-scroll-viewport class="example-container" [itemSize]="52" [maxBufferPx]="1200" [minBufferPx]="400"> -->
+                <div class="table-scroll">
+                    <table mat-table class="league-table" [dataSource]="(leagues$ | async) || []" matSort
+                        aria-label="Select a league to join">)">
 
-                    <ng-container matColumnDef="commissioner">
-                        <th mat-header-cell *matHeaderCellDef> Commissioner </th>
-                        <td mat-cell *matCellDef="let element"> {{element.commissioner}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="seasonyear">
-                        <th mat-header-cell *matHeaderCellDef> SeasonYear </th>
-                        <td mat-cell *matCellDef="let element"> {{element.seasonyear}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="commissioner">
+                            <th mat-header-cell *matHeaderCellDef> Commissioner </th>
+                            <td mat-cell *matCellDef="let element"> {{element.commissioner}} </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="weeksforseason">
-                        <th mat-header-cell *matHeaderCellDef> WeeksForSeason </th>
-                        <td mat-cell *matCellDef="let element"> {{element.weeksforseason}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="seasonyear">
+                            <th mat-header-cell *matHeaderCellDef> SeasonYear </th>
+                            <td mat-cell *matCellDef="let element"> {{element.seasonyear}} </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="transactionlimit">
-                        <th mat-header-cell *matHeaderCellDef> Transaction Limit </th>
-                        <td mat-cell *matCellDef="let element"> {{element.transactionlimit}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="weeksforseason">
+                            <th mat-header-cell *matHeaderCellDef> WeeksForSeason </th>
+                            <td mat-cell *matCellDef="let element"> {{element.weeksforseason}} </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="autostart">
-                        <th mat-header-cell *matHeaderCellDef> Auto Start </th>
-                        <td mat-cell *matCellDef="let element"> {{element.autostart}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="transactionlimit">
+                            <th mat-header-cell *matHeaderCellDef> Transaction Limit </th>
+                            <td mat-cell *matCellDef="let element"> {{element.transactionlimit}} </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="typetransactionlimits">
-                        <th mat-header-cell *matHeaderCellDef> TypeOfTransactionLimits </th>
-                        <td mat-cell *matCellDef="let element"> {{element.typetransactionlimits}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="autostart">
+                            <th mat-header-cell *matHeaderCellDef> Auto Start </th>
+                            <td mat-cell *matCellDef="let element"> {{element.autostart}} </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="typeleague">
-                        <th mat-header-cell *matHeaderCellDef> TypeLeague </th>
-                        <td mat-cell *matCellDef="let element"> {{element.typeleague}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="typetransactionlimits">
+                            <th mat-header-cell *matHeaderCellDef> TypeOfTransactionLimits </th>
+                            <td mat-cell *matCellDef="let element"> {{element.typetransactionlimits}} </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="draftstyle">
-                        <th mat-header-cell *matHeaderCellDef> DraftStyle </th>
-                        <td mat-cell *matCellDef="let element"> {{element.draftstyle}} </td>
-                    </ng-container>
+                        <ng-container matColumnDef="typeleague">
+                            <th mat-header-cell *matHeaderCellDef> TypeLeague </th>
+                            <td mat-cell *matCellDef="let element"> {{element.typeleague}} </td>
+                        </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row (click)="joinLeague(row)" 
-                        *matRowDef="let row; columns: displayedColumns;"></tr>
-                    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
-                </table>
+                        <ng-container matColumnDef="draftstyle">
+                            <th mat-header-cell *matHeaderCellDef> DraftStyle </th>
+                            <td mat-cell *matCellDef="let element"> {{element.draftstyle}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row (click)="selectRow(row)" [class.selected-row]="selectedRows.includes(row)"
+                            *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+                    </table>
+                    <!-- </cdk-virtual-scroll-viewport> -->
+                </div>
 
                 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of leagues">
                 </mat-paginator>

@@ -29,6 +29,7 @@ html {
 
 
   ));
+  
 }
 
 body {
@@ -50,6 +51,35 @@ body {
 }
 /* You can add global styles to this file, and also import other style files */
 
+ .mat-mdc-paginator {
+    background-color: transparent !important; /* Matches your form background */
+    color: white !important;
+}
+ .mat-mdc-paginator-container {
+   background-color:  #1e4472e4 !important;
+}
+
+/* Styling the "Items per page" select text and arrow */
+ .mat-mdc-select-value,
+ .mat-mdc-select-arrow{
+    color: white !important;
+}
+
+/* Styling the navigation buttons (arrows) */
+ .mat-mdc-paginator-navigation-button .mat-mdc-button-touch-target,
+ .mat-mdc-icon-button svg {
+    fill: white !important;
+    color: white !important;
+}
+
+.mat-mdc-paginator .mat-mdc-form-field-focus-overlay {
+    background-color: white /* Subtle hover effect */
+}
+
+/* Optional: Change the color of the disabled buttons so they are visible but faded */
+ .mat-mdc-icon-button:disabled {
+    color: rgba(255, 255, 255, 0.3) !important;
+}
 
 $nba-primary: #2f71f4;
 $dashboard-background:  rgb(212, 215, 249)

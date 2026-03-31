@@ -1,53 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { Button } from '../../components/button/button';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { League } from '../../models/league';
 import { LeagueService } from '../../services/league-service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { AsyncPipe } from '@angular/common';
 @Component({
   selector: 'app-join-league',
-  imports: [ReactiveFormsModule,MatInputModule, 
+  imports: [ReactiveFormsModule, MatInputModule,
     MatFormFieldModule, MatRadioModule, MatIconModule, Button,
-     ReactiveFormsModule,
-     MatTableModule,
-      MatPaginatorModule
-      ],
+    ReactiveFormsModule, AsyncPipe,
+    MatTableModule,
+    MatPaginatorModule, ScrollingModule
+  ],
   templateUrl: './join-league.html',
   styleUrl: './join-league.scss',
 })
-export class JoinLeague implements OnInit {
-  dataSource: any [] = []
-  subscriptions: Subscription [] = []
-  displayedColumns: string[] = ['name', 'commissioner', 'seasonyear', 'weeksforseason','transactionlimit','autostart', 'typetransactionlimits',
-    'typeleague','draftstyle'
+export class JoinLeague {
+
+  private leagueService = inject(LeagueService);
+  leagues$: Observable<League[]> = this.leagueService.getLeagues()
+
+  selectedRows: any[] = []
+  displayedColumns: string[] = ['name', 'commissioner', 'seasonyear', 'weeksforseason', 'transactionlimit', 'autostart', 'typetransactionlimits',
+    'typeleague', 'draftstyle'
   ];
 
-  constructor(private leagueService: LeagueService) {}
-
-  ngOnInit(): void {
-    this.loadLeagues()
-  }
-
-  joinLeague(row:any){
+  selectRow(row: any) {
     console.log('Join league', row)
+    if (this.selectedRows.includes(row)) {
+      this.selectedRows = this.selectedRows.filter(r => r !== row)
+    } else {
+      this.selectedRows = [...this.selectedRows, row]
+    }
   }
 
-  loadLeagues(){
-   let subscription = this.leagueService.getLeagues().subscribe({
-      next: (response) => {
-        this.dataSource = response
-      }
-   })
-    this.subscriptions.push(subscription)
-  }
-  
-  
   form = new FormGroup({
     teamName: new FormControl(''),
     leagueId: new FormControl(),
@@ -55,9 +49,10 @@ export class JoinLeague implements OnInit {
 
   onSubmit() {
     console.log('Submit join league', this.form.value);
+    console.log('This are the leagues submited for joining', this.selectedRows);
   }
 
-  ngOnDestoy(){
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+  ngOnDestroy() {
+    this.selectedRows = [];
   }
 }

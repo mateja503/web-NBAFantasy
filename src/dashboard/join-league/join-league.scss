@@ -4,6 +4,22 @@
     background-color: rgb(212, 215, 249);
 }
 
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.sub-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1rem;
+}
+.sub-header app-button{
+    margin-bottom: 0.5rem;
+}
 
 .join-league-container{
     display: flex;
@@ -27,13 +43,13 @@
     width: 100%;
 }
 
-mat-mdc-row .mat-mdc-cell {
+.mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
   cursor: pointer;
 }
 
-mat-mdc-row:hover mat-mdc-cell {
+.mat-mdc-row:hover .mat-mdc-cell {
   border-color: currentColor;
 }
 
@@ -51,5 +67,17 @@ mat-mdc-row:hover mat-mdc-cell {
     background-color: #1e447280 !important;
     border: 1px solid white !important;
     text-align: center;
+    cursor: pointer;
 }
 
+.table-scroll {
+  max-height: 400px; /* Adjust height as needed */
+  overflow: auto;
+  border: 1px solid white; 
+}
+
+.mat-mdc-row.selected-row .mat-mdc-cell {
+    background-color: #0d1b2a !important; 
+    color: #00d4ff !important;            
+    border-color: #00d4ff !important;     
+}
