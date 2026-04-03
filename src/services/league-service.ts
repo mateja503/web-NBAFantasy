@@ -17,4 +17,6 @@ export class LeagueService {
   addleague(data: any): Observable<any>{
     return this.http.post<any>(`${this.leagueurl}/add`, data)
   }
+
+ 
 }

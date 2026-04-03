@@ -1,4 +1,4 @@
-import { Component, inject, } from '@angular/core';
+import { Component, inject, model, signal, } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +12,10 @@ import { LeagueService } from '../../services/league-service';
 import { Observable, Subscription } from 'rxjs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe } from '@angular/common';
+import { LeagueTeamService } from '../../services/leagueteam-service';
+import { MatDialog } from '@angular/material/dialog';
+import { Dialog } from '../../components/dialog/dialog';
+
 @Component({
   selector: 'app-join-league',
   imports: [ReactiveFormsModule, MatInputModule,
@@ -26,6 +30,7 @@ import { AsyncPipe } from '@angular/common';
 export class JoinLeague {
 
   private leagueService = inject(LeagueService);
+  private leagueTeamService = inject(LeagueTeamService);
   leagues$: Observable<League[]> = this.leagueService.getLeagues()
 
   selectedRows: any[] = []
@@ -38,18 +43,52 @@ export class JoinLeague {
     if (this.selectedRows.includes(row)) {
       this.selectedRows = this.selectedRows.filter(r => r !== row)
     } else {
-      this.selectedRows = [...this.selectedRows, row]
+
+      if (this.selectedRows.length + 1 > 12) {
+        alert('You can only select up to 12 leagues to join.')
+
+      } else {
+        this.selectedRows = [...this.selectedRows, row]
+      }
     }
   }
+  readonly animal = signal('');
+  readonly name = model('');
+  readonly dialog = inject(MatDialog);
 
-  form = new FormGroup({
-    teamName: new FormControl(''),
-    leagueId: new FormControl(),
-  })
 
-  onSubmit() {
-    console.log('Submit join league', this.form.value);
-    console.log('This are the leagues submited for joining', this.selectedRows);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(Dialog, {
+      data: { name: this.name(), animal: this.animal() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result !== undefined) {
+        this.animal.set(result);
+      }
+    });
+  }
+
+  joinLeagues() {
+
+    let data = {
+      ...this.selectedRows.map(league => ({
+        leagueId: league.leagueid,
+        teamName: 'Team ' + league.name
+      }))
+    }
+
+    console.log('This is the data', data);
+
+    // this.leagueTeamService.joinLeague(this.selectedRows).subscribe({
+    //   next: (response) => {
+    //       console.log('Leagues joined successfully', response);
+    //   },error: (error) => {
+    //       console.error('Error joining leagues', error);
+    //   }
+    // })
+
   }
 
   ngOnDestroy() {
