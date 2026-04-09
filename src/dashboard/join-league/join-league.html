@@ -81,7 +81,7 @@
         <hr class="divider">
 
         <div class="submit-btn">
-            <app-button label="Enter team name" (click)="openDialog()" width="350px"></app-button>
+            <app-button label="Enter team name" [disabled]="selectedRows.length === 0" (btnClick)="openDialog()" width="350px"></app-button>
         </div>
     </div>
 </div>

@@ -1,0 +1,31 @@
+<div class="dynamic-dialog-container">
+  <h2 mat-dialog-title>{{data.title}}</h2>
+
+  <mat-dialog-content>
+    @if(data.description){
+      <p>{{data.description}}</p>
+    }
+
+    <div>
+        @for(field of data.fields; track field.key){
+          <mat-form-field [style.width]="field.width" appearance="fill" class="form-field">
+            <mat-label>{{field.label}}</mat-label>
+            
+            @if(field.type === 'textarea'){
+              <textarea matInput [(ngModel)]="formResult[field.key]" [placeholder]="field.placeholder || ''"></textarea>
+            }@else{
+            <input matInput [type]="field.type" [(ngModel)]="formResult[field.key]" [placeholder]="field.placeholder || ''"  />
+            }
+
+          </mat-form-field>
+
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="gap-2">
+     <app-button [label]="data.cancelLabel || 'No Thanks'" [width]="data.cancelButtonWidth || ''" [color]="data.cancelButtonColor || ''" (click)="onCancel()"></app-button>
+     <app-button [label]="data.submitLabel || 'Join League'" [width]="data.submitButtonWidth || ''" (click)="onSubmit()"></app-button>
+  </mat-dialog-actions>
+
+</div>

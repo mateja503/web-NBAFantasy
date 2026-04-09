@@ -14,7 +14,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe } from '@angular/common';
 import { LeagueTeamService } from '../../services/leagueteam-service';
 import { MatDialog } from '@angular/material/dialog';
-import { Dialog } from '../../components/dialog/dialog';
+import { DynamicDialog } from '../../components/dialog/dynamicDialog';
+
+
+interface DialogResponse{
+  teamName?: string
+}
 
 @Component({
   selector: 'app-join-league',
@@ -46,7 +51,6 @@ export class JoinLeague {
 
       if (this.selectedRows.length + 1 > 12) {
         alert('You can only select up to 12 leagues to join.')
-
       } else {
         this.selectedRows = [...this.selectedRows, row]
       }
@@ -58,24 +62,38 @@ export class JoinLeague {
 
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(Dialog, {
-      data: { name: this.name(), animal: this.animal() },
+    const dialogRef = this.dialog.open(DynamicDialog, {
+      width: '550px',
+      data: {
+        title: 'Enter Team Name',
+        description: 'Join league with a unique team name. This will be visible to other league members.',
+        fields: [
+          { key: 'teamName', label: 'Team Name', placeholder: 'Enter your team name', type: 'text', width: '350px' }
+        ],
+        submitLabel: 'Join League',
+        submitButtonWidth: '150px',
+        cancelLabel: 'Cancel',
+        cancelButtonWidth: '100px',
+        cancelButtonColor: 'gray',
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result !== undefined) {
-        this.animal.set(result);
+    dialogRef.afterClosed().subscribe((result?:DialogResponse) => {
+      console.log('Form Data after the dialog closed', result);
+      if(result!==undefined && result!==null){
+        this.joinLeagues(result?.teamName);
       }
+
     });
+
   }
 
-  joinLeagues() {
+  joinLeagues(teamName?:string) {
 
     let data = {
       ...this.selectedRows.map(league => ({
         leagueId: league.leagueid,
-        teamName: 'Team ' + league.name
+        teamName: teamName
       }))
     }
 
