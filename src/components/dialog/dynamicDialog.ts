@@ -5,11 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatLabel } from '@angular/material/input';
 import { Button } from '../button/button';
 import { DynamicDialogConfig } from './dynamicDialogConfig';
+import { Custominput } from '../custominput/custominput';
 
 
 @Component({
   selector: 'app-dynamicDialog',
-  imports: [MatDialogModule, MatFormFieldModule,FormsModule, Button,MatInputModule ],
+  imports: [MatDialogModule, MatFormFieldModule,FormsModule, Button,MatInputModule, Custominput ],
   templateUrl: './dynamicDialog.html',
   styleUrl: './dynamicDialog.scss',
 })

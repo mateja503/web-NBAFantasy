@@ -1,0 +1,25 @@
+<div>
+
+    <mat-form-field [style.width]="width" [appearance]="matFormFieldApperance" class="form-field">
+        <mat-label>{{label}}</mat-label>
+
+        @if(type == 'text' || type == 'number'){
+        <input matInput [type]="type" [(ngModel)]="value" [required]="required" #inputVar="ngModel"  (ngModelChange)="onModelChanging($event)"/>
+        <div *ngIf="inputVar.touched && inputVar.errors?.['required']" style="color:red">
+            <!-- {{label}} is required and cannot be left empty -->
+        </div>
+        }@else if(type == 'select'){
+        <select [(ngModel)]="value" [required]="required">
+            <option value="" disabled>Select an option</option>
+            <option *ngFor="let opt of options" [value]="opt.value">{{opt.label}}</option>
+        </select>
+        }@else if (type == 'radio'){
+        <mat-radio-group>
+            <mat-radio-button *ngFor="let opt of options" [value]="opt.value">{{opt.label}}</mat-radio-button>
+        </mat-radio-group>
+        }
+
+
+    </mat-form-field>
+
+</div>

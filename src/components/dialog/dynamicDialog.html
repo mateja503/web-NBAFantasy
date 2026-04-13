@@ -8,16 +8,18 @@
 
     <div>
         @for(field of data.fields; track field.key){
-          <mat-form-field [style.width]="field.width" appearance="fill" class="form-field">
-            <mat-label>{{field.label}}</mat-label>
-            
-            @if(field.type === 'textarea'){
-              <textarea matInput [(ngModel)]="formResult[field.key]" [placeholder]="field.placeholder || ''"></textarea>
-            }@else{
-            <input matInput [type]="field.type" [(ngModel)]="formResult[field.key]" [placeholder]="field.placeholder || ''"  />
-            }
+          <div class="form-field">
+            <app-custominput
+              [label]="field.label"
+              [type]="field.type"
+              [width]="field.width",
+              appearance = "fill"
+              [required] = true
+              [(value)] = "formResult[field.key]"
+            >
+            </app-custominput>
 
-          </mat-form-field>
+          </div>
 
       }
     </div>
