@@ -7,30 +7,66 @@
         <section class="form-section">
             <h3><mat-icon>settings</mat-icon> General Information</h3>
             <div class="form-row">
-                <mat-form-field class="full-width">
+                <app-custominput
+                label="League Name"
+                type="text"
+                [required] = true
+                [value]="form.get('leagueName')?.value"
+                (valueChange)="form.get('leagueName')?.setValue($event)"
+                className="full-width"
+                ></app-custominput>
+
+                  <!-- <mat-form-field class="full-width">
                     <mat-label>League Name</mat-label>
                     <input type="text" required="true" matInput formControlName="leagueName">
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
 
             <div class="form-grid">
                 <div class="input-group">
                     <label class="radiobtn-label">League Visibility</label>
-                    <mat-radio-group class="radio-row" formControlName="leagueType">
+
+                    <app-custominput
+                    type="radio"
+                    [required]=true
+                    [options] = "[{label:'Public',value:1},{label:'Private/Custom',value:2}]"
+                    [value]="form.get('leagueType')?.value"
+                    (valueChange)="form.get('leagueType')?.setValue($event)"
+                    >
+                    </app-custominput>
+
+                         <!-- <mat-radio-group class="radio-row" formControlName="leagueType">
                         <mat-radio-button [value]="1">Public</mat-radio-button>
                         <mat-radio-button [value]="2">Private/Custom</mat-radio-button>
-                    </mat-radio-group>
+                    </mat-radio-group> -->
+                
                 </div>
 
                 <div class="input-group">
                     <label class="radiobtn-label">Draft Style</label>
+
+                      <app-custominput
+                    type="radio"
+                    [required]=true
+                    [options] = "[
+                    {label:'Snake',value:1},
+                    {label:'Auction',value:2},
+                    {label:'Linear',value:3},
+                    {label:'RRR',value:4},
+                    {label:'Offline',value:5}]"
+                    [value]="form.get('draftStyle')?.value"
+                    (valueChange)="form.get('draftStyle')?.setValue($event)"
+                    >
+                    </app-custominput>
+                
+<!--                     
                     <mat-radio-group class="radio-row-wrap" formControlName="draftStyle">
                         <mat-radio-button [value]="1">Snake</mat-radio-button>
                         <mat-radio-button [value]="2">Auction</mat-radio-button>
                         <mat-radio-button [value]="3">Linear</mat-radio-button>
                         <mat-radio-button [value]="3">RRR</mat-radio-button>
                         <mat-radio-button [value]="5">Offline</mat-radio-button>
-                    </mat-radio-group>
+                    </mat-radio-group> -->
                 </div>
             </div>
         </section>
@@ -40,32 +76,70 @@
         <section class="form-section">
             <h3><mat-icon>event</mat-icon> Season Rules</h3>
             <div class="form-grid season-rules">
-                <mat-form-field>
+
+                <app-custominput
+                label="Weeks for Season"
+                type="number"
+                [value]="form.get('weeksForSeason')?.value"
+                (valueChange)="form.get('weeksForSeason')?.setValue($event)"
+                ></app-custominput>
+
+                <!-- <mat-form-field>
                     <mat-label>Weeks for Season</mat-label>
                     <input type="number" matInput formControlName="weeksForSeason">
-                </mat-form-field>
+                </mat-form-field> -->
 
-                <mat-form-field>
+                  <app-custominput
+                label="Transaction Limit"
+                type="number"
+                [value]="form.get('transactionLimit')?.value"
+                (valueChange)="form.get('transactionLimit')?.setValue($event)"
+                ></app-custominput>
+
+
+                <!-- <mat-form-field>
                     <mat-label>Transaction Limit</mat-label>
                     <input type="number" matInput formControlName="transactionLimit">
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
 
             <div class="form-grid">
                 <div class="input-group">
                     <label class="radiobtn-label">Limit Transactions</label>
-                    <mat-radio-group class="radio-row" formControlName="typeTransactionsLimit">
+
+                    <app-custominput
+                        type="radio"
+                        [required]=true
+                        [options] = "[{label:'Per Week',value:1},{label:'Full Season',value:2}]"
+                        [value]="form.get('typeTransactionsLimit')?.value"
+                        (valueChange)="form.get('typeTransactionsLimit')?.setValue($event)"
+                    >
+                    </app-custominput>
+
+
+                    <!-- <mat-radio-group class="radio-row" formControlName="typeTransactionsLimit">
                         <mat-radio-button [value]="1">Per Week</mat-radio-button>
                         <mat-radio-button [value]="2">Full Season</mat-radio-button>
-                    </mat-radio-group>
+                    </mat-radio-group> -->
                 </div>
 
                 <div class="input-group">
                     <label class="radiobtn-label">Auto Start Players</label>
-                    <mat-radio-group class="radio-row" formControlName="autoStartPlayer">
+
+
+                    <app-custominput
+                        type="radio"
+                        [required]=true
+                        [options] = "[{label:'Yes',value:true},{label:'No',value:false}]"
+                        [value]="form.get('autoStartPlayer')?.value"
+                        (valueChange)="form.get('autoStartPlayer')?.setValue($event)"
+                    >
+                    </app-custominput>
+
+                    <!-- <mat-radio-group class="radio-row" formControlName="autoStartPlayer">
                         <mat-radio-button [value]="true">Yes</mat-radio-button>
                         <mat-radio-button [value]="false">No</mat-radio-button>
-                    </mat-radio-group>
+                    </mat-radio-group> -->
                 </div>
             </div>
         </section>
@@ -75,41 +149,115 @@
         <section class="form-section scoring-section">
             <div class="section-header">
                 <h3><mat-icon>assessment</mat-icon> Scoring System</h3>
-                <mat-radio-group formControlName="scoringSystem">
+
+                  <app-custominput
+                        type="radio"
+                        [required]=true
+                        [options] = "[{label:'Default',value:1},{label:'Custom',value:2}]"
+                        [value]="form.get('scoringSystem')?.value"
+                        (valueChange)="form.get('scoringSystem')?.setValue($event)"
+                    >
+                    </app-custominput>
+
+
+                <!-- <mat-radio-group formControlName="scoringSystem">
                     <mat-radio-button [value]="1">Default</mat-radio-button>
                     <mat-radio-button [value]="2">Custom</mat-radio-button>
-                </mat-radio-group>
+                </mat-radio-group> -->
             </div>
 
             <div class="scoring-grid d-flex">
-                <mat-form-field appearance="fill"><mat-label>Points</mat-label><input type="number"
-                        matInput formControlName="points"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>Assists</mat-label><input type="number"
-                        matInput formControlName="assists"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>Rebounds</mat-label><input type="number"
-                        matInput formControlName="rebounds"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>Blocks</mat-label><input type="number"
-                        matInput formControlName="blocks"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>Steals</mat-label><input type="number"
-                        matInput formControlName="steals"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>Turnovers</mat-label><input type="number"
-                        matInput formControlName="turnovers"></mat-form-field>
+               
+                <app-custominput
+                    label="Points"
+                    type="number"
+                    [value]="form.get('points')?.value"
+                    (valueChange)="form.get('points')?.setValue($event)"
+                ></app-custominput>
+
+                <app-custominput
+                    label="Assists"
+                    type="number"
+                    [value]="form.get('assists')?.value"
+                    (valueChange)="form.get('assists')?.setValue($event)"
+                ></app-custominput>
+
+                <app-custominput
+                    label="Rebounds"
+                    type="number"
+                    [value]="form.get('rebounds')?.value"
+                    (valueChange)="form.get('rebounds')?.setValue($event)"
+                ></app-custominput>
+
+                <app-custominput
+                    label="Blocks"
+                    type="number"
+                    [value]="form.get('blocks')?.value"
+                    (valueChange)="form.get('blocks')?.setValue($event)"
+                ></app-custominput>
+
+                <app-custominput
+                    label="Steals"
+                    type="number"
+                    [value]="form.get('steals')?.value"
+                    (valueChange)="form.get('steals')?.setValue($event)"
+                ></app-custominput>
+
+                <app-custominput
+                    label="Turnovers"
+                    type="number"
+                    [value]="form.get('turnovers')?.value"
+                    (valueChange)="form.get('turnovers')?.setValue($event)"
+                ></app-custominput>
+         
             </div>
 
             <h4 class="sub-header">Field Goals & Free Throws</h4>
             <div class="scoring-grid d-flex">
-                <mat-form-field appearance="fill"><mat-label>FG Made</mat-label><input type="number"
-                        matInput formControlName="fgMade"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>FG Missed</mat-label><input type="number"
-                        matInput formControlName="fgMissed"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>FT Made</mat-label><input type="number"
-                        matInput formControlName="ftMade"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>FT Missed</mat-label><input type="number"
-                        matInput formControlName="ftMissed"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>3PT Made</mat-label><input type="number"
-                        matInput formControlName="threePointsMade"></mat-form-field>
-                <mat-form-field appearance="fill"><mat-label>3PT Missed</mat-label><input type="number"
-                        matInput formControlName="threePointsMissed"></mat-form-field>
+
+                 <app-custominput
+                    label="FG Made"
+                    type="number"
+                    [value]="form.get('fgMade')?.value"
+                    (valueChange)="form.get('fgMade')?.setValue($event)"
+                ></app-custominput>
+
+                 <app-custominput
+                    label="FG Missed"
+                    type="number"
+                    [value]="form.get('fgMissed')?.value"
+                    (valueChange)="form.get('fgMissed')?.setValue($event)"
+                ></app-custominput>
+
+                 <app-custominput
+                    label="FT Made"
+                    type="number"
+                    [value]="form.get('ftMade')?.value"
+                    (valueChange)="form.get('ftMade')?.setValue($event)"
+                ></app-custominput>
+
+                 <app-custominput
+                    label="FT Missed"
+                    type="number"
+                    [value]="form.get('ftMissed')?.value"
+                    (valueChange)="form.get('ftMissed')?.setValue($event)"
+                ></app-custominput>
+               
+         
+                 <app-custominput
+                    label="3PT Made"
+                    type="number"
+                    [value]="form.get('threePointsMade')?.value"
+                    (valueChange)="form.get('threePointsMade')?.setValue($event)"
+                ></app-custominput>
+               
+                 <app-custominput
+                    label="3PT Missed"
+                    type="number"
+                    [value]="form.get('threePointsMissed')?.value"
+                    (valueChange)="form.get('threePointsMissed')?.setValue($event)"
+                ></app-custominput>
+
             </div>
         </section>
 

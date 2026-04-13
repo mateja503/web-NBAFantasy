@@ -1,6 +1,8 @@
 <div>
 
-    <mat-form-field [style.width]="width" [appearance]="matFormFieldApperance" class="form-field">
+    @if(type == 'text' || type == 'number' || type == 'select'){
+        
+    <mat-form-field [appearance]="matFormFieldApperance" [class]="className" [style.width]="width">
         <mat-label>{{label}}</mat-label>
 
         @if(type == 'text' || type == 'number'){
@@ -13,13 +15,14 @@
             <option value="" disabled>Select an option</option>
             <option *ngFor="let opt of options" [value]="opt.value">{{opt.label}}</option>
         </select>
-        }@else if (type == 'radio'){
-        <mat-radio-group>
+        }
+    </mat-form-field>
+
+    }@else if(type=='radio'){
+        <mat-radio-group  [(ngModel)]="value" (ngModelChange)="onModelChanging($event)">
             <mat-radio-button *ngFor="let opt of options" [value]="opt.value">{{opt.label}}</mat-radio-button>
         </mat-radio-group>
-        }
+    }
 
-
-    </mat-form-field>
 
 </div>

@@ -7,9 +7,10 @@ import { Button } from '../../components/button/button';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LeagueService } from '../../services/league-service';
+import { Custominput } from '../../components/custominput/custominput';
 @Component({
   selector: 'app-league',
-  imports: [MatInputModule, MatFormFieldModule, MatRadioModule, MatIconModule, Button, ReactiveFormsModule],
+  imports: [MatInputModule, MatFormFieldModule, MatRadioModule, MatIconModule, Button, ReactiveFormsModule, Custominput],
   templateUrl: './league-create.html',
   styleUrl: './league-create.scss',
 })
@@ -24,11 +25,11 @@ export class LeagueCreate implements OnInit {
 
   form = new FormGroup({
     leagueName: new FormControl(''),
-    leagueType: new FormControl(),
-    draftStyle: new FormControl(),
+    leagueType: new FormControl(1),
+    draftStyle: new FormControl(1),
     weeksForSeason: new FormControl(),
     transactionLimit: new FormControl(),
-    typeTransactionsLimit: new FormControl(),
+    typeTransactionsLimit: new FormControl(1),
     autoStartPlayer: new FormControl(true),
     scoringSystem: new FormControl(),
     points: new FormControl(),

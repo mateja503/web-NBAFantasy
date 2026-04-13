@@ -16,8 +16,9 @@ export class Custominput {
 @Input() type: 'text' | 'number' | 'select' | 'radio' | 'checkbox' | 'email' | 'password' | 'textarea'= 'text';
 @Input() required: boolean = false;
 @Input() options: {label: string, value: any}[] = [];
-@Input() width: undefined | string = '100px';
+@Input() width: undefined | string;
 @Input() appearance: string = 'fill';
+@Input() className: string = '';
 
 @Input() value:any;
 @Output() valueChange = new EventEmitter<any>();
