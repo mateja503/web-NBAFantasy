@@ -1,4 +1,4 @@
-import { Component, inject, model, signal, } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, model, Signal, signal, } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { League } from '../../models/league';
 import { LeagueService } from '../../services/league-service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe } from '@angular/common';
 import { LeagueTeamService } from '../../services/leagueteam-service';
@@ -33,33 +33,31 @@ interface DialogResponse{
   styleUrl: './join-league.scss',
 })
 export class JoinLeague {
-
   private leagueService = inject(LeagueService);
   private leagueTeamService = inject(LeagueTeamService);
+  private subscribers : Subscription[] = [];
   leagues$: Observable<League[]> = this.leagueService.getLeagues()
 
-  selectedRows: any[] = []
+  selectedRows = signal<any[]>([]);
   displayedColumns: string[] = ['name', 'commissioner', 'seasonyear', 'weeksforseason', 'transactionlimit', 'autostart', 'typetransactionlimits',
     'typeleague', 'draftstyle'
   ];
 
   selectRow(row: any) {
     console.log('Join league', row)
-    if (this.selectedRows.includes(row)) {
-      this.selectedRows = this.selectedRows.filter(r => r !== row)
+    if (this.selectedRows().includes(row)) {
+      this.selectedRows.set(this.selectedRows().filter(r => r !== row))
     } else {
-
-      if (this.selectedRows.length + 1 > 12) {
+      if (this.selectedRows().length + 1 > 12) {
         alert('You can only select up to 12 leagues to join.')
       } else {
-        this.selectedRows = [...this.selectedRows, row]
+        this.selectedRows.set([...this.selectedRows(), row])
       }
     }
   }
   readonly animal = signal('');
   readonly name = model('');
   readonly dialog = inject(MatDialog);
-
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DynamicDialog, {
@@ -90,26 +88,27 @@ export class JoinLeague {
 
   joinLeagues(teamName?:string) {
 
-    let data = {
-      ...this.selectedRows.map(league => ({
+    let data = [
+      ...this.selectedRows().map(league => ({
         leagueId: league.leagueid,
         teamName: teamName
       }))
-    }
-
+    ]
     console.log('This is the data', data);
 
-    // this.leagueTeamService.joinLeague(this.selectedRows).subscribe({
-    //   next: (response) => {
-    //       console.log('Leagues joined successfully', response);
-    //   },error: (error) => {
-    //       console.error('Error joining leagues', error);
-    //   }
-    // })
-
+    let subscription = this.leagueTeamService.joinLeague(data).subscribe({
+      next: () => {
+          alert('League(s) joined successfully');
+          this.selectedRows.set([])
+      },error: (error) => {
+        alert(`Error while joining league(s) ${error}`)
+      }
+    })
+    this.subscribers.push(subscription)
   }
 
   ngOnDestroy() {
-    this.selectedRows = [];
+    this.selectedRows.set([])
+    this.subscribers.forEach(u=>u.unsubscribe());
   }
 }

@@ -10,15 +10,15 @@
                 <div class="header">
                     <h3 class="pb-1"><mat-icon>table_chart</mat-icon> Leagues </h3>
                     <div class="sub-header">
-                        <h4>Total Leagues Selected: {{ selectedRows.length }}</h4>
-                        <app-button label="Clear Selection" (click)="selectedRows = []" width="150px" height="30px"></app-button>
+                        <h4>Total Leagues Selected: {{ selectedRows().length }}</h4>
+                        <app-button label="Clear Selection" (click)="selectedRows.set([])" width="150px" height="30px"></app-button>
                     </div>
                 </div>
 
                 <!-- <cdk-virtual-scroll-viewport class="example-container" [itemSize]="52" [maxBufferPx]="1200" [minBufferPx]="400"> -->
                 <div class="table-scroll">
                     <table mat-table class="league-table" [dataSource]="(leagues$ | async) || []" matSort
-                        aria-label="Select a league to join">)">
+                        aria-label="Select a league to join">
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -66,7 +66,7 @@
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                        <tr mat-row (click)="selectRow(row)" [class.selected-row]="selectedRows.includes(row)"
+                        <tr mat-row (click)="selectRow(row)" [class.selected-row]="selectedRows().includes(row)"
                             *matRowDef="let row; columns: displayedColumns;"></tr>
                         <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
                     </table>
@@ -81,7 +81,7 @@
         <hr class="divider">
 
         <div class="submit-btn">
-            <app-button label="Enter team name" [disabled]="selectedRows.length === 0" (btnClick)="openDialog()" width="350px"></app-button>
+            <app-button label="Enter team name" [disabled]="selectedRows().length === 0" (btnClick)="openDialog()" width="350px"></app-button>
         </div>
     </div>
 </div>

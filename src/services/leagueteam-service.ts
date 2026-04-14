@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class LeagueTeamService {
-    private leagueTeamUrl = 'https://localhost:7041/v1/leagueteam'
+    private leagueTeamUrl = 'https://localhost:7041/v1/league-team'
     constructor(private http: HttpClient) { }
 
     joinLeague(data: any): Observable<any> {
