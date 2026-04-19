@@ -1,0 +1,32 @@
+<div class="chat-wrapper">
+  <div class="message-display">
+    @for (msg of chatHub.messages(); track $index) {
+      <div class="msg-bubble">
+        <strong>{{ msg.user }}:</strong> {{ msg.text }}
+      </div>
+    }
+  </div>
+
+  <div class="input-area">
+    <app-custominput 
+      label="Username" 
+      [(value)]="user" 
+      appearance="outline"
+      className="user-input">
+    </app-custominput>
+
+    <app-custominput 
+      label="Type a message..." 
+      [(value)]="message" 
+      appearance="outline"
+      className="message-input">
+    </app-custominput>
+
+    <app-button 
+      label="Send" 
+      (btnClick)="sendMessage()" 
+      [disabled]="!message || !user"
+      width="120px">
+    </app-button>
+  </div>
+</div>
