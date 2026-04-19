@@ -14,7 +14,7 @@
               [type]="field.type"
               [width]="field.width",
               appearance = "fill"
-              [required] = true
+              [required] = "field.required || false"
               [(value)] = "formResult[field.key]"
             >
             </app-custominput>

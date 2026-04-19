@@ -18,7 +18,6 @@ export class DynamicDialog {
 
   readonly dialogRef = inject(MatDialogRef<DynamicDialog>);
   readonly data = inject<DynamicDialogConfig>(MAT_DIALOG_DATA);
-  // readonly animal = model(this.data.animal);
 
   // Store form results in a key-value map
   public formResult: Record<string, any> = {};

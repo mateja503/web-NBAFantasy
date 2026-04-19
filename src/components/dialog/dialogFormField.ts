@@ -5,4 +5,5 @@ export interface DialogFormField {
     type: 'text' | 'number' | 'email' | 'password' | 'textarea';
     value?: any;
     width?: string;
+    required?: boolean
 }

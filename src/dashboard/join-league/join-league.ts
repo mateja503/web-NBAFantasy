@@ -55,7 +55,6 @@ export class JoinLeague {
       }
     }
   }
-  readonly animal = signal('');
   readonly name = model('');
   readonly dialog = inject(MatDialog);
 
