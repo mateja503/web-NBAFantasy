@@ -69,3 +69,9 @@
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
 }
+
+.button-group{
+    display:flex;
+    justify-content: center;
+    gap: 12px;
+    }

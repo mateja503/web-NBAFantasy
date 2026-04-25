@@ -36,8 +36,10 @@ export class DraftHub extends Hubservice {
       this.displayTime.set('00:00');
       return;
     }
+ 
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
+
     this.displayTime.set(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
   }
 
@@ -50,12 +52,10 @@ export class DraftHub extends Hubservice {
   }
 
   public resetTimer = () => {
-
     this.hubConnection.invoke(HubMethods.Client.ResetTimer)
     .then((data: DraftState) => {
       console.log('Reset command successfully sent to server');
       console.log(`Timer Reset - League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
-      this.endTime = new Date(data.pickEndTime).getTime();
     })
     .catch((err: any) => {
       console.error('Error while invoking ResetTimer: ' + err);
