@@ -1,0 +1,18 @@
+<header class="header-container">
+  <div class="league-info">
+    <span class="label">LEAGUE</span>
+    <h1 class="league-name">{{ draftHub.leagueName() || 'Unnamed League' }}</h1>
+  </div>
+
+  <div class="draft-status">
+    <div class="status-dot"></div>
+    <span class="status-text">LIVE DRAFT</span>
+  </div>
+
+  <div class="timer-container">
+    <span class="label">PICK TIMER</span>
+    <div class="clock">
+      <span class="time">{{ draftHub.displayTime() || '00:00' }}</span>
+    </div>
+  </div>
+</header>

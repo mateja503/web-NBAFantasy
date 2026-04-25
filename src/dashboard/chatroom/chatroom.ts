@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ChatHub } from '../../services/chatHub';
 import { Custominput } from '../../components/custominput/custominput';
 import { Button } from '../../components/button/button';
+import { ChatHub } from '../../services/Hub/chatHub';
 
 @Component({
   selector: 'app-chatroom',
@@ -13,6 +13,8 @@ export class Chatroom implements OnInit {
   user: string = '';
   public message = signal('');
 
+
+  
   constructor(public chatHub: ChatHub) { }
 
   ngOnInit() {

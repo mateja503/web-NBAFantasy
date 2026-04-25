@@ -1,0 +1,71 @@
+:host {
+    display: block;
+    width: 100%;
+    background-color: rgb(212, 215, 249);
+    height: 100%;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 100%; // Now 100% refers to the :host height
+  box-sizing: border-box; // Ensures padding doesn't push the width over 100%
+  background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); 
+  // Note: I fixed your gradient (was 100% to 100%, now 0% to 100%)
+  border-bottom: 2px solid #333;
+}
+
+.label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    color: #aaa;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.league-name {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white; // Your theme color
+}
+
+.draft-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 12px;
+    border-radius: 4px;
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background: #00ff00;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #00ff00;
+    }
+
+    .status-text {
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+}
+
+.clock {
+    background: #222;
+    padding: 4px 16px;
+    border-radius: 4px;
+    border: 1px solid #444;
+
+    .time {
+        font-family: 'Courier New', monospace;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+}

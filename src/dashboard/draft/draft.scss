@@ -2,7 +2,8 @@
   display: block;
   /* Custom elements are inline by default; change to block */
   width: 100%;
-  background-color: antiquewhite;
+  // height: 100%;
+  background-color: rgb(212, 215, 249);
 }
 
 .draft-container {
@@ -13,6 +14,8 @@
   text-align: center;
   flex-direction: column;
 }
+
+// .tile-header { background: #fb04ff; }
 
 mat-grid-list {
   width: 100%;

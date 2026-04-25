@@ -27,6 +27,7 @@ export class AuthService {
     this.currentUserSubject.next(false);
   }
 
+
 //   getToken(): string | null {
 //     return localStorage.getItem(this.TOKEN_KEY);
 //   }
