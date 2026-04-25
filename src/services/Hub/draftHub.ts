@@ -43,10 +43,23 @@ export class DraftHub extends Hubservice {
 
   public updateDraftState() {
     this.hubConnection.on(HubMethods.Server.UpdateDraftState, (data: DraftState) => {
-      let date = new Date(data.pickEndTime).getTime()
-      console.log(`League: ${data.leagueName}, EndTime: ${date}, IsPaused: ${data.isPaused}`);
+      console.log(`League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
       this.leagueName.set(data.leagueName);
       this.endTime = new Date(data.pickEndTime).getTime();
     });
   }
+
+  public resetTimer = () => {
+
+    this.hubConnection.invoke(HubMethods.Client.ResetTimer)
+    .then((data: DraftState) => {
+      console.log('Reset command successfully sent to server');
+      console.log(`Timer Reset - League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
+      this.endTime = new Date(data.pickEndTime).getTime();
+    })
+    .catch((err: any) => {
+      console.error('Error while invoking ResetTimer: ' + err);
+    });
+  }
+
 }
