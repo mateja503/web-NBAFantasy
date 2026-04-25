@@ -29,7 +29,6 @@ export class DraftHub extends Hubservice {
 
   private calculateTime() {
     if (!this.endTime) return;
-    debugger;
     const now = new Date().getTime();
     const diff = this.endTime - now;
 
