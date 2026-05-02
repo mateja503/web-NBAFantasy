@@ -1,12 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Team } from './team-service';
 
 export interface DraftRequest{
   leagueId?: number;
   startDraft?: boolean;
 }
 
+export interface DraftTeamsResponse{
+  round: number;
+  teams: Team[]
+}
 
 @Injectable({
   providedIn: 'root',
@@ -24,4 +29,7 @@ export class DraftService {
     return this.http.post(`${this.draftUrl}/end-draft`, data)
   }
 
+  getDraftTeams(leagueId: number): Observable<DraftTeamsResponse>{
+    return this.http.get<DraftTeamsResponse>(`${this.draftUrl}/get-draft-teams/${leagueId}`);
+  }
 }
