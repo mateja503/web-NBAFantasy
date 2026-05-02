@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { DraftHeader } from './draft-header/draft-header';
 import { DraftHub } from '../../services/Hub/draftHub';
+import { DraftBoard } from './draft-board/draft-board';
 export interface Tile {
   color: string;
   cols: number;
@@ -11,7 +12,7 @@ export interface Tile {
 
 @Component({
   selector: 'app-draft',
-  imports: [MatGridListModule, DraftHeader],
+  imports: [MatGridListModule, DraftHeader, DraftBoard],
   templateUrl: './draft.html',
   styleUrl: './draft.scss',
 })

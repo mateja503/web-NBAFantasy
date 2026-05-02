@@ -17,6 +17,10 @@
 
 // .tile-header { background: #fb04ff; }
 
+// .tile-draft-board{
+//   background: #04fbf7;
+// }
+
 mat-grid-list {
   width: 100%;
   // margin-top: 20px;
@@ -29,3 +33,4 @@ mat-grid-tile {
   /* Make sure text is visible */
   font-weight: bold;
 }
+
