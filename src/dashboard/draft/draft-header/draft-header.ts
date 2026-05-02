@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { DraftHub } from '../../../services/Hub/draftHub';
 import { Button } from '../../../components/button/button';
-import { DraftService } from '../../../services/draft-service';
+import { DraftService,DraftRequest } from '../../../services/draft-service';
 
 @Component({
   selector: 'app-draft-header',
@@ -17,12 +17,26 @@ export class DraftHeader {
 
   startDraft(){
     console.log('Starting draft...')
-      this.draftService.startDraft({leagueId: 1}).subscribe({
+    const request: DraftRequest = { leagueId: 1 }; // Now typed!
+      this.draftService.startDraft(request).subscribe({
         next: (response) => {
           console.log('Draft started successfully', response);
         },
         error: (error) => {
           console.error('Error starting draft', error);
+        }
+      })
+  }
+
+  endDraft(){
+    console.log('Ending draft...')
+    const request: DraftRequest = { leagueId: 1 }; // Now typed!
+      this.draftService.endDraft(request).subscribe({
+        next: (response) => {
+          console.log('Draft ended successfully', response);
+        },
+        error: (error) => {
+          console.error('Error ending draft', error);
         }
       })
   }
