@@ -15,7 +15,7 @@ interface DraftState {
   providedIn: 'root',
 })
 export class DraftHub extends Hubservice {
-  protected override hubUrl = 'draftHub';
+  protected override hubUrl = 'draftHub'; 
   protected override retryTime = 1000;
 
   leagueName = signal<string>('Loading...');
@@ -26,6 +26,12 @@ export class DraftHub extends Hubservice {
     super();
     setInterval(() => this.calculateTime(), 1000)
   }
+
+  public initialize(leagueId: number) {
+    this.startConnection({leagueId});
+    this.updateDraftState();
+  }
+
 
   private calculateTime() {
     if (!this.endTime) return;
@@ -51,8 +57,8 @@ export class DraftHub extends Hubservice {
     });
   }
 
-  public resetTimer = () => {
-    this.hubConnection.invoke(HubMethods.Client.ResetTimer)
+  public resetTimer = (leagueId: number) => {
+    this.hubConnection.invoke(HubMethods.Client.ResetTimer,leagueId)
     .then((data: DraftState) => {
       console.log('Reset command successfully sent to server');
       console.log(`Timer Reset - League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);

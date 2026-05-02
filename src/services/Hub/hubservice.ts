@@ -11,13 +11,23 @@ export abstract class Hubservice {
   protected isConnected = signal<boolean>(false);
   protected hubConnection!: signalR.HubConnection;
 
-  protected abstract readonly hubUrl: string;
+  protected abstract hubUrl: string;
   protected abstract readonly retryTime: number;
+  
 
+  public startConnection = (params?: {[key:string]:string | number}) => {
+    let url =`https://localhost:7041/${this.hubUrl}`;
 
-  public startConnection = () => {
+    if(params){
+      const queryParams = new URLSearchParams();
+      for(const key in params){
+        queryParams.append(key, params[key].toString());
+      }
+      url += `?${queryParams.toString()}`;
+    }
+
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`https://localhost:7041/${this.hubUrl}`)
+      .withUrl(url)
       .withAutomaticReconnect()
       .build()
 

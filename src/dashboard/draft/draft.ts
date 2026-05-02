@@ -21,8 +21,7 @@ export class Draft implements OnInit {
   public draftHub = inject(DraftHub);
 
   ngOnInit(): void {
-    this.draftHub.startConnection();
-    this.draftHub.updateDraftState();
+    this.draftHub.initialize(1); 
   }
 
 tiles: Tile[] = [
