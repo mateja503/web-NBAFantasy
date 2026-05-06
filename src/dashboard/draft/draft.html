@@ -11,7 +11,7 @@
     </mat-grid-tile>
 
     <mat-grid-tile colspan="3" rowspan="5" class="tile-draft-board">
-      <app-draft-board></app-draft-board>
+      <app-draft-board [round]="draftHub.round()"></app-draft-board>
     </mat-grid-tile>
 
   </mat-grid-list>

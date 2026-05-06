@@ -9,6 +9,10 @@ interface DraftState {
   leagueName: string;
   pickEndTime: string;
   isPaused: boolean;
+  teamName: string;
+  teamId: number;
+  round: number;
+  isDraftStarted: boolean;
 }
 
 @Injectable({
@@ -20,6 +24,8 @@ export class DraftHub extends Hubservice {
 
   leagueName = signal<string>('Loading...');
   displayTime = signal<string>('00:00');
+  round = signal<number>(1);
+  
   private endTime: number | null = null;
 
   constructor() {
@@ -54,6 +60,7 @@ export class DraftHub extends Hubservice {
       console.log(`League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
       this.leagueName.set(data.leagueName);
       this.endTime = new Date(data.pickEndTime).getTime();
+      this.round.set(data.round);
     });
   }
 
