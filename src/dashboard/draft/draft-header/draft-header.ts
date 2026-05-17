@@ -39,6 +39,7 @@ export class DraftHeader {
           console.error('Error ending draft', error);
         }
       })
+     console.log('Draft state', this.draftHub.isDraftEnded());
   }
 
 

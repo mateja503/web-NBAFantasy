@@ -10,8 +10,12 @@
       <app-draft-header></app-draft-header>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="3" rowspan="5" class="tile-draft-board">
-      <app-draft-board [round]="draftHub.round()"></app-draft-board>
+    <mat-grid-tile colspan="4" rowspan="6" class="tile-draft-board">
+      <app-draft-board 
+        [round]="draftHub.round()" 
+        [onTheClock]="draftHub.teamOnTheClock()"
+        [draftOrder]="draftHub.draftTeams()"
+        ></app-draft-board>
     </mat-grid-tile>
 
   </mat-grid-list>
