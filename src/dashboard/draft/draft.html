@@ -1,6 +1,6 @@
 <div class="draft-container">
 
-  <mat-grid-list cols="12" rowHeight="10vh">
+  <mat-grid-list cols="12" rowHeight="9.8vh">
     <!-- @for (tile of tiles; track tile) {
     <mat-grid-tile [colspan]="tile.cols" [rowspan]="tile.rows"
       [style.background]="tile.color">{{tile.text}}</mat-grid-tile>
@@ -17,6 +17,20 @@
         [draftOrder]="draftHub.draftTeams()"
         ></app-draft-board>
     </mat-grid-tile>
+
+    <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
+      <h1>This are the players on the draft board</h1>
+      </mat-grid-tile>
+    <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
+      <h1>Your drafter players</h1>
+      </mat-grid-tile>
+    <mat-grid-tile colspan="4" rowspan="3" class="tile-draft-board">
+      <h1>Trades on draft night</h1>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="8" rowspan="3" class="tile-draft-board">
+      <h1>Make a trade on draft night</h1>
+    </mat-grid-tile>
+
 
   </mat-grid-list>
 
