@@ -1,31 +1,31 @@
-<div class="draft-board-container"
-  style="background-color: #1a1a1a; color: white; padding: 50px; height: 100%; width: 100%; display: flex; flex-direction: column; box-sizing: border-box; border-right: 4px solid #00fbff;">
+<div class="draft-board-container d-flex flex-column position-absolute top-0 start-0 w-100 h-100 style-override">
 
-  <!-- On the Clock Section -->
-  <div class="on-the-clock" style="margin-bottom: 50px;">
-    <p
-      style="color: #00fbff; font-weight: bold; letter-spacing: 3px; font-size: 1.2rem; margin-bottom: 20px; margin-top: 12px;">
-      ROUND: {{round}}</p>
-    <p style="color: #00fbff; font-weight: bold; letter-spacing: 3px; font-size: 1.2rem; margin-bottom: 20px;">ON THE
-      CLOCK</p>
-    <div style="display: flex; align-items: center; gap: 25px;">
-      <div
-        style="width: 100px; height: 100px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid #00fbff;">
-        <img src="team-logo-placeholder.png" alt="Logo" id="current-logo" style="width: 80%; height: auto;">
+  <div class="on-the-clock mb-4">
+    <p class="status-label text-uppercase mb-2 mt-2">
+      ROUND: {{round}}
+    </p>
+    <p class="status-label text-uppercase mb-4">
+      ON THE CLOCK PICK: {{onTheClock?.pick ?? 'N/A'}}
+    </p>
+    
+    <div class="d-flex align-items-center gap-3 w-100 overflow-hidden">
+      <div class="team-logo d-flex align-items-center justify-content-center flex-shrink-0">
+        <img src="team-logo-placeholder.png" alt="Logo" id="current-logo" class="w-75 h-auto">
       </div>
-      <h2 id="current-team-name" style="font-size: 4rem; margin: 0; text-transform: uppercase;">{{onTheClock?.teamName
-        ?? 'UNKOWN'}}</h2>
+      
+      <h2 id="current-team-name" class="current-team-text text-uppercase m-0 text-truncate flex-grow-1" title="{{onTheClock?.teamName ?? 'UNKNOWN'}}">
+        {{onTheClock?.teamName ?? 'UNKNOWN'}}
+      </h2>
     </div>
   </div>
 
-  <!-- Queue / Up Next Section -->
-  <div class="draft-queue" style="flex-grow: 1; border-top: 2px solid #333; padding-top: 30px;">
-    <p style="color: #888; font-weight: bold; letter-spacing: 2px; font-size: 1.1rem; margin-bottom: 10px;">UP NEXT</p>
-    <ul id="team-queue" style="list-style: none; padding: 0; margin: 0;">
-      <!-- Increased font size and white color for better visibility -->
+  <div class="draft-queue flex-grow-1 border-top border-secondary pt-4 overflow-y-auto">
+    <p class="queue-header text-uppercase mb-2">UP NEXT</p>
+    <ul id="team-queue" class="list-unstyled p-0 m-0">
       @for(team of draftOrder; track team.teamId){
-      <li style="font-size: 2.2rem; padding: 15px 0; color: #ffffff; border-bottom: 1px solid #222; font-weight: 500;">
-        {{team.pick}}. {{team.teamName}}</li>
+      <li class="queue-item text-truncate text-white fw-medium">
+        {{team.pick}}. {{team.teamName}}
+      </li>
       }
     </ul>
   </div>
