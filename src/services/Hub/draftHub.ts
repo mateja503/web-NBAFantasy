@@ -7,6 +7,8 @@ import { Hubservice } from './hubservice';
 export interface TeamDraftBoard {
   teamId: number;
   teamName: string;
+  pick: number;
+
 }
 
 interface DraftBoardTeams {

@@ -25,7 +25,7 @@
       <!-- Increased font size and white color for better visibility -->
       @for(team of draftOrder; track team.teamId){
       <li style="font-size: 2.2rem; padding: 15px 0; color: #ffffff; border-bottom: 1px solid #222; font-weight: 500;">
-        {{$index + 2}}. {{team.teamName}}</li>
+        {{team.pick}}. {{team.teamName}}</li>
       }
     </ul>
   </div>
