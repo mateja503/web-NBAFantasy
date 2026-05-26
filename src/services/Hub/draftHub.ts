@@ -12,8 +12,8 @@ export interface TeamDraftBoard {
 }
 
 export interface DraftPlayer {
-  playerid: number;
-  fullname: string;
+  playerId: number;
+  fullName: string;
   position: string;
 }
 
