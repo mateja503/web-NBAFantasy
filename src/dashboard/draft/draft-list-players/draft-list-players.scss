@@ -20,7 +20,7 @@
 
 // Custom Scrollbar styling for sleek appearance
 .list-container {
-  max-height: calc(9.8vh * 5 - 18px); // Dynmically restricts list context to grid scale bounds
+  max-height: calc(9.8vh * 5 - 100px); // Dynmically restricts list context to grid scale bounds
   
   &::-webkit-scrollbar {
     width: 6px;
