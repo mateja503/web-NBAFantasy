@@ -63,3 +63,37 @@
 .tracking-wider {
   letter-spacing: 1px;
 }
+
+// Append these styles inside your existing draft-list-players.scss file
+
+.gap-1\.5 {
+  gap: 0.375rem !important;
+}
+
+// Base configuration for filter buttons
+.filter-pill {
+  border-radius: 6px;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// Inactive State: Dark and blends into background UI
+.inactive-pill {
+  background-color: #121519;
+  color: #a0aec0;
+
+  &:hover {
+    background-color: #22272f;
+    color: #ffffff;
+    border-color: rgba(0, 251, 255, 0.4);
+  }
+}
+
+// Active State: Illuminated with your custom draft board cyan theme
+.active-pill {
+  background-color: rgba(0, 251, 255, 0.15) !important;
+  color: #00fbff !important;
+  border-color: #00fbff !important;
+  box-shadow: 0 0 8px rgba(0, 251, 255, 0.25);
+}

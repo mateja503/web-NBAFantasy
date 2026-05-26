@@ -14,6 +14,10 @@ export class DraftListPlayers {
 
   private playersSignal = signal<DraftPlayer[]>([]);
 
+  public selectedPositions = signal<string[]>([]);
+
+  public positions = ['G', 'F', 'C', 'GF', 'CF', 'FG'];
+
   @Input() set draftPlayers(players: DraftPlayer[]) {
     this.playersSignal.set(players);
   }
@@ -22,15 +26,36 @@ export class DraftListPlayers {
 
   public filteredPlayers = computed(() => {
     const query = this.searchQuery().toLowerCase();
-    if (!query) {
+    let players = this.playersSignal();
+    let activePositions = this.selectedPositions();
+
+    if (!query && activePositions.length === 0) {
       return this.playersSignal();
     }
 
-    return this.playersSignal().filter(player =>
-      player.fullName.toLowerCase().includes(query)
-    );
+    if(activePositions.length > 0) {
+      players =  players.filter(player => 
+        (this.selectedPositions().includes(player.position))
+      );
+    }
 
-  })
+    if(query) {
+      players = players.filter(player => 
+        player.fullName.toLowerCase().includes(query)
+      );
+    }
+
+    return players;
+  });
+
+  togglePosition(pos: string) {
+    const current = this.selectedPositions();
+    if (current.includes(pos)) {
+      this.selectedPositions.set(current.filter(p => p !== pos));
+    } else {
+      this.selectedPositions.set([...current, pos]);
+    }
+  }
 
   draftPlayer(playerId: number) {
     console.log(`Drafting player: ${playerId}`);
