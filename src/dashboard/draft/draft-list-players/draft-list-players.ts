@@ -30,7 +30,7 @@ export class DraftListPlayers {
     let activePositions = this.selectedPositions();
 
     if (!query && activePositions.length === 0) {
-      return this.playersSignal();
+      return players;
     }
 
     if(activePositions.length > 0) {
