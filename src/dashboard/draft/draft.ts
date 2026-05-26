@@ -3,6 +3,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { DraftHeader } from './draft-header/draft-header';
 import { DraftHub } from '../../services/Hub/draftHub';
 import { DraftBoard } from './draft-board/draft-board';
+import { DraftListPlayers } from './draft-list-players/draft-list-players';
 export interface Tile {
   color: string;
   cols: number;
@@ -12,7 +13,7 @@ export interface Tile {
 
 @Component({
   selector: 'app-draft',
-  imports: [MatGridListModule, DraftHeader, DraftBoard],
+  imports: [MatGridListModule, DraftHeader, DraftBoard, DraftListPlayers],
   templateUrl: './draft.html',
   styleUrl: './draft.scss',
 })

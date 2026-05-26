@@ -11,6 +11,12 @@ export interface TeamDraftBoard {
 
 }
 
+export interface DraftPlayer {
+  playerid: number;
+  fullname: string;
+  position: string;
+}
+
 interface DraftBoardTeams {
   currentRound: number;
   onTheClockTeam: TeamDraftBoard;
@@ -24,6 +30,7 @@ interface DraftState {
   isDraftStarted: boolean;
   isDraftEnded: boolean;
   draftBoardTeams: DraftBoardTeams
+  draftPlayers: DraftPlayer[];
 }
 
 @Injectable({
@@ -40,7 +47,7 @@ export class DraftHub extends Hubservice {
 
   teamOnTheClock = signal<TeamDraftBoard | null>(null)
   draftTeams = signal<TeamDraftBoard[]>([])
-
+  draftPlayers = signal<DraftPlayer[]>([])
   private endTime: number | null = null;
 
   constructor() {
@@ -73,12 +80,14 @@ export class DraftHub extends Hubservice {
   public updateDraftState() {
     this.hubConnection.on(HubMethods.Server.UpdateDraftState, (data: DraftState) => {
       console.log(`League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
+      console.log('This are the draft players', data.draftPlayers)
       this.leagueName.set(data.leagueName);
       this.endTime = new Date(data.pickEndTime).getTime();
       this.round.set(data.draftBoardTeams.currentRound);
       this.teamOnTheClock.set(data.draftBoardTeams.onTheClockTeam)
       this.draftTeams.set(data.draftBoardTeams.draftOrder)
       this.isDraftEnded.set(data.isDraftEnded);
+      this.draftPlayers.set(data.draftPlayers);
     });
   }
 

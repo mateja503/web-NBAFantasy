@@ -1,0 +1,44 @@
+<div class="card h-100 border-0 bg-transparent text-white w-100 d-flex flex-column">
+  
+  <div class="p-3 border-bottom border-secondary bg-dark-card rounded-top">
+    <h5 class="text-uppercase fw-bold tracking-wider mb-3 text-info" style="color: #00fbff;">Available Players</h5>
+    <div class="input-group">
+      <span class="input-group-text bg-dark border-secondary text-muted">
+        <i class="bi bi-search"></i>
+      </span>
+      <input 
+        type="text" 
+        class="form-control bg-dark text-white border-secondary shadow-none placeholder-muted" 
+        placeholder="Search players..."
+      >
+    </div>
+  </div>
+
+  <div class="flex-grow-1 overflow-y-auto px-2 py-2 bg-dark-card rounded-bottom list-container">
+    @for (player of draftPlayers; track player.playerId) {
+      <div class="d-flex align-items-center justify-content-between p-2 mb-2 bg-dark-row border border-secondary border-opacity-20 rounded hover-row transition-all">
+        
+        <div class="d-flex align-items-center gap-3">
+          <span class="badge bg-secondary font-monospace px-2 py-1.5 position-badge text-uppercase">
+            {{ player.position }}
+          </span>
+          <div>
+            <div class="fw-semibold text-light fs-6 player-name">{{ player.playerName }}</div>
+            <small class="text-muted text-uppercase font-monospace tracking-sm">ID: #{{ player.playerId }}</small>
+          </div>
+        </div>
+
+        <button 
+          (click)="draftPlayer(player.playerId)"
+          class="btn btn-sm btn-outline-success fw-bold px-3 text-uppercase shadow-sm hover-draft-btn"
+        >
+          Draft
+        </button>
+      </div>
+    } @empty {
+      <div class="text-center py-5 text-muted">
+        <p class="mb-0">No players available on the board.</p>
+      </div>
+    }
+  </div>
+</div>
