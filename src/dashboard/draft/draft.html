@@ -7,26 +7,21 @@
     } -->
 
     <mat-grid-tile colspan="12" rowspan="1" class="tile-header">
-      <app-draft-header (onResetTimer)="draftHub.resetTimer(1)"></app-draft-header>
+      <app-draft-header (onResetTimer)="draftHub.resetTimer(1)"
+        [draftStarted]="draftHub.isDraftStarted()"></app-draft-header>
     </mat-grid-tile>
 
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
-      <app-draft-board 
-        [round]="draftHub.round()" 
-        [onTheClock]="draftHub.teamOnTheClock()"
-        [draftOrder]="draftHub.draftTeams()"
-        ></app-draft-board>
+      <app-draft-board [round]="draftHub.round()" [onTheClock]="draftHub.teamOnTheClock()"
+        [draftOrder]="draftHub.draftTeams()"></app-draft-board>
     </mat-grid-tile>
 
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
-      <app-draft-list-players
-      [draftPlayers]="draftHub.draftPlayers()"
-      [onTheClock]="draftHub.teamOnTheClock()"
-      (onPlayerDrafted)="draftHub.draftPlayer(1, $event.playerId, $event.pick)"
-      [draftStarted]="draftHub.isDraftStarted()"
-      ></app-draft-list-players>
+      <app-draft-list-players [draftPlayers]="draftHub.draftPlayers()" [onTheClock]="draftHub.teamOnTheClock()"
+        (onPlayerDrafted)="draftHub.draftPlayer(1, $event.playerId, $event.pick)"
+        [draftStarted]="draftHub.isDraftStarted()"></app-draft-list-players>
 
-      </mat-grid-tile>
+    </mat-grid-tile>
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
       <h1>Your drafter players</h1>
     </mat-grid-tile>

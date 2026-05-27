@@ -16,6 +16,7 @@ export class DraftHeader {
   private draftService = inject(DraftService);
 
   @Output() onResetTimer = new EventEmitter<void>();
+  @Input() draftStarted: boolean = false;
 
   startDraft(){
     console.log('Starting draft...')

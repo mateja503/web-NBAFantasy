@@ -6,15 +6,15 @@
 }
 
 .header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2rem;
-  height: 100%; // Now 100% refers to the :host height
-  box-sizing: border-box; // Ensures padding doesn't push the width over 100%
-  background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); 
-  // Note: I fixed your gradient (was 100% to 100%, now 0% to 100%)
-  border-bottom: 2px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 100%; // Now 100% refers to the :host height
+    box-sizing: border-box; // Ensures padding doesn't push the width over 100%
+    background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+    // Note: I fixed your gradient (was 100% to 100%, now 0% to 100%)
+    border-bottom: 2px solid #333;
 }
 
 .label {
@@ -44,8 +44,18 @@
     .status-dot {
         width: 8px;
         height: 8px;
-        background: #00ff00;
+
         border-radius: 50%;
+
+    }
+
+    .status-dot.red {
+        background: #ff0000;
+        box-shadow: 0 0 8px #ff0000;
+    }
+
+    .status-dot.green {
+        background: #00ff00;
         box-shadow: 0 0 8px #00ff00;
     }
 
@@ -70,8 +80,8 @@
     }
 }
 
-.button-group{
-    display:flex;
+.button-group {
+    display: flex;
     justify-content: center;
     gap: 12px;
-    }
+}

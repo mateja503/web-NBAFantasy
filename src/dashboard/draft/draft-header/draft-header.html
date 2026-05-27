@@ -5,24 +5,22 @@
   </div>
 
   <div class="draft-status">
-    <div class="status-dot"></div>
-    <span class="status-text">LIVE DRAFT</span>
+    @if(draftStarted)
+    {
+      <div class="status-dot green"></div>
+      <span class="status-text">LIVE DRAFT</span>
+    }@else{
+      <div class="status-dot red"></div>
+      <span class="status-text">DRAFT NOT STARTED</span>
+    }
+
   </div>
 
   <div class="button-group">
-    <app-button 
-    label="Reset Timer"
-    width="120px"
-    (click)="resetTimer()"></app-button>
+    <app-button label="Reset Timer" width="120px" (click)="resetTimer()"></app-button>
     <!-- need to implememnt the Start Draft functionality on the server before this button can be used -->
-    <app-button 
-    label="Start Draft"
-    width="120px"
-    (click)="startDraft()"></app-button>
-    <app-button 
-    label="End Draft"
-    width="120px"
-    (click)="endDraft()"></app-button>
+    <app-button label="Start Draft" width="120px" (click)="startDraft()"></app-button>
+    <app-button label="End Draft" width="120px" (click)="endDraft()"></app-button>
   </div>
 
 
