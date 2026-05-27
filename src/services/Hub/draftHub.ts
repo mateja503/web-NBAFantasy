@@ -39,11 +39,13 @@ interface DraftState {
 export class DraftHub extends Hubservice {
   protected override hubUrl = 'draftHub';
   protected override retryTime = 1000;
+ 
 
   leagueName = signal<string>('Loading...');
   displayTime = signal<string>('00:00');
   round = signal<number>(1);
   isDraftEnded = signal<boolean>(false);
+  isDraftStarted = signal<boolean>(false);
 
   teamOnTheClock = signal<TeamDraftBoard | null>(null)
   draftTeams = signal<TeamDraftBoard[]>([])
@@ -84,6 +86,7 @@ export class DraftHub extends Hubservice {
     this.teamOnTheClock.set(data.draftBoardTeams.onTheClockTeam)
     this.draftTeams.set(data.draftBoardTeams.draftOrder)
     this.isDraftEnded.set(data.isDraftEnded);
+    this.isDraftStarted.set(data.isDraftStarted);
     this.draftPlayers.set(data.draftPlayers);
   }
 
@@ -104,8 +107,8 @@ export class DraftHub extends Hubservice {
       });
   }
 
-  public draftPlayer = (playerId: number, leagueId: number, pick: number) => {
-    this.hubConnection.invoke(HubMethods.Client.DraftPlayer, playerId, leagueId, pick)
+  public draftPlayer = ( leagueId: number,playerId: number, pick: number) => {
+    this.hubConnection.invoke(HubMethods.Client.DraftPlayer,leagueId, playerId, pick)
       .then((data: DraftState) => {
         console.log('Draft player command successfully sent to server');
        this.handleDraftState(data);

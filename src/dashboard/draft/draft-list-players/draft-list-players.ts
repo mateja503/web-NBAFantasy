@@ -25,7 +25,8 @@ export class DraftListPlayers {
   }
 
   @Input() onTheClock: TeamDraftBoard | null = null;
-  @Output() onPlayerDrafted = new EventEmitter<{playerId:number,leagueId:number, pick:number}>();
+  @Input() draftStarted: boolean = false;
+  @Output() onPlayerDrafted = new EventEmitter<{leagueId:number,playerId:number, pick:number}>();
 
   public searchQuery = signal<string>('');
 
@@ -63,7 +64,11 @@ export class DraftListPlayers {
   }
 
   draftPlayer(playerId: number) {
+    if (!this.draftStarted) {
+      console.log('Draft has not started yet.');
+      return;
+    }
     console.log(`Drafting player: ${playerId}`);
-    this.onPlayerDrafted.emit({ playerId, leagueId: 1, pick: this.onTheClock?.pick || 0 });
+    this.onPlayerDrafted.emit({ leagueId: 1, playerId, pick: this.onTheClock?.pick || 0 });
   }
 }

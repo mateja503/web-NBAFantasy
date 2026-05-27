@@ -47,6 +47,7 @@
             </div>
 
             <button (click)="draftPlayer(player.playerId)"
+                [disabled]="!draftStarted"
                 class="btn btn-sm btn-outline-success fw-bold px-3 text-uppercase shadow-sm hover-draft-btn">
                 Draft
             </button>
