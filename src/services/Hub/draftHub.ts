@@ -77,17 +77,19 @@ export class DraftHub extends Hubservice {
     this.displayTime.set(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
   }
 
+  private handleDraftState(data: DraftState) {
+    this.leagueName.set(data.leagueName);
+    this.endTime = new Date(data.pickEndTime).getTime();
+    this.round.set(data.draftBoardTeams.currentRound);
+    this.teamOnTheClock.set(data.draftBoardTeams.onTheClockTeam)
+    this.draftTeams.set(data.draftBoardTeams.draftOrder)
+    this.isDraftEnded.set(data.isDraftEnded);
+    this.draftPlayers.set(data.draftPlayers);
+  }
+
   public updateDraftState() {
     this.hubConnection.on(HubMethods.Server.UpdateDraftState, (data: DraftState) => {
-      console.log(`League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
-      console.log('This are the draft players', data.draftPlayers)
-      this.leagueName.set(data.leagueName);
-      this.endTime = new Date(data.pickEndTime).getTime();
-      this.round.set(data.draftBoardTeams.currentRound);
-      this.teamOnTheClock.set(data.draftBoardTeams.onTheClockTeam)
-      this.draftTeams.set(data.draftBoardTeams.draftOrder)
-      this.isDraftEnded.set(data.isDraftEnded);
-      this.draftPlayers.set(data.draftPlayers);
+      this.handleDraftState(data);
     });
   }
 
@@ -102,4 +104,14 @@ export class DraftHub extends Hubservice {
       });
   }
 
+  public draftPlayer = (playerId: number, leagueId: number, pick: number) => {
+    this.hubConnection.invoke(HubMethods.Client.DraftPlayer, playerId, leagueId, pick)
+      .then((data: DraftState) => {
+        console.log('Draft player command successfully sent to server');
+       this.handleDraftState(data);
+      })
+      .catch((err: any) => {
+        console.error('Error while invoking DraftPlayer: ' + err);
+      });
+  }
 }

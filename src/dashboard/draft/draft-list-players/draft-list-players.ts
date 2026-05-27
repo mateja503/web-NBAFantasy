@@ -1,16 +1,18 @@
-import { Component, computed, Input, signal } from '@angular/core';
+import { Component, computed, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- 1. Import CommonModule
-import { DraftPlayer } from '../../../services/Hub/draftHub';
+import { DraftHub, DraftPlayer, TeamDraftBoard } from '../../../services/Hub/draftHub';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-draft-list-players',
-  standalone: true,                          
-  imports: [CommonModule,FormsModule],                  
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './draft-list-players.html',
   styleUrl: './draft-list-players.scss',
 })
 export class DraftListPlayers {
+
+  // public draftHub = inject(DraftHub);
 
   private playersSignal = signal<DraftPlayer[]>([]);
 
@@ -21,6 +23,9 @@ export class DraftListPlayers {
   @Input() set draftPlayers(players: DraftPlayer[]) {
     this.playersSignal.set(players);
   }
+
+  @Input() onTheClock: TeamDraftBoard | null = null;
+  @Output() onPlayerDrafted = new EventEmitter<{playerId:number,leagueId:number, pick:number}>();
 
   public searchQuery = signal<string>('');
 
@@ -33,14 +38,14 @@ export class DraftListPlayers {
       return players;
     }
 
-    if(activePositions.length > 0) {
-      players =  players.filter(player => 
+    if (activePositions.length > 0) {
+      players = players.filter(player =>
         (this.selectedPositions().includes(player.position))
       );
     }
 
-    if(query) {
-      players = players.filter(player => 
+    if (query) {
+      players = players.filter(player =>
         player.fullName.toLowerCase().includes(query)
       );
     }
@@ -59,5 +64,6 @@ export class DraftListPlayers {
 
   draftPlayer(playerId: number) {
     console.log(`Drafting player: ${playerId}`);
+    this.onPlayerDrafted.emit({ playerId, leagueId: 1, pick: this.onTheClock?.pick || 0 });
   }
 }

@@ -1,7 +1,8 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DraftHub } from '../../../services/Hub/draftHub';
 import { Button } from '../../../components/button/button';
 import { DraftService,DraftRequest } from '../../../services/draft-service';
+import { OutletContext } from '@angular/router';
 
 @Component({
   selector: 'app-draft-header',
@@ -14,6 +15,7 @@ export class DraftHeader {
   public draftHub = inject(DraftHub);
   private draftService = inject(DraftService);
 
+  @Output() onResetTimer = new EventEmitter<void>();
 
   startDraft(){
     console.log('Starting draft...')
@@ -40,6 +42,10 @@ export class DraftHeader {
         }
       })
      console.log('Draft state', this.draftHub.isDraftEnded());
+  }
+
+  resetTimer(){
+    this.onResetTimer.emit();
   }
 
 

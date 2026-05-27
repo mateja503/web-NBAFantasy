@@ -8,7 +8,8 @@ export const HubMethods = {
     // Methods the Client calls on the Server
     Client: {
         SendMessage: 'SendMessage',
-        ResetTimer: 'ResetTimer'
+        ResetTimer: 'ResetTimer',
+        DraftPlayer: 'DraftPlayer',
     }
 
 }
