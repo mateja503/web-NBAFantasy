@@ -2,6 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export interface League {
+  leagueid: number;
+  name: string;
+  commissioner: number;
+  seasonyear: string;
+  weeksforseason?: number;       
+  transactionlimit?: number;    
+  autostart?: boolean;         
+  typetransactionlimits?: number; 
+  typeleague?: number;          
+  draftstyle?: number;          
+  statsvalueid?: number;       
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,12 +24,12 @@ export class LeagueService {
 
   constructor(private http: HttpClient){}
 
-  getLeagues(): Observable<any[]>{
-     return this.http.get<any[]>(this.leagueurl)
+  getLeagues(): Observable<League[]>{
+     return this.http.get<League[]>(this.leagueurl)
   }
 
-  addleague(data: any): Observable<any>{
-    return this.http.post<any>(`${this.leagueurl}/add`, data)
+  addleague(data: any): Observable<League>{
+    return this.http.post<League>(`${this.leagueurl}/add`, data)
   }
 
  

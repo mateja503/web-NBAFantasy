@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { Button } from '../components/button/button';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicDialog } from '../components/dialog/dynamicDialog';
-import { AuthService, LoginResponse } from '../services/auth-service';
+import { AuthService, UserResponse } from '../services/auth-service';
+import { GlobalStore } from '../store/globalStore';
 
 interface DialogResponse {
   username: string;
@@ -19,6 +20,7 @@ interface DialogResponse {
 
 export class Header {
 
+  readonly globalStore = inject(GlobalStore);
   readonly dialog = inject(MatDialog)
   private readonly authService = inject(AuthService);
 
@@ -42,8 +44,9 @@ export class Header {
     dialogRef.afterClosed().subscribe((result?: DialogResponse) => {
         console.log('This is the dialog results from login page', result);
         this.authService.login({ username: result?.username, password: result?.password }).subscribe({
-          next: (response:LoginResponse) => {
+          next: (response:UserResponse) => {
             console.log('Login successful:', response);
+            this.globalStore.loginSuccess(response);
           },
           error: (error) => {
             console.error('Login failed:', error);

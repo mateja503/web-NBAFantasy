@@ -1,9 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Team } from './team-service';
+import { League } from './league-service';
 
-export interface LoginResponse {
-  token: string;
+export interface UserResponse {
+  token?: string;
+  username?: string;
+  teams: Team[];
+  leagues: League[];
 }
 
 @Injectable({
@@ -20,8 +25,8 @@ private baseUrl = 'https://localhost:7041/v1/auth'
   private currentUserSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.currentUserSubject.asObservable();
 
-  login(credentials: any): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
+  login(credentials: any): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${this.baseUrl}/login`, credentials).pipe(
       tap(response => {
         // localStorage.setItem(this.TOKEN_KEY, response.token);
         // console.log('Login successful:', response);
