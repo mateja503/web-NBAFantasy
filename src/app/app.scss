@@ -1,4 +1,10 @@
 .sidebar-dashboard-container {
     display: flex;
     flex-direction: row;
+    height: 100%; /* Force the container to take full remaining height */
+}
+
+.main-content-area {
+    /* Ensures the view content area independently handles its own inner scrollbars */
+    position: relative; 
 }
