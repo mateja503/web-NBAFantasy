@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Button } from '../components/button/button';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicDialog } from '../components/dialog/dynamicDialog';
+import { AuthService, LoginResponse } from '../services/auth-service';
 
 interface DialogResponse {
   username: string;
@@ -19,6 +20,7 @@ interface DialogResponse {
 export class Header {
 
   readonly dialog = inject(MatDialog)
+  private readonly authService = inject(AuthService);
 
   openLoginDialog() {
     const dialogRef = this.dialog.open(DynamicDialog, {
@@ -39,6 +41,14 @@ export class Header {
 
     dialogRef.afterClosed().subscribe((result?: DialogResponse) => {
         console.log('This is the dialog results from login page', result);
+        this.authService.login({ username: result?.username, password: result?.password }).subscribe({
+          next: (response:LoginResponse) => {
+            console.log('Login successful:', response);
+          },
+          error: (error) => {
+            console.error('Login failed:', error);
+          }
+        });
     });
   }
 
