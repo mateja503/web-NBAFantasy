@@ -64,8 +64,13 @@ export class MyTeamsAndLeagues {
     this.currentFilter.set(filter);
   }
 
-  selectItem(id: number) {
+  selectItem(id: number, type: string) {
     this.selectedId.set(id);
     console.log(`Selected item ID: ${id}. Ready for action!`);
+    if (type === 'team') {
+      this.globalStore.selectTeam(id);
+    } else if (type === 'league') {
+      this.globalStore.selectLeague(id);
+    }
   }
 }
