@@ -2,12 +2,12 @@ import { computed } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState } from '@ngrx/signals';
 import { UserResponse } from '../services/auth-service';
 
-interface TeamInStorage{
+export interface TeamInStorage{
     teamId: number;
     name: string;
 }
 
-interface LeagueInStorage{
+export interface LeagueInStorage{
     leagueId: number;
     name: string;
 }
@@ -126,9 +126,7 @@ export const GlobalStore = signalStore(
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserState));
 
         patchState(store, { user: updatedUserState });
-    }
-
-
+    },
 
   }))
 );
