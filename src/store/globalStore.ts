@@ -19,6 +19,7 @@ export interface LeagueInStorage {
 // Define the shape of our user state matching your LoginResponse
 export interface UserState {
   username: string;
+  userid: number;
   selectedTeamId?: number;
   selectedTeamName?: string;
   selectedLeagueId?: number;
@@ -60,6 +61,7 @@ export const GlobalStore = signalStore(
     selectedTeamName: computed(() => user()?.selectedTeamName),
     selectedLeagueId: computed(() => user()?.selectedLeagueId),
     selectedLeagueName: computed(() => user()?.selectedLeagueName),
+    userid: computed(() => user()?.userid),
   })),
 
   // 3. Methods / Actions
@@ -69,6 +71,7 @@ export const GlobalStore = signalStore(
 
       let userState: UserState = {
         username: data.username ?? '',
+        userid: data.userid ?? 0,
         teams: data.teams.map(t => ({
           teamId: t.teamid,
           name: t.name,

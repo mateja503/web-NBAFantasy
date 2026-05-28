@@ -3,19 +3,20 @@
 </div>
 
 <div class="join-league-container">
-    <div class="join-league-form" >
+    <div class="join-league-form">
 
         <section class="form-section">
             <div>
                 <div class="header">
                     <h3 class="pb-1"><mat-icon>table_chart</mat-icon> Leagues </h3>
                     <div class="sub-header">
-                        <h4>Total Leagues Selected: {{ selectedRows().length }}</h4>
-                        <app-button label="Clear Selection" (click)="selectedRows.set([])" width="150px" height="30px"></app-button>
+                        <h4>Selected League: {{ selectedLeague() ? selectedLeague()?.name : 'None' }}</h4>
+                        @if (selectedLeague()) {
+                            <app-button label="Clear Selection" (click)="selectedLeague.set(null)" width="150px" height="30px"></app-button>
+                        }
                     </div>
                 </div>
 
-                <!-- <cdk-virtual-scroll-viewport class="example-container" [itemSize]="52" [maxBufferPx]="1200" [minBufferPx]="400"> -->
                 <div class="table-scroll">
                     <table mat-table class="league-table" [dataSource]="(leagues$ | async) || []" matSort
                         aria-label="Select a league to join">
@@ -66,22 +67,20 @@
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                        <tr mat-row (click)="selectRow(row)" [class.selected-row]="selectedRows().includes(row)"
+                        <tr mat-row (click)="selectRow(row)" [class.selected-row]="selectedLeague()?.leagueid === row.leagueid"
                             *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
                     </table>
-                    <!-- </cdk-virtual-scroll-viewport> -->
                 </div>
 
                 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of leagues">
-                </mat-paginator>
+                    </mat-paginator>
             </div>
         </section>
 
         <hr class="divider">
 
         <div class="submit-btn">
-            <app-button label="Enter team name" [disabled]="selectedRows().length === 0" (btnClick)="openDialog()" width="350px"></app-button>
+            <app-button label="Enter team name" [disabled]="!selectedLeague()" (btnClick)="openDialog()" width="350px"></app-button>
         </div>
     </div>
 </div>

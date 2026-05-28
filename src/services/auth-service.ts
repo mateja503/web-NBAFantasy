@@ -7,6 +7,7 @@ import { League } from './league-service';
 export interface UserResponse {
   token?: string;
   username?: string;
+  userid?: number;
   teams: Team[];
   leagues: League[];
 }

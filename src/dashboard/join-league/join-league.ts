@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, model, Signal, signal, } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, model, Signal, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,61 +9,64 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { League } from '../../models/league';
 import { LeagueService } from '../../services/league-service';
-import { Observable, Subscriber, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe } from '@angular/common';
-import { LeagueTeamService } from '../../services/leagueteam-service';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicDialog } from '../../components/dialog/dynamicDialog';
+import { GlobalStore } from '../../store/globalStore';
 
-
-interface DialogResponse{
-  teamName?: string
+interface DialogResponse {
+  teamName?: string;
 }
 
 @Component({
   selector: 'app-join-league',
-  imports: [ReactiveFormsModule, MatInputModule,
-    MatFormFieldModule, MatRadioModule, MatIconModule, Button,
-    ReactiveFormsModule, AsyncPipe,
-    MatTableModule,
-    MatPaginatorModule, ScrollingModule
+  imports: [
+    ReactiveFormsModule, MatInputModule, MatFormFieldModule, 
+    MatRadioModule, MatIconModule, Button, AsyncPipe,
+    MatTableModule, MatPaginatorModule, ScrollingModule
   ],
   templateUrl: './join-league.html',
   styleUrl: './join-league.scss',
 })
 export class JoinLeague {
   private leagueService = inject(LeagueService);
-  private leagueTeamService = inject(LeagueTeamService);
-  private subscribers : Subscription[] = [];
-  leagues$: Observable<League[]> = this.leagueService.getLeagues()
+  private subscribers: Subscription[] = [];
+  readonly globalStore = inject(GlobalStore);
 
-  selectedRows = signal<any[]>([]);
-  displayedColumns: string[] = ['name', 'commissioner', 'seasonyear', 'weeksforseason', 'transactionlimit', 'autostart', 'typetransactionlimits',
+  leagues$: Observable<League[]> = this.leagueService.getLeagues();
+
+  // Changed from an array signal to a single object/null signal
+  selectedLeague = signal<League | null>(null);
+  
+  displayedColumns: string[] = [
+    'name', 'commissioner', 'seasonyear', 'weeksforseason', 
+    'transactionlimit', 'autostart', 'typetransactionlimits',
     'typeleague', 'draftstyle'
   ];
 
-  selectRow(row: any) {
-    console.log('Join league', row)
-    if (this.selectedRows().includes(row)) {
-      this.selectedRows.set(this.selectedRows().filter(r => r !== row))
+  // Refactored to toggle single selection
+  selectRow(row: League) {
+    console.log('Selected league:', row);
+    if (this.selectedLeague()?.leagueid === row.leagueid) {
+      this.selectedLeague.set(null); // Deselect if clicked again
     } else {
-      if (this.selectedRows().length + 1 > 12) {
-        alert('You can only select up to 12 leagues to join.')
-      } else {
-        this.selectedRows.set([...this.selectedRows(), row])
-      }
+      this.selectedLeague.set(row); // Select the new league
     }
   }
+
   readonly name = model('');
   readonly dialog = inject(MatDialog);
 
   openDialog(): void {
+    if (!this.selectedLeague()) return;
+
     const dialogRef = this.dialog.open(DynamicDialog, {
       width: '550px',
       data: {
         title: 'Enter Team Name',
-        description: 'Join league with a unique team name. This will be visible to other league members.',
+        description: `Join "${this.selectedLeague()?.name}" with a unique team name. This will be visible to other league members.`,
         fields: [
           { key: 'teamName', label: 'Team Name', placeholder: 'Enter your team name', type: 'text', width: '350px' }
         ],
@@ -75,39 +78,43 @@ export class JoinLeague {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result?:DialogResponse) => {
+    dialogRef.afterClosed().subscribe((result?: DialogResponse) => {
       console.log('Form Data after the dialog closed', result);
-      if(result!==undefined && result!==null){
-        this.joinLeagues(result?.teamName);
+      if (result?.teamName) {
+        this.joinLeague(result.teamName);
       }
-
     });
-
   }
 
-  joinLeagues(teamName?:string) {
+  // Refactored to map data for a single payload object
+  joinLeague(teamName: string) {
+    const currentLeague = this.selectedLeague();
+    if (!currentLeague) return;
 
-    let data = [
-      ...this.selectedRows().map(league => ({
-        leagueId: league.leagueid,
-        teamName: teamName
-      }))
-    ]
-    console.log('This is the data', data);
-
-    let subscription = this.leagueTeamService.joinLeague(data).subscribe({
-      next: () => {
-          alert('League(s) joined successfully');
-          this.selectedRows.set([])
-      },error: (error) => {
-        alert(`Error while joining league(s) ${error}`)
+    const data = 
+      {
+        leagueId: currentLeague.leagueid,
+        teamName: teamName,
+        userId: this.globalStore.userid() // Replace with actual user ID from auth context
       }
-    })
-    this.subscribers.push(subscription)
+  
+    
+    console.log('Payload data:', data);
+
+    const subscription = this.leagueService.joinLeague(data).subscribe({
+      next: () => {
+        alert('League joined successfully');
+        this.selectedLeague.set(null);
+      },
+      error: (error) => {
+        alert(`Error while joining league: ${error}`);
+      }
+    });
+    this.subscribers.push(subscription);
   }
 
   ngOnDestroy() {
-    this.selectedRows.set([])
-    this.subscribers.forEach(u=>u.unsubscribe());
+    this.selectedLeague.set(null);
+    this.subscribers.forEach(u => u.unsubscribe());
   }
 }
