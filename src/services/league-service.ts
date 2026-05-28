@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Team } from './team-service';
 
 export interface League {
   leagueid: number;
@@ -13,7 +14,8 @@ export interface League {
   typetransactionlimits?: number; 
   typeleague?: number;          
   draftstyle?: number;          
-  statsvalueid?: number;       
+  statsvalueid?: number;
+  commissionersTeam?: Team;       
 }
 
 @Injectable({

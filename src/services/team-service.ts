@@ -1,3 +1,5 @@
+import { League } from "./league-service";
+
 export interface Team {
     teamid: number;
     name: string;
@@ -6,4 +8,5 @@ export interface Team {
     lastweekpoints?: number;
     categoryleaguepoints?: number;
     islock?: boolean;
+    competesinleague: League;
 }

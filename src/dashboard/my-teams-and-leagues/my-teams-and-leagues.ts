@@ -28,10 +28,14 @@ export class MyTeamsAndLeagues {
   readonly items = computed(() => {
     const teams = this.globalStore.managedTeams();
     const leagues = this.globalStore.commissionerLeagues();
-    
+
     const realTeams = teams.map(t => ({
       id: t.teamId,
       name: t.name,
+      competesInLeagueId: t.competesInLeagueId,
+      competesInLeagueName: t.competesInLeagueName,
+      commissionersTeamId: 0, // Teams don't have a commissioner team ID
+      commissionersTeamName: '',
       type: 'team',
       avatar: '🦁', // Default team avatar
       meta: 'Some info', // You can dynamically change this later
@@ -41,14 +45,18 @@ export class MyTeamsAndLeagues {
     const realLeagues = leagues.map(l => ({
       id: l.leagueId,
       name: l.name,
+      competesInLeagueId: 0,
+      competesInLeagueName: '',
+      commissionersTeamId: l.commissionersTeamId,
+      commissionersTeamName: l.commissionersTeamName,
       type: 'league',
       avatar: '🏆', // Default league avatar
       meta: 'Some info', // You can dynamically change this later
       status: 'Status of the league', // You can dynamically change this later
     }))
 
-    return [ ...realLeagues, ...realTeams,];
-   
+    return [...realLeagues, ...realTeams,];
+
   });
 
 
@@ -64,13 +72,15 @@ export class MyTeamsAndLeagues {
     this.currentFilter.set(filter);
   }
 
-  selectItem(id: number, type: string) {
+  selectItem(id: number, name: string, type: string, competesInLeagueId?: number, competesInLeagueName?: string, commissionersTeamId?: number, commissionersTeamName?: string) {
     this.selectedId.set(id);
     console.log(`Selected item ID: ${id}. Ready for action!`);
     if (type === 'team') {
-      this.globalStore.selectTeam(id);
+      this.globalStore.selectTeamsLeague(competesInLeagueId!, competesInLeagueName!);
+      this.globalStore.selectTeam(id, name);
     } else if (type === 'league') {
-      this.globalStore.selectLeague(id);
+      this.globalStore.selectCommissionersTeam(commissionersTeamId!, commissionersTeamName!);
+      this.globalStore.selectLeague(id, name);
     }
   }
 }

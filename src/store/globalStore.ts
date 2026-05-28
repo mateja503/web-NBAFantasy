@@ -2,14 +2,18 @@ import { computed } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState } from '@ngrx/signals';
 import { UserResponse } from '../services/auth-service';
 
-export interface TeamInStorage{
-    teamId: number;
-    name: string;
+export interface TeamInStorage {
+  teamId: number;
+  name: string;
+  competesInLeagueId?: number;
+  competesInLeagueName?: string;
 }
 
-export interface LeagueInStorage{
-    leagueId: number;
-    name: string;
+export interface LeagueInStorage {
+  leagueId: number;
+  name: string;
+  commissionersTeamId: number;
+  commissionersTeamName: string;
 }
 
 // Define the shape of our user state matching your LoginResponse
@@ -42,12 +46,12 @@ function loadUserFromStorage(): UserState | null {
 
 export const GlobalStore = signalStore(
   { providedIn: 'root' },
-  
+
   // 1. Initialize State (Instantly reads from LocalStorage on refresh!)
-  withState<GlobalState>({ 
-    user: loadUserFromStorage(), 
+  withState<GlobalState>({
+    user: loadUserFromStorage(),
   }),
-  
+
   // 2. Computed Getters
   withComputed(({ user }) => ({
     managedTeams: computed(() => user()?.teams ?? []),
@@ -57,23 +61,27 @@ export const GlobalStore = signalStore(
     selectedLeagueId: computed(() => user()?.selectedLeagueId),
     selectedLeagueName: computed(() => user()?.selectedLeagueName),
   })),
-  
+
   // 3. Methods / Actions
   withMethods((store) => ({
     // Call this right after a successful server login response
     loginSuccess(data: UserResponse) {
-         
+
       let userState: UserState = {
         username: data.username ?? '',
-        teams: data.teams.map(t=> ({
-            teamId: t.teamid,
-            name: t.name
+        teams: data.teams.map(t => ({
+          teamId: t.teamid,
+          name: t.name,
+          competesInLeagueId: t.competesinleague?.leagueid,
+          competesInLeagueName: t.competesinleague?.name
         })) ?? [],
         leagues: data.leagues.map(l => ({
-            leagueId: l.leagueid,
-            name: l.name
+          leagueId: l.leagueid,
+          name: l.name,
+          commissionersTeamId: l.commissionersTeam?.teamid ?? 0,
+          commissionersTeamName: l.commissionersTeam?.name ?? '',
         })) ?? []
-      };  
+      };
 
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userState));
       patchState(store, { user: userState });
@@ -84,49 +92,45 @@ export const GlobalStore = signalStore(
       patchState(store, { user: null });
     },
 
-    selectTeam(teamId: number) 
-    {
-        const teams = store?.user()?.teams ?? [];
-        if(teams.length === 0) return;
-
-        const team = teams.find(t => t.teamId === teamId);
-        if(!team){
-            console.warn(`[GlobalStore] Team with ID ${teamId} not found in user context.`);
-            return;
-        } 
-
-        const updatedUserState: UserState = {
-            ...store.user()!,
-            selectedTeamId: team.teamId,
-            selectedTeamName: team.name
-        }
-
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserState));
-
-        patchState(store, { user: updatedUserState });
+    selectTeam(teamId: number, teamName: string) {
+      const updatedUserState: UserState = {
+        ...store.user()!,
+        selectedTeamId: teamId,
+        selectedTeamName: teamName
+      }
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserState));
+      patchState(store, { user: updatedUserState });
     },
 
-    selectLeague(leagueId: number)
-    {
-        const leagues = store?.user()?.leagues ?? [];
-        if(leagues.length === 0) return;
-    
-        const league = leagues.find(l => l.leagueId === leagueId);
-        if(!league){
-            console.warn(`[GlobalStore] League with ID ${leagueId} not found in user context.`);
-            return;
-        }
-
-        const updatedUserState: UserState = {
-            ...store.user()!,
-            selectedLeagueId: league.leagueId,
-            selectedLeagueName: league.name
-        }
-
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserState));
-
-        patchState(store, { user: updatedUserState });
+    selectLeague(leagueId: number, leagueName: string) {
+      const updatedUserState: UserState = {
+        ...store.user()!,
+        selectedLeagueId: leagueId,
+        selectedLeagueName: leagueName
+      }
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserState));
+      patchState(store, { user: updatedUserState });
     },
+
+    selectCommissionersTeam(commissionersTeamId: number, commissionersTeamName: string) {
+      const updatedUserState: UserState = {
+        ...store.user()!,
+        selectedTeamId: commissionersTeamId,
+        selectedTeamName: commissionersTeamName
+      };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserState));
+      patchState(store, { user: updatedUserState });
+    },
+
+    selectTeamsLeague(competesInLeagueId: number, competesInLeagueName: string) {
+      const updatedUserState: UserState = {
+        ...store.user()!,
+        selectedLeagueId: competesInLeagueId,
+        selectedLeagueName: competesInLeagueName
+      };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUserState));
+      patchState(store, { user: updatedUserState });
+    }
 
   }))
 );
