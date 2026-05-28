@@ -1,11 +1,16 @@
 import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalStore } from '../../store/globalStore';
+import { Button } from '../../components/button/button';
 
 interface DashboardItem {
   id: number;
   name: string;
-  type: 'team' | 'league';
+  type: string | 'team' | 'league';
+  competesInLeagueId?: number;
+  competesInLeagueName?: string;
+  commissionersTeamId?: number;
+  commissionersTeamName?: string;
   avatar: string;
   meta: string; // e.g., "12 Members" or "Rank #3"
   status: string; // e.g., "Drafting Tomorrow", "Active"
@@ -14,14 +19,14 @@ interface DashboardItem {
 @Component({
   selector: 'app-my-teams-and-leagues',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Button],
   templateUrl: './my-teams-and-leagues.html',
   styleUrl: './my-teams-and-leagues.scss',
 })
 export class MyTeamsAndLeagues {
   // Using Signals for reactive state management
   currentFilter = signal<'all' | 'team' | 'league'>('all');
-  selectedId = signal<number | null>(null);
+  selectedId = signal<DashboardItem | null>(null);
 
   readonly globalStore = inject(GlobalStore)
 
@@ -72,8 +77,21 @@ export class MyTeamsAndLeagues {
     this.currentFilter.set(filter);
   }
 
-  selectItem(id: number, name: string, type: string, competesInLeagueId?: number, competesInLeagueName?: string, commissionersTeamId?: number, commissionersTeamName?: string) {
-    this.selectedId.set(id);
+  selectedItem(item: DashboardItem) {
+    this.selectedId.set(item);
+    console.log(`UI highlighted item ID: ${item.id}`);
+  }
+
+  confirmAndSaveToLocalStorage() {
+    const id = this.selectedId()?.id || 0;
+    const name = this.selectedId()?.name || '';
+    const type = this.selectedId()?.type;
+    const competesInLeagueId = this.selectedId()?.competesInLeagueId;
+    const competesInLeagueName = this.selectedId()?.competesInLeagueName;
+    const commissionersTeamId = this.selectedId()?.commissionersTeamId;
+    const commissionersTeamName = this.selectedId()?.commissionersTeamName;
+
+    
     console.log(`Selected item ID: ${id}. Ready for action!`);
     if (type === 'team') {
       this.globalStore.selectTeamsLeague(competesInLeagueId!, competesInLeagueName!);
