@@ -15,7 +15,7 @@
           class="animate-fade-in"
           width="150px"
           height="30px"
-          [disabled]="selectedId() == null ? true : false"
+          [disabled]="selectedItem() == null ? true : false"
           >
         </app-button>
       <!-- } -->
@@ -36,8 +36,8 @@
       @for (item of filteredItems(); track item.id) {
       <div class="col-12 col-md-6 col-xl-4">
         <div class="card h-100 sports-card text-white" 
-          [class.selected]="selectedId()?.id === item.id"
-          (click)="selectedItem(item)">
+          [class.selected]="selectedItem()?.id === item.id"
+          (click)="selectItem(item)">
 
           <div class="card-body d-flex flex-column justify-content-between p-4">
             <div>
@@ -70,7 +70,7 @@
 
             <div class="mt-4 pt-3 border-top border-dark d-flex justify-content-between align-items-center">
               <span class="small text-success">
-                @if (selectedId()?.id === item.id) {
+                @if (selectedItem()?.id === item.id) {
                   <span class="text-success fw-bold">● Selected (Click Confirm above)</span>
                 } @else {
                   Click to focus

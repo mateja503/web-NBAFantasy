@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalStore } from '../../store/globalStore';
 import { Button } from '../../components/button/button';
@@ -23,12 +23,12 @@ interface DashboardItem {
   templateUrl: './my-teams-and-leagues.html',
   styleUrl: './my-teams-and-leagues.scss',
 })
-export class MyTeamsAndLeagues {
-  // Using Signals for reactive state management
+export class MyTeamsAndLeagues implements OnInit {
   currentFilter = signal<'all' | 'team' | 'league'>('all');
-  selectedId = signal<DashboardItem | null>(null);
+  selectedItem = signal<DashboardItem | null>(null);
 
-  readonly globalStore = inject(GlobalStore)
+  readonly globalStore = inject(GlobalStore);
+
 
   readonly items = computed(() => {
     const teams = this.globalStore.managedTeams();
@@ -59,10 +59,26 @@ export class MyTeamsAndLeagues {
       meta: 'Some info', // You can dynamically change this later
       status: 'Status of the league', // You can dynamically change this later
     }))
-
-    return [...realLeagues, ...realTeams,];
+    return [...realLeagues, ...realTeams];
 
   });
+
+  ngOnInit(): void {
+    const selectedTeamId = this.globalStore.selectedTeamId();
+    const selectedLeagueId = this.globalStore.selectedLeagueId();
+
+    const preSelectedItem = this.items().find(item => {
+      if (item.type === 'team' && item.id === selectedTeamId) return true;
+      if (item.type === 'league' && item.id === selectedLeagueId) return true;
+      return false;
+    });
+
+    if (preSelectedItem) {
+      this.selectedItem.set(preSelectedItem);
+    }
+  }
+
+
 
 
   // Computed signal to handle real-time filtering smoothly
@@ -77,21 +93,21 @@ export class MyTeamsAndLeagues {
     this.currentFilter.set(filter);
   }
 
-  selectedItem(item: DashboardItem) {
-    this.selectedId.set(item);
+  selectItem(item: DashboardItem) {
+    this.selectedItem.set(item);
     console.log(`UI highlighted item ID: ${item.id}`);
   }
 
   confirmAndSaveToLocalStorage() {
-    const id = this.selectedId()?.id || 0;
-    const name = this.selectedId()?.name || '';
-    const type = this.selectedId()?.type;
-    const competesInLeagueId = this.selectedId()?.competesInLeagueId;
-    const competesInLeagueName = this.selectedId()?.competesInLeagueName;
-    const commissionersTeamId = this.selectedId()?.commissionersTeamId;
-    const commissionersTeamName = this.selectedId()?.commissionersTeamName;
+    const id = this.selectedItem()?.id || 0;
+    const name = this.selectedItem()?.name || '';
+    const type = this.selectedItem()?.type;
+    const competesInLeagueId = this.selectedItem()?.competesInLeagueId;
+    const competesInLeagueName = this.selectedItem()?.competesInLeagueName;
+    const commissionersTeamId = this.selectedItem()?.commissionersTeamId;
+    const commissionersTeamName = this.selectedItem()?.commissionersTeamName;
 
-    
+
     console.log(`Selected item ID: ${id}. Ready for action!`);
     if (type === 'team') {
       this.globalStore.selectTeamsLeague(competesInLeagueId!, competesInLeagueName!);

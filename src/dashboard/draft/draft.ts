@@ -4,6 +4,7 @@ import { DraftHeader } from './draft-header/draft-header';
 import { DraftHub } from '../../services/Hub/draftHub';
 import { DraftBoard } from './draft-board/draft-board';
 import { DraftListPlayers } from './draft-list-players/draft-list-players';
+import { GlobalStore } from '../../store/globalStore';
 export interface Tile {
   color: string;
   cols: number;
@@ -21,9 +22,14 @@ export interface Tile {
 export class Draft implements OnInit {
   
   public draftHub = inject(DraftHub);
+  readonly globalStore = inject(GlobalStore);
 
   ngOnInit(): void {
-    this.draftHub.initialize(1); 
+    if(!this.globalStore.selectedLeagueId()){
+      alert('Please select a league to start the draft!');
+      return;
+    }
+    this.draftHub.initialize(this.globalStore.selectedLeagueId()!); 
   }
 
 tiles: Tile[] = [
