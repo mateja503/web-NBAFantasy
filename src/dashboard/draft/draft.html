@@ -22,9 +22,11 @@
         [draftStarted]="draftHub.isDraftStarted()"></app-draft-list-players>
 
     </mat-grid-tile>
+    
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
-      <h1>Your drafter players</h1>
+      <app-drafted-players></app-drafted-players>
     </mat-grid-tile>
+
     <mat-grid-tile colspan="4" rowspan="3" class="tile-draft-board">
       <h1>Trades on draft night</h1>
     </mat-grid-tile>

@@ -1,0 +1,142 @@
+// Color Palette matching your interface
+$bg-dark: #121212;
+$bg-card: #1a1a1a;
+$border-color: #333333;
+$text-main: #ffffff;
+$text-muted: #aaaaaa;
+$accent-cyan: #00e5ff;
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.drafted-players-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: $bg-dark;
+  border: 1px solid $border-color;
+  font-family: 'Roboto', sans-serif;
+  color: $text-main;
+}
+
+.component-header {
+  padding: 12px 16px;
+  background-color: lighten($bg-dark, 2%);
+  border-bottom: 2px solid $border-color;
+  
+  h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: $accent-cyan;
+    text-transform: uppercase;
+  }
+}
+
+.table-responsive {
+  flex: 1;
+  overflow-y: auto; // Enables scrolling inside the red box if the list is long
+  
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $bg-dark;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+  }
+}
+
+.players-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  thead {
+    position: sticky;
+    top: 0;
+    background-color: lighten($bg-dark, 4%);
+    z-index: 2;
+    
+    th {
+      padding: 10px 16px;
+      font-size: 0.75rem;
+      color: $text-muted;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid $border-color;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid lighten($bg-dark, 3%);
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba($accent-cyan, 0.05);
+      }
+    }
+
+    td {
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Column Widths
+.col-pick { width: 15%; }
+.col-pos { width: 15%; }
+.col-name { width: 70%; }
+
+// UI Badges
+.pick-badge {
+  display: inline-block;
+  font-weight: 700;
+  color: $text-muted;
+}
+
+.pos-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 28px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+
+  // Position-specific highlights (matches colors typical in fantasy)
+  &.g { border-color: #43a047; color: #43a047; background: rgba(67, 160, 71, 0.1); }
+  &.f { border-color: #e53935; color: #e53935; background: rgba(229, 57, 53, 0.1); }
+  &.cf { border-color: #fb8c00; color: #fb8c00; background: rgba(251, 140, 0, 0.1); }
+}
+
+.player-name {
+  font-weight: 500;
+  color: $text-main;
+}
+
+.empty-state {
+  text-align: center;
+  color: $text-muted;
+  font-style: italic;
+  
+  td {
+    padding: 40px !important;
+  }
+}
