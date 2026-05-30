@@ -116,5 +116,7 @@ export class MyTeamsAndLeagues implements OnInit {
       this.globalStore.selectCommissionersTeam(commissionersTeamId!, commissionersTeamName!);
       this.globalStore.selectLeague(id, name);
     }
+
+    alert(`Selected ${type}: ${name} (ID: ${id}) has been saved!`);
   }
 }
