@@ -31,6 +31,7 @@ interface DraftState {
   isDraftEnded: boolean;
   draftBoardTeams: DraftBoardTeams
   draftPlayers: DraftPlayer[];
+  draftedPlayersPerTeam: Record<number, DraftPlayer[]>;
 }
 
 @Injectable({
@@ -46,7 +47,7 @@ export class DraftHub extends Hubservice {
   round = signal<number>(1);
   isDraftEnded = signal<boolean>(false);
   isDraftStarted = signal<boolean>(false);
-
+  teamsDraftedPlayers = signal<Record<number, DraftPlayer[]>>({});
   teamOnTheClock = signal<TeamDraftBoard | null>(null)
   draftTeams = signal<TeamDraftBoard[]>([])
   draftPlayers = signal<DraftPlayer[]>([])
@@ -88,6 +89,7 @@ export class DraftHub extends Hubservice {
     this.isDraftEnded.set(data.isDraftEnded);
     this.isDraftStarted.set(data.isDraftStarted);
     this.draftPlayers.set(data.draftPlayers);
+    this.teamsDraftedPlayers.set(data.draftedPlayersPerTeam);
   }
 
   public updateDraftState() {
@@ -101,6 +103,7 @@ export class DraftHub extends Hubservice {
       .then((data: DraftState) => {
         console.log('Reset command successfully sent to server');
         console.log(`Timer Reset - League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
+        console.log(`Draft State - Round: ${data}, DraftEnded: ${data.isDraftEnded}`);
       })
       .catch((err: any) => {
         console.error('Error while invoking ResetTimer: ' + err);

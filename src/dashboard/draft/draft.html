@@ -24,7 +24,7 @@
     </mat-grid-tile>
     
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
-      <app-drafted-players></app-drafted-players>
+      <app-drafted-players [draftedPlayers]="draftHub.teamsDraftedPlayers()[globalStore.selectedTeamId() ?? 0] || []"></app-drafted-players>
     </mat-grid-tile>
 
     <mat-grid-tile colspan="4" rowspan="3" class="tile-draft-board">
