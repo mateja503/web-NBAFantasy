@@ -4,10 +4,11 @@ import { Button } from '../../../components/button/button';
 import { DraftService,DraftRequest } from '../../../services/draft-service';
 import { OutletContext } from '@angular/router';
 import { GlobalStore } from '../../../store/globalStore';
+import { SharedModule } from '../../../app/app.module';
 
 @Component({
   selector: 'app-draft-header',
-  imports: [Button],
+  imports: [SharedModule],
   templateUrl: './draft-header.html',
   styleUrl: './draft-header.scss',
 })
