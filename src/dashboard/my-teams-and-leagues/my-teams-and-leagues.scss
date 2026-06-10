@@ -1,120 +1,111 @@
-// Custom Dashboard Styling
+// my-teams-and-leagues.scss
+@use '../../../src/styles/token.scss' as t;
+
 .dashboard-container {
-    background-color:  #2f71f4; 
-    border-radius: 12px;
-    margin: 24px;
-    width: auto; 
-    
-    // Setting up a strict box layout frame 
-    height: calc(100vh - 150px); 
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; // Keeps the overall container completely static
+  background-color: t.$brand-primary;
+  border-radius: t.$radius-lg;
+  margin: t.$space-6;
+  width: auto;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-// Fixed Header Element Wrapper
 .dashboard-header {
-    flex-shrink: 0; // Prevents the header from scaling down or compressing
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); // Optional clean divider accent line
+  flex-shrink: 0;
+  border-bottom: 1px solid t.$color-border-subtle;
 }
 
-// SCROLL MECHANICS: The Card Engine Frame
 .dashboard-scroll-body {
-    flex-grow: 1; // Explicitly forces the grid block to take up 100% remaining space
-    overflow-y: auto; // Enables vertical scrolling inside this segment only
-    overflow-x: hidden; // Blocks accidental horizontal grid leaks
-    
-    // Creates structural space separating the layout grid blocks from the scrollbar thumb
-    padding-right: 1.5rem; 
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 1.5rem;
 
-    // Custom Sporty Scrollbar track styling inside the green box
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
-    &::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.05);
-        border-radius: 4px;
-        margin-top: 8px;    // Prevents the scrollbar from rubbing raw against header
-        margin-bottom: 8px; // Keeps padding balanced at the bottom corner edge
-    }
-    &::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.25);
-        border-radius: 4px;
-        &:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-    }
-}
+  &::-webkit-scrollbar { width: 8px; }
 
-// Filter Navigation 
-.filter-group {
-    background-color: #1a1d2e;
-    border-radius: 30px;
-    border: 1px solid #2a2f45;
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: t.$radius-sm;
+    margin-top: t.$space-2;
+    margin-bottom: t.$space-2;
+  }
 
-    .btn-filter {
-        color: #a0a5c0;
-        border: none;
-        border-radius: 25px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.25s ease;
-
-        &:hover {
-            color: #ffffff;
-        }
-
-        &.active {
-            background-color: #3b82f6;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-    }
-}
-
-// Cards
-.sports-card {
-    background: linear-gradient(145deg, #16192b, #1e223a);
-    border: 1px solid #2a2f45;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
 
     &:hover {
-        transform: translateY(-5px);
-        border-color: #4b5563;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      background: rgba(t.$text-on-dark, 0.4);
     }
+  }
+}
 
-    &.selected {
-        border-color: #3b82f6;
-        background: linear-gradient(145deg, #18223d, #1e294b);
-        box-shadow: 0 0 0 2px #3b82f6, 0 8px 24px rgba(59, 130, 246, 0.25);
+.filter-group {
+  background-color: #1a1d2e;
+  border-radius: t.$radius-pill;
+  border: 1px solid t.$color-border-card;
 
-        .avatar-circle {
-            border-color: #3b82f6;
-            background-color: rgba(59, 130, 246, 0.15);
-        }
+  .btn-filter {
+    color: t.$color-text-dark;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: t.$font-size-base;
+    transition: all t.$transition-base;
+
+    &:hover { color: t.$text-on-dark; }
+
+    &.active {
+      background-color: t.$brand-secondary;
+      color: t.$text-on-dark;
+      @include t.glow-blue();
     }
+  }
+}
+
+.sports-card {
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  cursor: pointer;
+  transition:
+    transform t.$transition-base cubic-bezier(0.4, 0, 0.2, 1),
+    border-color t.$transition-base,
+    box-shadow t.$transition-base;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: #4b5563;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  &.selected {
+    border-color: t.$brand-secondary;
+    background: linear-gradient(145deg, #18223d, #1e294b);
+    box-shadow: 0 0 0 2px t.$brand-secondary, 0 8px 24px rgba(t.$brand-secondary, 0.25);
 
     .avatar-circle {
-        width: 64px;
-        height: 64px;
-        background-color: #252a41;
-        border: 2px solid #343b5c;
-        border-radius: 50%;
-        transition: all 0.2s ease;
+      border-color: t.$brand-secondary;
+      background-color: rgba(t.$brand-secondary, 0.15);
     }
+  }
 
-    .card-title {
-        color: #f3f4f6;
-        font-size: 1.2rem;
-        letter-spacing: -0.3px;
-    }
+  .avatar-circle {
+    width: 64px;
+    height: 64px;
+    background-color: #252a41;
+    border: 2px solid t.$color-border-card;
+    border-radius: t.$radius-full;
+    transition: all t.$transition-base;
+  }
 
-    .border-dark {
-        border-color: #2a2f45 !important;
-    }
+  .card-title {
+    color: #f3f4f6;
+    font-size: t.$font-size-2xl;
+    letter-spacing: -0.3px;
+  }
+
+  .border-dark { border-color: t.$color-border-card !important; }
 }

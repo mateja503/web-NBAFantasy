@@ -1,32 +1,28 @@
-// @use '../styles.scss' as s;
+@use '../styles/token.scss' as t;
 
-.nba-header{
-  background-color: #2f71f4;
-  color: #fff;
-  padding: 1rem;
+
+.nba-header {
+  background-color: t.$brand-primary;
+  color: t.$text-on-dark;
+  padding: t.$space-4;
   display: flex;
   justify-content: space-between;
   text-align: center;
   align-items: center;
 }
 
-.header-tittle{
+.header-tittle {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: t.$space-4;
 }
 
-.header-tittle .logo{
+.header-tittle .logo {
   width: 2.5%;
   height: 2.5%;
 }
 
-.header-tittle .tittle .logo{
+.header-elements {
   display: flex;
-  align-items: center;
-}
-
-.header-elements{
-  display: flex;
-  gap: 1rem;
+  gap: t.$space-4;
 }

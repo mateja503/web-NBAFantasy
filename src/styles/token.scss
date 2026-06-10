@@ -1,0 +1,156 @@
+// =============================================================================
+// _tokens.scss — Design Tokens (Single Source of Truth)
+// =============================================================================
+// USAGE: @use 'tokens' as t;  then: color: t.$color-accent-cyan;
+//
+// WHY A TOKENS FILE?
+//   Instead of hunting down "#00fbff" in 6 different files when you rebrand,
+//   you change ONE value here and the entire app updates. This pattern is
+//   standard in design systems (Material Design, Tailwind, Ant Design all do it).
+//
+// HOW THIS MAPS TO DEVOPS:
+//   In a CI pipeline you could auto-generate this file from a design tool (Figma
+//   tokens plugin → JSON → SCSS transform step). The pipeline owns the tokens.
+// =============================================================================
+
+
+// -----------------------------------------------------------------------------
+// COLOR PALETTE — raw named colors, no semantic meaning yet
+// -----------------------------------------------------------------------------
+
+// Backgrounds
+$color-bg-deepest:      #121212;   // used in drafted-players, list-players
+$color-bg-dark:         #1a1a1a;   // draft-board, drafted-players container
+$color-bg-card:         #1a1e24;   // draft-list-players card
+$color-bg-row:          #121519;   // draft-list-players row
+$color-bg-sidebar:      #4a83f5;
+$color-bg-sidebar-item: #3b6fd1;
+$color-bg-sidebar-hover:#2a4e9c;
+$color-bg-primary:      #2f71f4;   // header, league form, my-teams container
+$color-bg-btn:          #1e4472e4;
+$color-bg-btn-hover:    #01101a;
+$color-bg-dashboard:    rgb(212, 215, 249); // used as page background on many components
+$color-bg-dark-blue: rgb(0, 0, 139);
+
+// Accent / Brand
+$color-accent-cyan:     #00fbff;   // THE scattered accent — draft board glow, badges, headers
+$color-accent-blue:     #3b82f6;   // my-teams selected state, filter active
+$color-accent-green:    #43a047;   // position badge G
+$color-accent-red:      #e53935;   // position badge F
+$color-accent-orange:   #fb8c00;   // position badge CF
+
+// Text
+$color-text-primary:    #ffffff;
+$color-text-muted:      #aaaaaa;
+$color-text-subtle:     #888888;
+$color-text-dark:       #a0a5c0;   // my-teams filter button inactive
+
+// Borders
+$color-border-dark:     #333333;
+$color-border-card:     #2a2f45;
+$color-border-subtle:   rgba(255, 255, 255, 0.1);
+
+
+// -----------------------------------------------------------------------------
+// SEMANTIC ALIASES — "what is it for" rather than "what color is it"
+// These are what your components should actually import.
+// Swapping a theme means only touching the alias assignments below.
+// -----------------------------------------------------------------------------
+
+$surface-page:          $color-bg-dashboard;
+$surface-panel:         $color-bg-dark;
+$surface-card:          $color-bg-card;
+$surface-row:           $color-bg-row;
+
+$brand-primary:         $color-bg-primary;
+$brand-accent:          $color-accent-cyan;
+$brand-secondary:       $color-accent-blue;
+
+$text-on-dark:          $color-text-primary;
+$text-muted:            $color-text-muted;
+$text-subtle:           $color-text-subtle;
+
+$border-default:        $color-border-dark;
+$border-card:           $color-border-card;
+
+
+// -----------------------------------------------------------------------------
+// SPACING — consistent scale so you stop using random px values
+// -----------------------------------------------------------------------------
+// Base unit: 4px (follows Material/Tailwind convention)
+
+$space-1:  4px;
+$space-2:  8px;
+$space-3:  12px;
+$space-4:  16px;
+$space-5:  20px;
+$space-6:  24px;
+$space-8:  32px;
+$space-10: 40px;
+$space-12: 48px;
+
+
+// -----------------------------------------------------------------------------
+// BORDER RADIUS
+// -----------------------------------------------------------------------------
+
+$radius-sm:   4px;
+$radius-md:   8px;
+$radius-lg:   16px;
+$radius-pill: 30px;
+$radius-full: 9999px;
+
+
+// -----------------------------------------------------------------------------
+// TYPOGRAPHY
+// -----------------------------------------------------------------------------
+
+$font-family-base:  'Roboto', sans-serif;
+$font-family-mono:  'Courier New', monospace;
+
+$font-size-xs:   0.65rem;
+$font-size-sm:   0.75rem;
+$font-size-base: 0.9rem;
+$font-size-md:   1rem;
+$font-size-lg:   1.1rem;
+$font-size-xl:   1.2rem;
+$font-size-2xl:  1.4rem;
+$font-size-3xl:  1.8rem;
+
+
+// -----------------------------------------------------------------------------
+// Z-INDEX SCALE — stops z-index: 9999 appearing randomly in your codebase
+// -----------------------------------------------------------------------------
+
+$z-below:    -1;
+$z-base:      0;
+$z-raised:    1;
+$z-dropdown: 10;
+$z-sticky:   20;
+$z-modal:    50;
+$z-toast:   100;
+
+
+// -----------------------------------------------------------------------------
+// TRANSITIONS — consistent motion values
+// -----------------------------------------------------------------------------
+
+$transition-fast:   0.1s ease;
+$transition-base:   0.2s ease;
+$transition-slow:   0.3s ease;
+
+
+// -----------------------------------------------------------------------------
+// GLOW MIXINS — reusable for your cyan-accent glow pattern
+// -----------------------------------------------------------------------------
+
+@mixin glow-cyan($intensity: 0.25) {
+  box-shadow: 0 0 8px rgba($color-accent-cyan, $intensity);
+}
+
+@mixin glow-blue($intensity: 0.3) {
+  box-shadow: 0 4px 12px rgba($color-accent-blue, $intensity);
+}
+
+// Usage example:
+//   .my-element { @include glow-cyan(); }

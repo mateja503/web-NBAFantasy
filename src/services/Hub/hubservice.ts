@@ -15,7 +15,7 @@ export abstract class Hubservice {
   protected abstract readonly retryTime: number;
   
 
-  public startConnection = (params?: {[key:string]:string | number}) => {
+  public startConnection = (params?: {[key:string]:string | number}): Promise<void> => {
     let url =`https://localhost:7041/${this.hubUrl}`;
 
     if(params){
@@ -31,7 +31,7 @@ export abstract class Hubservice {
       .withAutomaticReconnect()
       .build()
 
-    this.hubConnection
+    return this.hubConnection
       .start()
       .then(() => {
         console.log('Connection started')

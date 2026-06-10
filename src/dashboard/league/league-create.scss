@@ -1,55 +1,54 @@
-// @use '../../styles.scss' as s;
+// league-create.scss
+@use '../../styles/token.scss' as t;
 
-:host{
-    display: inline;
-    width: 100%;
-    background-color: rgb(212, 215, 249)
+:host {
+  display: inline;
+  width: 100%;
+  background-color: t.$surface-page;
 }
 
-.league-container{
-    display: flex;
-    justify-content: center;
-    padding: 3rem;
+.league-container {
+  display: flex;
+  justify-content: center;
+  padding: t.$space-12;
 }
 
- .league-container .league-form{
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    flex-direction: row;
-    padding: 3rem;
-    gap: 1rem;
-    background-color: #2f71f4;
-    border-radius: 100px;
+.league-container .league-form {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: t.$space-12;
+  gap: t.$space-4;
+  background-color: t.$brand-primary;
+  border-radius: 100px;
 }
 
-
-h3,h4{
-    color: black;
+h3, h4 {
+  color: black;
 }
 
-.league-input{
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+.league-input {
+  display: flex;
+  justify-content: center;
+  padding: t.$space-2 + 2;
 }
 
-.radiobtn-label{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-    font-size: 20px;
+.radiobtn-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: t.$font-size-xl;
 }
 
-.form-grid.season-rules{
-    display: flex;
-    gap: 1rem;
+.form-grid.season-rules {
+  display: flex;
+  gap: t.$space-4;
 }
 
 .scoring-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 3fr); 
-    gap: 1rem; 
+  display: grid;
+  grid-template-columns: repeat(7, 3fr);
+  gap: t.$space-4;
 }
-

@@ -1,48 +1,46 @@
-// Base container overrides to keep sizes perfectly locked
+// draft-board.scss
+@use '../../../../src/styles/token.scss' as t;
+
 .draft-board-container.style-override {
-  background-color: #1a1a1a;
-  color: white;
-  padding: 20px !important; // Slightly reduced padding to guarantee breathing room
+  background-color: t.$surface-panel;
+  color: t.$text-on-dark;
+  padding: t.$space-5 !important;
   box-sizing: border-box;
-  // border-right: 4px solid #00fbff;
-  
-  // Enforces structural absolute boundaries so long text cannot widen it
-  max-width: 100%; 
+  max-width: 100%;
   max-height: 100%;
 }
 
 .status-label {
-  color: #00fbff;
+  color: t.$brand-accent;
   font-weight: bold;
   letter-spacing: 3px;
-  font-size: 1.2rem;
+  font-size: t.$font-size-xl;
 }
 
 .team-logo {
   width: 90px;
   height: 90px;
   background: #333;
-  border-radius: 50%;
-  border: 3px solid #00fbff;
+  border-radius: t.$radius-full;
+  border: 3px solid t.$brand-accent;
 }
 
-// Fixed sizing rule for the team name text
 .current-team-text {
-  font-size: clamp(2rem, 5vw, 3.8rem); // Dynamically shrinks if screen or container scales down
+  font-size: clamp(2rem, 5vw, 3.8rem);
   font-weight: bold;
   line-height: 1.1;
-  white-space: nowrap; // Keeps it on a single line
+  white-space: nowrap;
 }
 
 .queue-header {
-  color: #888;
+  color: t.$text-subtle;
   font-weight: bold;
   letter-spacing: 2px;
-  font-size: 1.1rem;
+  font-size: t.$font-size-lg;
 }
 
 .queue-item {
-  font-size: 1.8rem;
-  padding: 12px 0;
+  font-size: t.$font-size-3xl;
+  padding: t.$space-3 0;
   border-bottom: 1px solid #222;
 }

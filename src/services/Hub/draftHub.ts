@@ -59,8 +59,9 @@ export class DraftHub extends Hubservice {
   }
 
   public initialize(leagueId: number) {
-    this.startConnection({ leagueId });
-    this.updateDraftState();
+    this.startConnection({ leagueId }).then(() => {
+      this.updateDraftState();
+    });
   }
 
 

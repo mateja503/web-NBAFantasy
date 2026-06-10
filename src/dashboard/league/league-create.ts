@@ -85,7 +85,7 @@ export class LeagueCreate implements OnInit {
     this.subscriptions.push(subscribtion);
   }
 
-  ngDestroy(): void {
+  ngOnDestroy(): void {
     this.subscriptions.forEach(u => u.unsubscribe())
   }
 }

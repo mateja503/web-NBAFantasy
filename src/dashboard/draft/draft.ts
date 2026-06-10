@@ -24,13 +24,14 @@ export class Draft implements OnInit {
   
   public draftHub = inject(DraftHub);
   readonly globalStore = inject(GlobalStore);
+  public readonly leagueId = this.globalStore.selectedLeagueId() ?? 0;
 
   ngOnInit(): void {
-    if(!this.globalStore.selectedLeagueId()){
+    if(!this.leagueId){
       alert('Please select a league to start the draft!');
       return;
     }
-    this.draftHub.initialize(this.globalStore.selectedLeagueId()!); 
+    this.draftHub.initialize(this.leagueId); 
   }
 
 tiles: Tile[] = [

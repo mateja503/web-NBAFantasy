@@ -1,86 +1,88 @@
+// join-league.scss
+@use '../../../src/styles/token.scss' as t;
+
 :host {
-    display: inline;
-    width: 100%;
-    background-color: rgb(212, 215, 249);
+  display: inline;
+  width: 100%;
+  background-color: t.$surface-page;
 }
 
 .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .sub-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: t.$space-4;
 }
 
 .sub-header app-button {
-    margin-bottom: 0.5rem;
+  margin-bottom: t.$space-1 + 2;
 }
 
 .join-league-container {
-    display: flex;
-    justify-content: center;
-    padding: 3rem;
+  display: flex;
+  justify-content: center;
+  padding: t.$space-12;
 }
 
 .join-league-container .join-league-form {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex-direction: row;
-    padding: 3rem;
-    gap: 1rem;
-    background-color: #2f71f4;
-    border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: t.$space-12;
+  gap: t.$space-4;
+  background-color: t.$brand-primary;
+  border-radius: 100px;
 }
 
 .mat-mdc-table {
-    border-radius: 100px;
-    width: 100%;
+  border-radius: 100px;
+  width: 100%;
 }
 
 .mat-mdc-row .mat-mdc-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
 }
 
 .mat-mdc-row:hover .mat-mdc-cell {
-    border-color: currentColor;
+  border-color: currentColor;
 }
 
 .mat-mdc-header-cell {
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    background-color: #1e4472e4 !important;
-    border: 1px solid white !important;
+  font-size: t.$font-size-md;
+  font-weight: 500;
+  color: t.$text-on-dark;
+  background-color: t.$color-bg-btn !important;
+  border: 1px solid t.$text-on-dark !important;
 }
 
 .mat-mdc-cell {
-    flex-direction: row;
-    font-size: 14px;
-    color: white;
-    background-color: #1e447280 !important;
-    border: 1px solid white !important;
-    text-align: center;
-    cursor: pointer;
+  flex-direction: row;
+  font-size: 14px;
+  color: t.$text-on-dark;
+  background-color: rgba(30, 68, 114, 0.5) !important;
+  border: 1px solid t.$text-on-dark !important;
+  text-align: center;
+  cursor: pointer;
 }
 
 .table-scroll {
-    max-height: 400px;
-    /* Adjust height as needed */
-    overflow: auto;
-    border: 1px solid white;
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid t.$text-on-dark;
 }
 
 .mat-mdc-row.selected-row .mat-mdc-cell {
-    background-color: #0d1b2a !important;
-    color: #00d4ff !important;
-    border-color: #00d4ff !important;
+  background-color: #0d1b2a !important;
+  color: #00d4ff !important;
+  border-color: #00d4ff !important;
 }

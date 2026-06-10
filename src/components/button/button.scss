@@ -1,29 +1,35 @@
-.button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1e4472e4;
-    color: white;
-    border: white solid 1px;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 15px;
-    width: 100px;
-    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+// button.scss
+@use '../../../src/styles/token.scss' as t;
 
-}
-.button:hover{
-    background-color: #01101a;
-    opacity: 0.9; 
-}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: t.$color-bg-btn;
+  color: t.$text-on-dark;
+  border: t.$text-on-dark solid 1px;
+  padding: t.$space-2 + 2 t.$space-5;
+  cursor: pointer;
+  border-radius: 15px;
+  width: 100px;
+  transition:
+    background-color t.$transition-slow,
+    opacity t.$transition-slow,
+    transform t.$transition-fast;
 
-.button:disabled {
-    opacity: 0.4;            
-    cursor: not-allowed;     
-    background-color: #1e447280; 
-    pointer-events: none;    
-}
+  &:hover {
+    background-color: t.$color-bg-btn-hover;
+    opacity: 0.9;
+  }
 
-.button:active:not(:disabled) {
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: rgba(30, 68, 114, 0.5);
+    pointer-events: none;
+  }
+
+  &:active:not(:disabled) {
     transform: scale(0.98);
+  }
 }
