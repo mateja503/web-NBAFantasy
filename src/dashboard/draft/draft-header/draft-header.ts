@@ -3,6 +3,7 @@ import { DraftHub } from '../../../services/Hub/draftHub';
 import { Button } from '../../../components/button/button';
 import { DraftService,DraftRequest } from '../../../services/draft-service';
 import { OutletContext } from '@angular/router';
+import { GlobalStore } from '../../../store/globalStore';
 
 @Component({
   selector: 'app-draft-header',
@@ -14,13 +15,15 @@ export class DraftHeader {
 
   public draftHub = inject(DraftHub);
   private draftService = inject(DraftService);
+  private globalStore = inject(GlobalStore);
+  public readonly leagueId = this.globalStore.selectedLeagueId() ?? 0;
 
   @Output() onResetTimer = new EventEmitter<void>();
   @Input() draftStarted: boolean = false;
 
   startDraft(){
     console.log('Starting draft...')
-    const request: DraftRequest = { leagueId: 1 }; // Now typed!
+    const request: DraftRequest = { leagueId: this.leagueId }; 
       this.draftService.startDraft(request).subscribe({
         next: (response) => {
           console.log('Draft started successfully', response);
@@ -33,7 +36,7 @@ export class DraftHeader {
 
   endDraft(){
     console.log('Ending draft...')
-    const request: DraftRequest = { leagueId: 1 }; // Now typed!
+    const request: DraftRequest = { leagueId: this.leagueId };
       this.draftService.endDraft(request).subscribe({
         next: (response) => {
           console.log('Draft ended successfully', response);
