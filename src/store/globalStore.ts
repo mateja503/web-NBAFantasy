@@ -20,6 +20,11 @@ export interface LeagueInStorage {
 export interface UserState {
   username: string;
   userid: number;
+  // NOTE: persisting the JWT in localStorage (with the rest of UserState) keeps
+  // it readable by any script on the page, so it is exposed to XSS. It's kept
+  // here to match the existing persistence model; the more secure long-term
+  // option is an in-memory token + httpOnly refresh cookie issued by the API.
+  token?: string;
   selectedTeamId?: number;
   selectedTeamName?: string;
   selectedLeagueId?: number;
@@ -55,6 +60,8 @@ export const GlobalStore = signalStore(
 
   // 2. Computed Getters
   withComputed(({ user }) => ({
+    isLoggedIn: computed(() => user() != null),
+    token: computed(() => user()?.token ?? null),
     managedTeams: computed(() => user()?.teams ?? []),
     commissionerLeagues: computed(() => user()?.leagues ?? []),
     selectedTeamId: computed(() => user()?.selectedTeamId),
@@ -72,6 +79,7 @@ export const GlobalStore = signalStore(
       let userState: UserState = {
         username: data.username ?? '',
         userid: data.userid ?? 0,
+        token: data.token,
         teams: data.teams.map(t => ({
           teamId: t.teamid,
           name: t.name,

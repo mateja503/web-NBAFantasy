@@ -42,10 +42,12 @@ export class Header {
     })
 
     dialogRef.afterClosed().subscribe((result?: DialogResponse) => {
-        console.log('This is the dialog results from login page', result);
-        this.authService.login({ username: result?.username, password: result?.password }).subscribe({
-          next: (response:UserResponse) => {
-            console.log('Login successful:', response);
+        // Dialog was cancelled / dismissed — nothing to submit.
+        if (!result?.username || !result?.password) {
+          return;
+        }
+        this.authService.login({ username: result.username, password: result.password }).subscribe({
+          next: (response: UserResponse) => {
             this.globalStore.loginSuccess(response);
           },
           error: (error) => {

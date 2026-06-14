@@ -7,13 +7,15 @@ import { Team } from '../dashboard/team/team';
 import { JoinLeague } from '../dashboard/join-league/join-league';
 import { Chatroom } from '../dashboard/chatroom/chatroom';
 import { MyTeamsAndLeagues } from '../dashboard/my-teams-and-leagues/my-teams-and-leagues';
+import { authGuard } from './core/auth/auth.guard';
+
 export const routes: Routes = [
-    { path: 'draft', component: Draft },
-    { path: 'trade', component: Trade  },
-    { path: 'league/create', component: LeagueCreate  },
     { path: 'home', component: Home },
-    { path: 'league/join', component: JoinLeague },
-    { path: 'team', component: Team },
-    { path: 'chatroom', component: Chatroom },
-    { path: 'my-teams-leagues', component : MyTeamsAndLeagues },
+    { path: 'draft', component: Draft, canActivate: [authGuard] },
+    { path: 'trade', component: Trade, canActivate: [authGuard] },
+    { path: 'league/create', component: LeagueCreate, canActivate: [authGuard] },
+    { path: 'league/join', component: JoinLeague, canActivate: [authGuard] },
+    { path: 'team', component: Team, canActivate: [authGuard] },
+    { path: 'chatroom', component: Chatroom, canActivate: [authGuard] },
+    { path: 'my-teams-leagues', component: MyTeamsAndLeagues, canActivate: [authGuard] },
 ];
