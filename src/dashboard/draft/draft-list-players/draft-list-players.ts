@@ -26,7 +26,9 @@ export class DraftListPlayers {
 
   @Input() onTheClock: TeamDraftBoard | null = null;
   @Input() draftStarted: boolean = false;
-  @Output() onPlayerDrafted = new EventEmitter<{leagueId:number,playerId:number, pick:number}>();
+  // The parent (Draft) owns the leagueId and supplies it when calling the hub,
+  // so this leaf only reports which player was picked, not which league.
+  @Output() onPlayerDrafted = new EventEmitter<{playerId:number, pick:number}>();
 
   public searchQuery = signal<string>('');
 
@@ -68,7 +70,6 @@ export class DraftListPlayers {
       console.log('Draft has not started yet.');
       return;
     }
-    console.log(`Drafting player: ${playerId}`);
-    this.onPlayerDrafted.emit({ leagueId: 1, playerId, pick: this.onTheClock?.pick || 0 });
+    this.onPlayerDrafted.emit({ playerId, pick: this.onTheClock?.pick || 0 });
   }
 }
