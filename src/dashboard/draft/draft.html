@@ -8,7 +8,7 @@
 
     <mat-grid-tile colspan="12" rowspan="1" class="tile-header">
       <app-draft-header (onResetTimer)="draftHub.resetTimer(leagueId)"
-        [draftStarted]="draftHub.isDraftStarted()"></app-draft-header>
+        [draftStarted]="isDraftStarted()"></app-draft-header>
     </mat-grid-tile>
 
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
@@ -19,7 +19,7 @@
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
       <app-draft-list-players [draftPlayers]="draftHub.draftPlayers()" [onTheClock]="draftHub.teamOnTheClock()"
         (onPlayerDrafted)="draftHub.draftPlayer(leagueId, $event.playerId, $event.pick)"
-        [draftStarted]="draftHub.isDraftStarted()"></app-draft-list-players>
+        [draftStarted]="isDraftStarted()"></app-draft-list-players>
 
     </mat-grid-tile>
     

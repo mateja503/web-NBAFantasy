@@ -4,6 +4,14 @@ import { Injectable, } from '@angular/core';
 import { HubMethods } from '../../constraints/HubMethods';
 import { Hubservice } from './hubservice';
 
+export enum DraftStatus{
+  Initial = 0,
+  DraftStarted = 1,
+  Paused = 2,
+  DraftEnded = 3,
+  DraftCompleted = 4
+}
+
 export interface TeamDraftBoard {
   teamId: number;
   teamName: string;
@@ -26,9 +34,7 @@ interface DraftBoardTeams {
 interface DraftState {
   leagueName: string;
   pickEndTime: string;
-  isPaused: boolean;
-  isDraftStarted: boolean;
-  isDraftEnded: boolean;
+  draftStatus: DraftStatus;
   draftBoardTeams: DraftBoardTeams
   draftPlayers: DraftPlayer[];
   draftedPlayersPerTeam: Record<number, DraftPlayer[]>;
@@ -45,8 +51,7 @@ export class DraftHub extends Hubservice {
   leagueName = signal<string>('Loading...');
   displayTime = signal<string>('00:00');
   round = signal<number>(1);
-  isDraftEnded = signal<boolean>(false);
-  isDraftStarted = signal<boolean>(false);
+  draftStatus = signal<DraftStatus>(DraftStatus.Initial);
   teamsDraftedPlayers = signal<Record<number, DraftPlayer[]>>({});
   teamOnTheClock = signal<TeamDraftBoard | null>(null)
   draftTeams = signal<TeamDraftBoard[]>([])
@@ -87,8 +92,9 @@ export class DraftHub extends Hubservice {
     this.round.set(data.draftBoardTeams.currentRound);
     this.teamOnTheClock.set(data.draftBoardTeams.onTheClockTeam)
     this.draftTeams.set(data.draftBoardTeams.draftOrder)
-    this.isDraftEnded.set(data.isDraftEnded);
-    this.isDraftStarted.set(data.isDraftStarted);
+    this.draftStatus.set(data.draftStatus);
+
+    
     this.draftPlayers.set(data.draftPlayers);
     this.teamsDraftedPlayers.set(data.draftedPlayersPerTeam);
   }
@@ -103,8 +109,8 @@ export class DraftHub extends Hubservice {
     this.hubConnection.invoke(HubMethods.Client.ResetTimer, leagueId)
       .then((data: DraftState) => {
         console.log('Reset command successfully sent to server');
-        console.log(`Timer Reset - League: ${data.leagueName}, EndTime: ${data.pickEndTime}, IsPaused: ${data.isPaused}`);
-        console.log(`Draft State - Round: ${data}, DraftEnded: ${data.isDraftEnded}`);
+        console.log(`Timer Reset - League: ${data.leagueName}, EndTime: ${data.pickEndTime}, DraftStatus: ${DraftStatus[data.draftStatus] }`);
+        // console.log(`Draft State - Round: ${data}, DraftEnded: ${data.isDraftEnded}`);
       })
       .catch((err: any) => {
         console.error('Error while invoking ResetTimer: ' + err);

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { DraftHub } from '../../services/Hub/draftHub';
+import { DraftHub, DraftStatus } from '../../services/Hub/draftHub';
 import { GlobalStore } from '../../store/globalStore';
 import { SharedModule } from '../../app/app.module';
 import { DraftHeader } from './draft-header/draft-header';
@@ -32,6 +32,11 @@ export class Draft implements OnInit {
       return;
     }
     this.draftHub.initialize(this.leagueId); 
+  }
+
+  isDraftStarted(): boolean {
+    console.log('Draft Status:', this.draftHub.draftStatus());
+    return this.draftHub.draftStatus() === DraftStatus.DraftStarted;
   }
 
 tiles: Tile[] = [

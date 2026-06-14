@@ -45,7 +45,7 @@ export class DraftHeader {
           console.error('Error ending draft', error);
         }
       })
-     console.log('Draft state', this.draftHub.isDraftEnded());
+     console.log('Draft state', this.draftHub.draftStatus());
   }
 
   resetTimer(){
