@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { ChangeDetectorRef, Component, inject, model, Signal, signal, } from '@angular/core';
 import { HubMethods } from '../../constraints/HubMethods';
+import { ConfigService } from '../../app/core/config/config.service';
 
 
 @Injectable({
@@ -13,10 +14,11 @@ export abstract class Hubservice {
 
   protected abstract hubUrl: string;
   protected abstract readonly retryTime: number;
-  
+
+  protected config = inject(ConfigService);
 
   public startConnection = (params?: {[key:string]:string | number}): Promise<void> => {
-    let url =`https://localhost:7041/${this.hubUrl}`;
+    let url =`${this.config.apiBaseUrl}/${this.hubUrl}`;
 
     if(params){
       const queryParams = new URLSearchParams();

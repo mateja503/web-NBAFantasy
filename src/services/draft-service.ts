@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Team } from './team-service';
+import { ConfigService } from '../app/core/config/config.service';
 
 export interface DraftRequest{
   leagueId?: number;
@@ -19,7 +20,8 @@ export interface DraftTeamsResponse{
 export class DraftService {
 
   private http = inject(HttpClient);
-   private draftUrl = 'https://localhost:7041/v1/draft'
+  private config = inject(ConfigService);
+  private get draftUrl() { return `${this.config.apiBaseUrl}/v1/draft`; }
 
   startDraft(data: DraftRequest): Observable<any>{
        return this.http.post(`${this.draftUrl}/start-draft`, data)

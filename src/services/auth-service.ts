@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Team } from './team-service';
 import { League } from './league-service';
+import { ConfigService } from '../app/core/config/config.service';
 
 export interface UserResponse {
   token?: string;
@@ -17,9 +18,10 @@ export interface UserResponse {
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private config = inject(ConfigService);
 //   private readonly TOKEN_KEY = 'auth_token';
 
-private baseUrl = 'https://localhost:7041/v1/auth'
+  private get baseUrl() { return `${this.config.apiBaseUrl}/v1/auth`; }
 
 
   // Track auth state

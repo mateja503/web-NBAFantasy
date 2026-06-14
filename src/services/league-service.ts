@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Team } from './team-service';
+import { ConfigService } from '../app/core/config/config.service';
 
 export interface League {
   leagueid: number;
@@ -22,7 +23,8 @@ export interface League {
   providedIn: 'root',
 })
 export class LeagueService {
-  private leagueurl = 'https://localhost:7041/v1/league'
+  private config = inject(ConfigService);
+  private get leagueurl() { return `${this.config.apiBaseUrl}/v1/league`; }
 
   constructor(private http: HttpClient){}
 
