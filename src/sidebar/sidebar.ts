@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon'; 
-import { RouterModule } from '@angular/router';
 import {MatAccordion} from '@angular/material/expansion';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { SharedModule } from '../app/app.module';
 @Component({
   selector: 'app-sidebar',
-  imports: [MatSidenavModule, MatIconModule, RouterModule, MatAccordion,MatExpansionModule],
+  imports: [SharedModule, MatAccordion],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })

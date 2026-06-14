@@ -1,6 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DraftHub } from '../../../services/Hub/draftHub';
-import { Button } from '../../../components/button/button';
 import { DraftService,DraftRequest } from '../../../services/draft-service';
 import { OutletContext } from '@angular/router';
 import { GlobalStore } from '../../../store/globalStore';

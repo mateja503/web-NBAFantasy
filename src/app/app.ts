@@ -3,12 +3,14 @@ import { RouterOutlet } from '@angular/router';
 import { LeagueService } from '../services/league-service';
 import { NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { Header } from '../header/header';
+import { SharedModule } from './app.module';
+import { Footer } from '../footer/footer';
 import { Sidebar } from '../sidebar/sidebar';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Sidebar],
+  imports: [SharedModule, RouterOutlet, Header, Sidebar, NgClass],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

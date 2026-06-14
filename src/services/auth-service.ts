@@ -21,7 +21,7 @@ export class AuthService {
 
 private baseUrl = 'https://localhost:7041/v1/auth'
 
-  
+
   // Track auth state
   private currentUserSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.currentUserSubject.asObservable();

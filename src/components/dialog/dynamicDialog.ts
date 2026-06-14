@@ -10,7 +10,7 @@ import { Custominput } from '../custominput/custominput';
 
 @Component({
   selector: 'app-dynamicDialog',
-  imports: [MatDialogModule, MatFormFieldModule,FormsModule, Button,MatInputModule, Custominput ],
+  imports: [MatDialogModule, MatFormFieldModule, FormsModule, Button, MatInputModule, Custominput],
   templateUrl: './dynamicDialog.html',
   styleUrl: './dynamicDialog.scss',
 })

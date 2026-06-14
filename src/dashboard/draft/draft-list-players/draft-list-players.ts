@@ -1,12 +1,12 @@
 import { Component, computed, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- 1. Import CommonModule
 import { DraftHub, DraftPlayer, TeamDraftBoard } from '../../../services/Hub/draftHub';
-import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../../../app/app.module';
 
 @Component({
   selector: 'app-draft-list-players',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [SharedModule],
   templateUrl: './draft-list-players.html',
   styleUrl: './draft-list-players.scss',
 })

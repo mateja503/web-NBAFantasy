@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatRadioModule } from '@angular/material/radio'
-import { MatIconModule } from '@angular/material/icon';
-import { Button } from '../../components/button/button';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LeagueService } from '../../services/league-service';
-import { Custominput } from '../../components/custominput/custominput';
 import { SharedModule } from '../../app/app.module';
 @Component({
   selector: 'app-league',
-  // imports: [MatInputModule, MatFormFieldModule, MatRadioModule, MatIconModule, Button, ReactiveFormsModule, Custominput],
+  // imports: [SharedModule],
    imports: [SharedModule],
    standalone: true,
   templateUrl: './league-create.html',

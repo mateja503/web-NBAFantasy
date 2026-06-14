@@ -1,20 +1,13 @@
 import { ChangeDetectorRef, Component, inject, model, Signal, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { Button } from '../../components/button/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormControl, FormGroup } from '@angular/forms';
 import { League } from '../../models/league';
 import { LeagueService } from '../../services/league-service';
 import { Observable, Subscription } from 'rxjs';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { DynamicDialog } from '../../components/dialog/dynamicDialog';
 import { GlobalStore } from '../../store/globalStore';
+import { SharedModule } from '../../app/app.module';
+import { DynamicDialog } from '../../components/dialog/dynamicDialog';
 
 interface DialogResponse {
   teamName?: string;
@@ -22,11 +15,7 @@ interface DialogResponse {
 
 @Component({
   selector: 'app-join-league',
-  imports: [
-    ReactiveFormsModule, MatInputModule, MatFormFieldModule, 
-    MatRadioModule, MatIconModule, Button, AsyncPipe,
-    MatTableModule, MatPaginatorModule, ScrollingModule
-  ],
+  imports: [SharedModule, AsyncPipe],
   templateUrl: './join-league.html',
   styleUrl: './join-league.scss',
 })

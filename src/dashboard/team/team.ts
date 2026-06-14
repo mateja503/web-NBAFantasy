@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { Button } from '../../components/button/button';
+import { FormControl, FormGroup } from '@angular/forms';
+import { SharedModule } from '../../app/app.module';
 
 @Component({
   selector: 'app-team',
-  imports: [MatInputModule, MatFormFieldModule, MatRadioModule, MatIconModule, ReactiveFormsModule],
+  imports: [SharedModule],
   templateUrl: './team.html',
   styleUrl: './team.scss',
 })

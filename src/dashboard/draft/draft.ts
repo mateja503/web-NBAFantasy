@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { DraftHeader } from './draft-header/draft-header';
 import { DraftHub } from '../../services/Hub/draftHub';
+import { GlobalStore } from '../../store/globalStore';
+import { SharedModule } from '../../app/app.module';
+import { DraftHeader } from './draft-header/draft-header';
 import { DraftBoard } from './draft-board/draft-board';
 import { DraftListPlayers } from './draft-list-players/draft-list-players';
-import { GlobalStore } from '../../store/globalStore';
 import { DraftedPlayers } from './drafted-players/drafted-players';
-import { SharedModule } from '../../app/app.module';
 export interface Tile {
   color: string;
   cols: number;
@@ -16,7 +15,7 @@ export interface Tile {
 
 @Component({
   selector: 'app-draft',
-  imports: [SharedModule,DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers],          // ← was: MatGridListModule, DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers
+  imports: [SharedModule, DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers],          // ← was: MatGridListModule, DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers
   templateUrl: './draft.html',
   styleUrl: './draft.scss',
 })

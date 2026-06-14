@@ -7,7 +7,7 @@ import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-custominput',
-  imports: [ MatRadioModule,CommonModule, FormsModule, MatLabel, MatFormFieldModule, MatInputModule],
+  imports: [MatRadioModule, CommonModule, FormsModule, MatLabel, MatFormFieldModule, MatInputModule],
   templateUrl: './custominput.html',
   styleUrl: './custominput.scss',
 })

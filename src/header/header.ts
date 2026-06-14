@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { Button } from '../components/button/button';
 import { MatDialog } from '@angular/material/dialog';
-import { DynamicDialog } from '../components/dialog/dynamicDialog';
 import { AuthService, UserResponse } from '../services/auth-service';
 import { GlobalStore } from '../store/globalStore';
+import { SharedModule } from '../app/app.module';
+import { DynamicDialog } from '../components/dialog/dynamicDialog';
 
 interface DialogResponse {
   username: string;
@@ -13,7 +13,7 @@ interface DialogResponse {
 
 @Component({
   selector: 'app-header',
-  imports: [Button],
+  imports: [SharedModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

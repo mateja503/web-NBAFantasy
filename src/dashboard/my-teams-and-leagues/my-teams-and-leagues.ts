@@ -1,7 +1,6 @@
 import { Component, signal, computed, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { GlobalStore } from '../../store/globalStore';
-import { Button } from '../../components/button/button';
+import { SharedModule } from '../../app/app.module';
 
 interface DashboardItem {
   id: number;
@@ -19,7 +18,7 @@ interface DashboardItem {
 @Component({
   selector: 'app-my-teams-and-leagues',
   standalone: true,
-  imports: [CommonModule, Button],
+  imports: [SharedModule],
   templateUrl: './my-teams-and-leagues.html',
   styleUrl: './my-teams-and-leagues.scss',
 })

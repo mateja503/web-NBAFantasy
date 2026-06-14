@@ -8,14 +8,14 @@ export interface League {
   name: string;
   commissioner: number;
   seasonyear: string;
-  weeksforseason?: number;       
-  transactionlimit?: number;    
-  autostart?: boolean;         
-  typetransactionlimits?: number; 
-  typeleague?: number;          
-  draftstyle?: number;          
+  weeksforseason?: number;
+  transactionlimit?: number;
+  autostart?: boolean;
+  typetransactionlimits?: number;
+  typeleague?: number;
+  draftstyle?: number;
   statsvalueid?: number;
-  commissionersTeam?: Team;       
+  commissionersTeam?: Team;
 }
 
 @Injectable({
@@ -38,5 +38,5 @@ export class LeagueService {
         return this.http.post<any>(`${this.leagueurl}/join`, data)
     }
 
- 
+
 }

@@ -1,11 +1,10 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { Custominput } from '../../components/custominput/custominput';
-import { Button } from '../../components/button/button';
 import { ChatHub } from '../../services/Hub/chatHub';
+import { SharedModule } from '../../app/app.module';
 
 @Component({
   selector: 'app-chatroom',
-  imports: [Custominput,Button],
+  imports: [SharedModule],
   templateUrl: './chatroom.html',
   styleUrl: './chatroom.scss',
 })

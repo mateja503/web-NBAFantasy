@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatRadioModule} from '@angular/material/radio' 
-import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '../../app/app.module';
 @Component({
   selector: 'app-home',
-  imports: [MatInputModule,MatFormFieldModule,MatRadioModule,MatIconModule],
+  imports: [SharedModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
