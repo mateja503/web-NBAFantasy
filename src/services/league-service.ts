@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, map, Observable, of } from 'rxjs';
 import { League } from '../models/league';
 import { ConfigService } from '../app/core/config/config.service';
+import { PaginationResponses } from '../models';
 
 // Re-export the canonical model so existing `import { League } from './league-service'`
 // references keep working after consolidation.
@@ -23,6 +24,8 @@ export interface CreateLeagueStatsValue {
   threePointersMade?: number | null;
   threePointersMissed?: number | null;
 }
+
+
 
 /** Payload for creating a league (mirrors the create-league form). */
 export interface CreateLeagueRequest {
@@ -50,17 +53,24 @@ export interface JoinLeagueRequest {
 export class LeagueService {
   private http = inject(HttpClient);
   private config = inject(ConfigService);
-  private get leagueurl() { return `${this.config.apiBaseUrl}/v1/league`; }
+  private get leagueUrl() { return `${this.config.apiBaseUrl}/v1/league`; }
+
 
   getLeagues(): Observable<League[]> {
-    return this.http.get<League[]>(this.leagueurl);
-  }
+  return this.http.get<PaginationResponses<League>>(this.leagueUrl).pipe(
+    map((response) => response.items ?? []),
+    catchError((error) => {
+      console.error('Failed to fetch leagues', error);
+      return EMPTY;//leave it like this for know in the future the error handling should be in one place and not in the service
+    })
+  );
+}
 
   addleague(data: CreateLeagueRequest): Observable<League> {
-    return this.http.post<League>(`${this.leagueurl}/add`, data);
+    return this.http.post<League>(`${this.leagueUrl}/add`, data);
   }
 
   joinLeague(data: JoinLeagueRequest): Observable<unknown> {
-    return this.http.post(`${this.leagueurl}/join`, data);
+    return this.http.post(`${this.leagueUrl}/join`, data);
   }
 }
