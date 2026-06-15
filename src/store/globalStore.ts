@@ -37,7 +37,7 @@ interface GlobalState {
   user: UserState | null;
 }
 
-const LOCAL_STORAGE_KEY = 'nba_fantasy_teams_leagues';
+const LOCAL_STORAGE_KEY = 'use_store_state'; // Key for storing user state in LocalStorage
 
 // Helper function to safely read and initialize state from LocalStorage on app boot
 function loadUserFromStorage(): UserState | null {
