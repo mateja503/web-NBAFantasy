@@ -17,5 +17,6 @@ export const authGuard: CanActivateFn = () => {
   const store = inject(GlobalStore);
   const router = inject(Router);
 
-  return store.isLoggedIn() ? true : router.createUrlTree(['/home']);
+  // return store.isLoggedIn() ? true : router.createUrlTree(['/home']);
+  return true; // TEMP: disable auth while we build out the login page
 };
