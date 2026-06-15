@@ -1,12 +1,3 @@
-import { League } from "./league-service";
-
-export interface Team {
-    teamid: number;
-    name: string;
-    seed?: number;
-    waiverpriority?: number;
-    lastweekpoints?: number;
-    categoryleaguepoints?: number;
-    islock?: boolean;
-    competesinleague: League;
-}
+// Team now lives in the canonical models folder. Re-exported here so existing
+// `import { Team } from './team-service'` references keep resolving.
+export type { Team } from '../models/team';

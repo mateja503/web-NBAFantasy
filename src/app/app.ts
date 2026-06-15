@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { LeagueService } from '../services/league-service';
 import { NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { League } from '../models/league';
 import { SharedModule } from './app.module';
 import { Footer } from '../footer/footer';
 import { Sidebar } from '../sidebar/sidebar';
@@ -18,7 +19,7 @@ export class App implements OnInit {
   protected readonly title = signal('web-NBAFantasy');
 
   subscriptions: Subscription[] = []
-  protected leagues = signal<any[]>([]);
+  protected leagues = signal<League[]>([]);
   constructor(private leagueService: LeagueService) { }
 
   ngOnInit(): void {

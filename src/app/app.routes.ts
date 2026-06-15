@@ -1,21 +1,48 @@
 import { Routes } from '@angular/router';
-import { Draft } from '../dashboard/draft/draft';
-import { Trade } from '../dashboard/trade/trade';
-import { LeagueCreate } from '../dashboard/league/league-create';
-import { Home } from '../dashboard/home/home';
-import { Team } from '../dashboard/team/team';
-import { JoinLeague } from '../dashboard/join-league/join-league';
-import { Chatroom } from '../dashboard/chatroom/chatroom';
-import { MyTeamsAndLeagues } from '../dashboard/my-teams-and-leagues/my-teams-and-leagues';
 import { authGuard } from './core/auth/auth.guard';
 
+// Lazy loadComponent: each feature ships as its own chunk, so a user landing on
+// /home no longer downloads the draft room, chat, and SignalR client up front.
+// This is the highest-leverage bundle-size win for the SPA.
 export const routes: Routes = [
-    { path: 'home', component: Home },
-    { path: 'draft', component: Draft, canActivate: [authGuard] },
-    { path: 'trade', component: Trade, canActivate: [authGuard] },
-    { path: 'league/create', component: LeagueCreate, canActivate: [authGuard] },
-    { path: 'league/join', component: JoinLeague, canActivate: [authGuard] },
-    { path: 'team', component: Team, canActivate: [authGuard] },
-    { path: 'chatroom', component: Chatroom, canActivate: [authGuard] },
-    { path: 'my-teams-leagues', component: MyTeamsAndLeagues, canActivate: [authGuard] },
+  {
+    path: 'home',
+    loadComponent: () => import('../dashboard/home/home').then((m) => m.Home),
+  },
+  {
+    path: 'draft',
+    canActivate: [authGuard],
+    loadComponent: () => import('../dashboard/draft/draft').then((m) => m.Draft),
+  },
+  {
+    path: 'trade',
+    canActivate: [authGuard],
+    loadComponent: () => import('../dashboard/trade/trade').then((m) => m.Trade),
+  },
+  {
+    path: 'league/create',
+    canActivate: [authGuard],
+    loadComponent: () => import('../dashboard/league/league-create').then((m) => m.LeagueCreate),
+  },
+  {
+    path: 'league/join',
+    canActivate: [authGuard],
+    loadComponent: () => import('../dashboard/join-league/join-league').then((m) => m.JoinLeague),
+  },
+  {
+    path: 'team',
+    canActivate: [authGuard],
+    loadComponent: () => import('../dashboard/team/team').then((m) => m.Team),
+  },
+  {
+    path: 'chatroom',
+    canActivate: [authGuard],
+    loadComponent: () => import('../dashboard/chatroom/chatroom').then((m) => m.Chatroom),
+  },
+  {
+    path: 'my-teams-leagues',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('../dashboard/my-teams-and-leagues/my-teams-and-leagues').then((m) => m.MyTeamsAndLeagues),
+  },
 ];

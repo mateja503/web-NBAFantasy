@@ -169,14 +169,14 @@ The top three are small, high-value, and unblock everything else — they're whe
 
 ## Action items
 
-1. [ ] Extract all API/hub URLs into a single runtime config (`config.json` + `APP_INITIALIZER`, or nginx `envsubst` entrypoint); delete every `localhost:7041` literal.
-2. [ ] Add a functional `authInterceptor` (attaches token) and `authGuard` (`CanActivateFn`); make `GlobalStore` the single source of auth truth and drop `isLoggedIn$`.
-3. [ ] Fix the hardcoded `leagueId: 1` in `draft-list-players.ts`.
-4. [ ] Add an HTTP error interceptor (401 → logout, 5xx → toast) and a global `ErrorHandler`.
-5. [ ] Consolidate domain models into one location; remove the duplicate `League`; replace `any` at API boundaries with request/response DTOs.
-6. [ ] Convert routes to lazy `loadComponent`; retire the `SharedModule` barrel in favor of scoped imports.
-7. [ ] Pick one UI framework (Material *or* Bootstrap) as primary; plan removal of the other.
-8. [ ] Before any multi-instance backend deploy: add SignalR delta updates + chat pagination, and document the sticky-session/Redis-backplane requirement.
+1. [x] Extract all API/hub URLs into a single runtime config (`config.json` + `APP_INITIALIZER` + nginx `envsubst` entrypoint); delete every `localhost:7041` literal.
+2. [x] Add a functional `authInterceptor` (attaches token) and `authGuard` (`CanActivateFn`); make `GlobalStore` the single source of auth truth and drop `isLoggedIn$`. Hub auth wired via SignalR `accessTokenFactory`.
+3. [x] Fix the hardcoded `leagueId: 1` in `draft-list-players.ts`.
+4. [x] Add an HTTP error interceptor (401 → logout, 0/5xx → toast) and a global `ErrorHandler`.
+5. [x] Consolidate domain models into one location (`src/models/`); remove the duplicate `League`; replace `any` at API boundaries with request/response DTOs (`CreateLeagueRequest`, `JoinLeagueRequest`, `LoginRequest`).
+6. [~] Convert routes to lazy `loadComponent` — **done**. Retire the `SharedModule` barrel in favor of scoped imports — **deferred (decision 2026-06-14)** until a green local `ng build` is available to verify the ~13-component change.
+7. [ ] Pick one UI framework (Material *or* Bootstrap) as primary. **Deferred (decision 2026-06-14): keep both for now.** Revisit when ready to migrate; both are used heavily (≈260 usages across 33 files), so it's a deliberate migration, not a mechanical edit.
+8. [~] Chat pagination cap (`MAX_MESSAGES`) and sticky-session/Redis-backplane requirement — **done/documented** in `DEPLOYMENT.md`. SignalR delta updates — **pending** (requires backend changes).
 
 ---
 
