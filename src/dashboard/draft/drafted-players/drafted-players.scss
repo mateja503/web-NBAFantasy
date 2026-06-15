@@ -1,4 +1,5 @@
 // drafted-players.scss
+@use 'sass:color';
 @use '../../../styles/token.scss' as t;
 
 :host {
@@ -21,7 +22,7 @@
 
 .component-header {
   padding: t.$space-3 t.$space-4;
-  background-color: lighten(t.$surface-panel, 2%);
+  background-color: color.adjust(t.$surface-panel, $lightness: 2%);
   border-bottom: 2px solid t.$border-default;
 
   h2 {
@@ -54,7 +55,7 @@
   thead {
     position: sticky;
     top: 0;
-    background-color: lighten(t.$surface-panel, 4%);
+    background-color: color.adjust(t.$surface-panel, $lightness: 4%);
     z-index: t.$z-raised;
 
     th {
@@ -69,7 +70,7 @@
 
   tbody {
     tr {
-      border-bottom: 1px solid lighten(t.$surface-panel, 3%);
+      border-bottom: 1px solid color.adjust(t.$surface-panel, $lightness: 3%);
       transition: background-color t.$transition-base;
 
       &:hover {
