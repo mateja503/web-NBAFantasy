@@ -1,4 +1,3 @@
-import * as signalR from '@microsoft/signalr';
 import { signal, } from '@angular/core';
 import { Injectable, } from '@angular/core';
 import { HubMethods } from '../../constraints/HubMethods';
@@ -87,14 +86,17 @@ export class DraftHub extends Hubservice {
   }
 
   private handleDraftState(data: DraftState) {
-    this.leagueName.set(data.leagueName);
+    if(data.leagueName !== null && data.leagueName !== undefined){
+      this.leagueName.set(data.leagueName);
+    }
+
+
     this.endTime = new Date(data.pickEndTime).getTime();
     this.round.set(data.draftBoardTeams.currentRound);
     this.teamOnTheClock.set(data.draftBoardTeams.onTheClockTeam)
     this.draftTeams.set(data.draftBoardTeams.draftOrder)
     this.draftStatus.set(data.draftStatus);
 
-    
     this.draftPlayers.set(data.draftPlayers);
     this.teamsDraftedPlayers.set(data.draftedPlayersPerTeam);
   }

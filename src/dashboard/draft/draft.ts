@@ -35,8 +35,7 @@ export class Draft implements OnInit {
   }
 
   isDraftStarted(): boolean {
-    console.log('Draft Status:', this.draftHub.draftStatus());
-    return this.draftHub.draftStatus() === DraftStatus.DraftStarted;
+   return this.draftHub.draftStatus() === DraftStatus.DraftStarted;
   }
 
 tiles: Tile[] = [
