@@ -28,12 +28,10 @@ export class TradeHub extends Hubservice {
 
   private registerListeners() {
     this.hubConnection.on(HubMethods.Server.ReceiveTradeRequest, (trade: TradeBetweenTeams) => {
-      debugger;
       this.incomingTradeRequests.update((prev) => [...prev, trade]);
     });
 
     this.hubConnection.on(HubMethods.Server.ReceiveTradeAccepted, (trade: TradeBetweenTeams) => {
-      debugger;
       this.lastAcceptedTrade.set(trade);
       this.incomingTradeRequests.update((prev) => prev.filter((t) => t.tradeId !== trade.tradeId));
     });
@@ -56,7 +54,6 @@ export class TradeHub extends Hubservice {
   };
 
   public acceptTrade = (leagueId: number, tradeId: string) => {
-    debugger;
     this.hubConnection
       .invoke(HubMethods.Client.AcceptTrade, leagueId, tradeId)
       .then(() => {
