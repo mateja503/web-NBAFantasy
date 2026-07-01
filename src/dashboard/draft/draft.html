@@ -27,11 +27,17 @@
       <app-drafted-players [draftedPlayers]="draftHub.teamsDraftedPlayers()[globalStore.selectedTeamId() ?? 0] || []"></app-drafted-players>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="4" rowspan="3" class="tile-draft-board">
+    <!-- <mat-grid-tile colspan="4" rowspan="3" class="tile-draft-board">
       <h1>Trades on draft night</h1>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="8" rowspan="3" class="tile-draft-board">
-      <app-draft-make-trade></app-draft-make-trade>
+    </mat-grid-tile> -->
+    <mat-grid-tile colspan="12 " rowspan="3" class="tile-draft-board">
+      @if (!isDraftStarted()) {
+        <app-draft-make-trade
+          [draftTeams]="draftHub.draftTeams()"
+          [draftedPlayersPerTeam]="draftHub.teamsDraftedPlayers()"></app-draft-make-trade>
+      } @else {
+        <h1>Draft hasn't started</h1>
+      }
     </mat-grid-tile>
 
 

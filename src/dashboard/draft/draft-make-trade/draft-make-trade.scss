@@ -8,12 +8,164 @@
 }
 
 .make-trade-container {
-  padding: t.$space-4;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: t.$surface-panel;
+  color: t.$text-on-dark;
+  box-sizing: border-box;
+}
+
+.make-trade-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: t.$space-2 t.$space-3;
+  border-bottom: 1px solid t.$border-default;
 }
 
 .title {
   margin: 0;
   font-size: t.$font-size-2xl;
   font-weight: 800;
+  color: t.$brand-accent;
+}
+
+.column-title {
+  margin: 0 0 t.$space-2;
+  font-size: t.$font-size-sm;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: t.$brand-accent;
+}
+
+.trade-body {
+  display: flex;
+  flex: 1 1 auto;
+  gap: t.$space-2;
+  padding: t.$space-3;
+  overflow: hidden;
+}
+
+.trade-column {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+  background: t.$surface-card;
+  border: 1px solid t.$border-card;
+  border-radius: t.$radius-md;
+  padding: t.$space-2;
+}
+
+.scroll-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-1;
+}
+
+.player-row,
+.team-row {
+  display: flex;
+  align-items: center;
+  gap: t.$space-2;
+  width: 100%;
+  text-align: left;
+  padding: t.$space-2;
+  background: t.$surface-row;
+  border: 1px solid t.$border-card;
+  border-radius: t.$radius-sm;
   color: t.$text-on-dark;
+  cursor: pointer;
+  transition: t.$transition-base;
+
+  &:hover {
+    border-color: t.$brand-accent;
+  }
+
+  &.selected {
+    border-color: t.$brand-accent;
+    background: rgba(t.$brand-accent, 0.12);
+    @include t.glow-cyan(0.35);
+  }
+}
+
+.team-row {
+  font-weight: 600;
+}
+
+.pos-badge {
+  flex-shrink: 0;
+  min-width: 34px;
+  text-align: center;
+  padding: 2px t.$space-1;
+  font-family: t.$font-family-mono;
+  font-size: t.$font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(t.$text-on-dark, 0.08);
+  border-radius: t.$radius-sm;
+}
+
+.player-name {
+  font-size: t.$font-size-base;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-text {
+  margin: t.$space-2 0 0;
+  font-size: t.$font-size-sm;
+  color: t.$text-muted;
+}
+
+.incoming-requests {
+  flex-shrink: 0;
+  max-height: 30%;
+  overflow-y: auto;
+  padding: t.$space-2 t.$space-3;
+  border-top: 1px solid t.$border-default;
+}
+
+.request-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$space-3;
+  padding: t.$space-2;
+  margin-bottom: t.$space-2;
+  background: t.$surface-row;
+  border: 1px solid t.$border-card;
+  border-radius: t.$radius-sm;
+}
+
+.request-info {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-1;
+  min-width: 0;
+}
+
+.request-teams {
+  font-weight: 700;
+  font-size: t.$font-size-base;
+}
+
+.request-players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-1;
+}
+
+.pill {
+  padding: 2px t.$space-2;
+  font-size: t.$font-size-xs;
+  background: rgba(t.$brand-accent, 0.1);
+  border: 1px solid rgba(t.$brand-accent, 0.3);
+  border-radius: t.$radius-pill;
 }
