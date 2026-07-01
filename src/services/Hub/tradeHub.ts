@@ -13,6 +13,9 @@ export interface TradeBetweenTeams {
 @Injectable({
   providedIn: 'root',
 })
+//TODO when incoming trade requests are accepted, the trade should be removed from the list of incoming requests. This is currently not happening.
+//And save incoming trades in the localstorage so that they persist across page reloads. This is currently not happening.
+
 export class TradeHub extends Hubservice {
   protected override hubUrl = 'tradeHub';
   protected override retryTime = 3000;
