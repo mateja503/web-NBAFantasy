@@ -71,7 +71,7 @@
   <!-- Incoming trade requests, each acceptable on its own -->
   <div class="incoming-requests">
     <h3 class="column-title">Incoming Trade Requests</h3>
-    @for (request of incomingTradeRequests(); track request.id) {
+    @for (request of incomingTradeRequests(); track request.tradeId) {
       <div class="request-row">
         <div class="request-info">
           <span class="request-teams">
@@ -83,7 +83,7 @@
             }
           </span>
         </div>
-        <app-button label="Accept Trade" width="150px" (btnClick)="acceptTrade(request.id)"></app-button>
+        <app-button label="Accept Trade" width="150px" (btnClick)="acceptTrade(request.tradeId)"></app-button>
       </div>
     } @empty {
       <p class="empty-text">No incoming trade requests.</p>
