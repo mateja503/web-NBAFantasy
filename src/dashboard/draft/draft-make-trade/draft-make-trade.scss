@@ -1,0 +1,19 @@
+// draft-make-trade.scss
+@use '../../../styles/token.scss' as t;
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.make-trade-container {
+  padding: t.$space-4;
+}
+
+.title {
+  margin: 0;
+  font-size: t.$font-size-2xl;
+  font-weight: 800;
+  color: t.$text-on-dark;
+}

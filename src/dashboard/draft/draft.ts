@@ -6,6 +6,7 @@ import { DraftHeader } from './draft-header/draft-header';
 import { DraftBoard } from './draft-board/draft-board';
 import { DraftListPlayers } from './draft-list-players/draft-list-players';
 import { DraftedPlayers } from './drafted-players/drafted-players';
+import { DraftMakeTrade } from './draft-make-trade/draft-make-trade';
 export interface Tile {
   color: string;
   cols: number;
@@ -15,7 +16,7 @@ export interface Tile {
 
 @Component({
   selector: 'app-draft',
-  imports: [SharedModule, DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers],          // ← was: MatGridListModule, DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers
+  imports: [SharedModule, DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers, DraftMakeTrade],          // ← was: MatGridListModule, DraftHeader, DraftBoard, DraftListPlayers, DraftedPlayers
   templateUrl: './draft.html',
   styleUrl: './draft.scss',
 })
