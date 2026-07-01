@@ -2,7 +2,8 @@ import { Component, computed, inject, Input, OnInit, signal } from '@angular/cor
 import { SharedModule } from '../../../app/app.module';
 import { TradeHub } from '../../../services/Hub/tradeHub';
 import { GlobalStore } from '../../../store/globalStore';
-import { DraftPlayer, TeamDraftBoard } from '../../../services/Hub/draftHub';
+import { DraftPlayer } from '../../../services/Hub/draftHub';
+import { GetLeagueTeamsResponse } from '../../../models/team';
 
 @Component({
   selector: 'app-draft-make-trade',
@@ -17,17 +18,15 @@ export class DraftMakeTrade implements OnInit {
   public readonly leagueId = this.globalStore.selectedLeagueId() ?? 0;
   public readonly myTeamId = this.globalStore.selectedTeamId() ?? 0;
 
-  // Supplied by the parent (Draft) — the draft order and the drafted players per team.
-  private draftTeamsSignal = signal<TeamDraftBoard[]>([]);
+  // Supplied by the parent (Draft) — the drafted players per team.
   private draftedPerTeamSignal = signal<Record<number, DraftPlayer[]>>({});
-
-  @Input() set draftTeams(teams: TeamDraftBoard[]) {
-    this.draftTeamsSignal.set(teams);
-  }
 
   @Input() set draftedPlayersPerTeam(players: Record<number, DraftPlayer[]>) {
     this.draftedPerTeamSignal.set(players);
   }
+
+  // The league's teams, cached in the store and fetched from the API on init.
+  public leagueTeams = this.globalStore.leagueTeams;
 
   // Live incoming trade requests owned by the hub.
   public incomingTradeRequests = this.tradeHub.incomingTradeRequests;
@@ -37,18 +36,10 @@ export class DraftMakeTrade implements OnInit {
     () => this.draftedPerTeamSignal()[this.myTeamId] ?? [],
   );
 
-  // A team appears once per round in the draft order, so dedupe by teamId and
-  // drop our own team — you can't trade with yourself.
-  public otherTeams = computed<TeamDraftBoard[]>(() => {
-    const seen = new Set<number>();
-    return this.draftTeamsSignal().filter((team) => {
-      if (team.teamId === this.myTeamId || seen.has(team.teamId)) {
-        return false;
-      }
-      seen.add(team.teamId);
-      return true;
-    });
-  });
+  // Every team in the league except our own — you can't trade with yourself.
+  public otherTeams = computed<GetLeagueTeamsResponse[]>(() =>
+    this.leagueTeams().filter((team) => team.teamid !== this.myTeamId),
+  );
 
   // The selected trade partner and the players we want back from them.
   public selectedTeamId = signal<number | null>(null);
@@ -66,8 +57,8 @@ export class DraftMakeTrade implements OnInit {
   // Lookups used to render incoming requests (which carry raw ids).
   private teamNameById = computed<Record<number, string>>(() => {
     const map: Record<number, string> = {};
-    for (const team of this.draftTeamsSignal()) {
-      map[team.teamId] = team.teamName;
+    for (const team of this.leagueTeams()) {
+      map[team.teamid] = team.name;
     }
     return map;
   });
@@ -83,6 +74,8 @@ export class DraftMakeTrade implements OnInit {
   });
 
   ngOnInit(): void {
+    // Fill (or refresh) the league's teams cache before opening the trade hub.
+    this.globalStore.ensureLeagueTeams(this.leagueId);
     this.tradeHub.initialize(this.leagueId, this.myTeamId);
   }
 

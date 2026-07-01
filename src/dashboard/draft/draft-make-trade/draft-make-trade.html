@@ -30,13 +30,13 @@
     <section class="trade-column">
       <h3 class="column-title">Trade With</h3>
       <div class="scroll-list">
-        @for (team of otherTeams(); track team.teamId) {
+        @for (team of otherTeams(); track team.teamid) {
           <button
             type="button"
             class="team-row"
-            [class.selected]="selectedTeamId() === team.teamId"
-            (click)="selectTeam(team.teamId)">
-            {{ team.teamName }}
+            [class.selected]="selectedTeamId() === team.teamid"
+            (click)="selectTeam(team.teamid)">
+            {{ team.name }}
           </button>
         } @empty {
           <p class="empty-text">No other teams in this draft.</p>

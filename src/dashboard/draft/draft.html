@@ -33,7 +33,6 @@
     <mat-grid-tile colspan="12 " rowspan="3" class="tile-draft-board">
       @if (isDraftStarted()) {
         <app-draft-make-trade
-          [draftTeams]="draftHub.draftTeams()"
           [draftedPlayersPerTeam]="draftHub.teamsDraftedPlayers()"></app-draft-make-trade>
       } @else {
         <h1>Draft hasn't started</h1>
