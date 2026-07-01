@@ -15,3 +15,15 @@ export interface Team {
   islock?: boolean;
   competesinleague: League;
 }
+
+// Shape returned by /get-leagues-teams/{leagueId}. It's a projection of the team
+// (no nested league), so it gets its own DTO rather than reusing the fuller Team model.
+export interface GetLeagueTeamsResponse {
+  teamid: number;
+  name: string;
+  seed?: number;
+  waiverpriority?: number;
+  lastweekpoints?: number;
+  categoryleaguepoints?: number;
+  islock?: boolean;
+}

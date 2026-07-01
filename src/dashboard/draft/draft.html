@@ -31,7 +31,7 @@
       <h1>Trades on draft night</h1>
     </mat-grid-tile> -->
     <mat-grid-tile colspan="12 " rowspan="3" class="tile-draft-board">
-      @if (!isDraftStarted()) {
+      @if (isDraftStarted()) {
         <app-draft-make-trade
           [draftTeams]="draftHub.draftTeams()"
           [draftedPlayersPerTeam]="draftHub.teamsDraftedPlayers()"></app-draft-make-trade>
