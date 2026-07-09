@@ -111,6 +111,12 @@ export class DraftMakeTrade implements OnInit {
     }
 
     this.tradeHub.proposeTrade(this.leagueId, this.myTeamId, toTeam, playersIds);
+    this.emptySelections();
+  }
+
+  emptySelections(): void {
+    this.offeredPlayerIds.set([]);
+    this.requestedPlayerIds.set([]);
   }
 
   acceptTrade(tradeId: string): void {
