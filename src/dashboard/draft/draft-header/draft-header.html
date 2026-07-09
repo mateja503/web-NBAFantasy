@@ -9,10 +9,19 @@
     {
       <div class="status-dot green"></div>
       <span class="status-text">LIVE DRAFT</span>
-    }@else{
+    }
+
+    @if(draftEnded)
+    {
+      <div class="status-dot red"></div>
+      <span class="status-text">DRAFT ENDED</span>
+    }
+
+    <!-- @if(!draftEnded && !draftStarted)
+    {
       <div class="status-dot red"></div>
       <span class="status-text">DRAFT NOT STARTED</span>
-    }
+    } -->
 
   </div>
 

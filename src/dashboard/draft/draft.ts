@@ -39,6 +39,12 @@ export class Draft implements OnInit {
    return this.draftHub.draftStatus() === DraftStatus.DraftStarted;
   }
 
+  isDraftEnded(): boolean {
+    return this.draftHub.draftStatus() === DraftStatus.DraftEnded;
+  }
+
+
+
 tiles: Tile[] = [
   {text: 'Draft Which Legaue & Timer', cols: 12, rows: 1, color: '#fb04ff' },
   {text: 'Draft teams which team is next to draft', cols: 4, rows: 9, color: '#222'},   // Use Hex for 'dark'

@@ -20,6 +20,7 @@ export class DraftHeader {
 
   @Output() onResetTimer = new EventEmitter<void>();
   @Input() draftStarted: boolean = false;
+  @Input() draftEnded: boolean = false;
 
   startDraft(){
     console.log('Starting draft...')

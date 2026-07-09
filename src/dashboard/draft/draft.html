@@ -8,7 +8,7 @@
 
     <mat-grid-tile colspan="12" rowspan="1" class="tile-header">
       <app-draft-header (onResetTimer)="draftHub.resetTimer(leagueId)"
-        [draftStarted]="isDraftStarted()"></app-draft-header>
+        [draftStarted]="isDraftStarted()" [draftEnded]="isDraftEnded()"></app-draft-header>
     </mat-grid-tile>
 
     <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
