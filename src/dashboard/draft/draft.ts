@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { DraftHub, DraftStatus } from '../../services/Hub/draftHub';
 import { GlobalStore } from '../../store/globalStore';
 import { SharedModule } from '../../app/app.module';
@@ -35,13 +35,12 @@ export class Draft implements OnInit {
     this.draftHub.initialize(this.leagueId); 
   }
 
-  isDraftStarted(): boolean {
-   return this.draftHub.draftStatus() === DraftStatus.DraftStarted;
-  }
+  readonly isDraftStarted = computed(() => this.draftHub.draftStatus() === DraftStatus.DraftStarted);
 
-  isDraftEnded(): boolean {
-    return this.draftHub.draftStatus() === DraftStatus.DraftEnded;
-  }
+  readonly isDraftEnded = computed(() => this.draftHub.draftStatus() === DraftStatus.DraftEnded);
+
+  // Drives the blocking "Draft Ended" overlay.
+  readonly isDraftOver = this.draftHub.isDraftOver;
 
 
 

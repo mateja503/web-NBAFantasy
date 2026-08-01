@@ -1,4 +1,4 @@
-import { signal, } from '@angular/core';
+import { computed, signal, } from '@angular/core';
 import { Injectable, } from '@angular/core';
 import { HubMethods } from '../../constraints/HubMethods';
 import { Hubservice } from './hubservice';
@@ -26,17 +26,19 @@ export interface DraftPlayer {
 
 interface DraftBoardTeams {
   currentRound: number;
-  onTheClockTeam: TeamDraftBoard;
-  draftOrder: TeamDraftBoard[];
+  onTheClockTeam: TeamDraftBoard | null;
+  draftOrder: TeamDraftBoard[] | null;
 }
 
+// Mirrors the server's DraftState. The nullable members are nullable on the server too: once the draft
+// is over there is no board and no team on the clock.
 interface DraftState {
-  leagueName: string;
+  leagueName: string | null;
   pickEndTime: string;
   draftStatus: DraftStatus;
-  draftBoardTeams: DraftBoardTeams
-  draftPlayers: DraftPlayer[];
-  draftedPlayersPerTeam: Record<number, DraftPlayer[]>;
+  draftBoardTeams: DraftBoardTeams | null;
+  draftPlayers: DraftPlayer[] | null;
+  draftedPlayersPerTeam: Record<number, DraftPlayer[]> | null;
 }
 
 @Injectable({
@@ -55,6 +57,9 @@ export class DraftHub extends Hubservice {
   teamOnTheClock = signal<TeamDraftBoard | null>(null)
   draftTeams = signal<TeamDraftBoard[]>([])
   draftPlayers = signal<DraftPlayer[]>([])
+  // DraftCompleted counts too — a league whose draft finished in an earlier session reports 4, not 3.
+  isDraftOver = computed(() =>
+    this.draftStatus() === DraftStatus.DraftEnded || this.draftStatus() === DraftStatus.DraftCompleted);
   private endTime: number | null = null;
 
   constructor() {
@@ -90,15 +95,24 @@ export class DraftHub extends Hubservice {
       this.leagueName.set(data.leagueName);
     }
 
-
-    this.endTime = new Date(data.pickEndTime).getTime();
-    this.round.set(data.draftBoardTeams.currentRound);
-    this.teamOnTheClock.set(data.draftBoardTeams.onTheClockTeam)
-    this.draftTeams.set(data.draftBoardTeams.draftOrder)
+    // Set the status first so the "Draft Ended" overlay still shows even if a later line throws.
     this.draftStatus.set(data.draftStatus);
 
-    this.draftPlayers.set(data.draftPlayers);
-    this.teamsDraftedPlayers.set(data.draftedPlayersPerTeam);
+    this.endTime = new Date(data.pickEndTime).getTime();
+
+    const board = data.draftBoardTeams;
+    if (board) {
+      this.round.set(board.currentRound);
+      this.teamOnTheClock.set(board.onTheClockTeam);
+      this.draftTeams.set(board.draftOrder ?? []);
+    } else {
+      // The draft is over: clear the last team off the board instead of leaving it on the clock.
+      this.teamOnTheClock.set(null);
+      this.draftTeams.set([]);
+    }
+
+    this.draftPlayers.set(data.draftPlayers ?? []);
+    this.teamsDraftedPlayers.set(data.draftedPlayersPerTeam ?? {});
   }
 
   public updateDraftState() {
@@ -121,9 +135,10 @@ export class DraftHub extends Hubservice {
 
   public draftPlayer = ( leagueId: number,playerId: number, pick: number) => {
     this.hubConnection.invoke(HubMethods.Client.DraftPlayer,leagueId, playerId, pick)
-      .then((data: DraftState) => {
+      .then(() => {
+        // The hub method returns nothing — the resulting state arrives on the UpdateDraftState
+        // broadcast. Feeding the undefined result into handleDraftState threw on every pick.
         console.log('Draft player command successfully sent to server');
-       this.handleDraftState(data);
       })
       .catch((err: any) => {
         console.error('Error while invoking DraftPlayer: ' + err);

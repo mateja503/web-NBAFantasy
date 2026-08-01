@@ -1,3 +1,5 @@
+@use '../../styles/token.scss' as t;
+
 :host {
   display: block;
   /* Custom elements are inline by default; change to block */
@@ -13,6 +15,37 @@
   align-items: center;
   text-align: center;
   flex-direction: column;
+  // Anchors .draft-ended-overlay.
+  position: relative;
+}
+
+// Shown once the draft is over. Covering the container is what blocks the clicks — the grid underneath
+// stays visible but unreachable.
+.draft-ended-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: t.$z-modal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.draft-ended-panel {
+  padding: t.$space-8 t.$space-12;
+  background: t.$surface-panel;
+  border: 1px solid t.$brand-accent;
+  border-radius: t.$radius-lg;
+  @include t.glow-cyan(0.5);
+
+  h1 {
+    margin: 0;
+    color: t.$brand-accent;
+    font-size: t.$font-size-3xl;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
 }
 
 // .tile-header { background: #fb04ff; }

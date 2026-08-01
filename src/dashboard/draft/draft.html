@@ -42,5 +42,13 @@
 
   </mat-grid-list>
 
+  @if (isDraftOver()) {
+    <!-- Covers the whole draft page, so nothing underneath is clickable once the draft is over. -->
+    <div class="draft-ended-overlay" role="alert" aria-live="assertive">
+      <div class="draft-ended-panel">
+        <h1>Draft Ended</h1>
+      </div>
+    </div>
+  }
 
 </div>
