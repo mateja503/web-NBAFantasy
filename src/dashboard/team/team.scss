@@ -1,23 +1,120 @@
-:host{
-    display: inline;
-    width: 100%;
-    background-color: rgb(212, 215, 249)
+// team.scss
+@use '../../../src/styles/token.scss' as t;
+
+.teams-container {
+  background-color: t.$brand-primary;
+  border-radius: t.$radius-lg;
+  margin: t.$space-6;
+  width: auto;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-
-.team-container{
-    display: flex;
-    justify-content: center;
-    padding: 3rem;
+.teams-header {
+  flex-shrink: 0;
+  border-bottom: 1px solid t.$color-border-subtle;
 }
 
- .team-container .team-form{
-    display: flex;
-    justify-content: center;
-    // flex-wrap: wrap;
-    flex-direction: column;
-    padding: 5rem;
-    gap: 1rem;
-    background-color: #2f71f4;
-    border-radius: 100px;
+// Master (team list) / detail (roster) split. Collapses to a single column on
+// narrow screens so the roster table keeps a usable width.
+.team-layout {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+  gap: t.$space-6;
+  min-height: 0; // lets the two panes scroll instead of stretching the grid
+
+  @media (max-width: 991px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.team-list,
+.team-roster {
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: t.$space-3;
+
+  &::-webkit-scrollbar { width: 8px; }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: t.$radius-sm;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
+
+    &:hover { background: rgba(t.$text-on-dark, 0.4); }
+  }
+}
+
+.team-card {
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  cursor: pointer;
+  transition:
+    transform t.$transition-base cubic-bezier(0.4, 0, 0.2, 1),
+    border-color t.$transition-base,
+    box-shadow t.$transition-base;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: #4b5563;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  &.selected {
+    border-color: t.$brand-secondary;
+    background: linear-gradient(145deg, #18223d, #1e294b);
+    box-shadow: 0 0 0 2px t.$brand-secondary, 0 8px 24px rgba(t.$brand-secondary, 0.25);
+  }
+
+  .card-title {
+    color: #f3f4f6;
+    font-size: t.$font-size-xl;
+    letter-spacing: -0.3px;
+  }
+}
+
+// The stat line is wide by design — it scrolls sideways inside its own box so the
+// page itself never gets a horizontal scrollbar.
+.roster-table {
+  overflow-x: auto;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  padding: t.$space-3;
+
+  .table {
+    color: t.$text-on-dark;
+    margin-bottom: 0;
+    white-space: nowrap;
+
+    // Bootstrap's striping/hover paints its own background, so the dark theme has
+    // to be re-applied through the --bs-table-* custom properties.
+    --bs-table-color: #{t.$text-on-dark};
+    --bs-table-bg: transparent;
+    --bs-table-border-color: #{t.$color-border-card};
+    --bs-table-striped-color: #{t.$text-on-dark};
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+    --bs-table-hover-color: #{t.$text-on-dark};
+    --bs-table-hover-bg: rgba(t.$brand-secondary, 0.15);
+
+    thead th {
+      color: t.$brand-accent;
+      font-size: t.$font-size-sm;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid t.$color-border-card;
+    }
+
+    tbody td {
+      font-size: t.$font-size-base;
+    }
+  }
 }
