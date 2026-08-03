@@ -1,0 +1,14 @@
+<div class="image-slot" [class.image-slot--flush]="flush()" [style.aspect-ratio]="ratio()">
+  @if (failed()) {
+    <div class="image-slot__fallback">
+      <i class="bi bi-{{ icon() }} image-slot__icon"></i>
+      <span class="image-slot__label">{{ label() }}</span>
+      <code class="image-slot__path">public/{{ src() }}</code>
+      @if (hint()) {
+        <span class="image-slot__hint">{{ hint() }}</span>
+      }
+    </div>
+  } @else {
+    <img class="image-slot__img" [src]="src()" [alt]="alt()" (error)="onError()" />
+  }
+</div>
