@@ -10,6 +10,12 @@ export const routes: Routes = [
     loadComponent: () => import('../dashboard/home/home').then((m) => m.Home),
   },
   {
+    // Public on purpose: the player pool is browsable without an account, which is why
+    // there is no authGuard here and why GET /v1/players is anonymous on the API.
+    path: 'players',
+    loadComponent: () => import('../dashboard/players/players').then((m) => m.Players),
+  },
+  {
     path: 'draft',
     canActivate: [authGuard],
     loadComponent: () => import('../dashboard/draft/draft').then((m) => m.Draft),

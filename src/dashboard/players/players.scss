@@ -1,0 +1,238 @@
+// players.scss
+@use '../../../src/styles/token.scss' as t;
+
+.players-container {
+  background-color: t.$brand-primary;
+  border-radius: t.$radius-lg;
+  margin: t.$space-6;
+  width: auto;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.players-header {
+  flex-shrink: 0;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+.players-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; // lets the table scroll instead of stretching the page
+  padding-top: t.$space-4;
+}
+
+.search-box { max-width: 360px; }
+
+.search-box .input-group-text {
+  background: t.$surface-row;
+  border-color: t.$color-border-card;
+  color: t.$text-muted;
+}
+
+// One dark-field treatment for every input on the page, rather than repeating it per block.
+.search-box .form-control,
+.filter-field .form-control,
+.filter-field .form-select,
+.page-size-select {
+  color: t.$text-on-dark;
+  background-color: t.$surface-row;
+  border-color: t.$color-border-card;
+  box-shadow: none;
+
+  &::placeholder { color: t.$text-subtle; }
+  &:focus { border-color: t.$brand-accent; box-shadow: none; }
+  option { color: t.$text-on-dark; background-color: t.$surface-row; }
+}
+
+// Dark-theme the native date picker indicator, which renders black by default.
+.filter-field input[type='date']::-webkit-calendar-picker-indicator { filter: invert(1); }
+
+.filter-label,
+.filter-group-title {
+  color: t.$brand-accent;
+  font-size: t.$font-size-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Outlined controls: pills, the Filters toggle and the pager buttons all share this base.
+.filter-pill,
+.filter-toggle,
+.pager-btn {
+  color: t.$text-on-dark;
+  background: t.$surface-row;
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-md;
+  transition: all t.$transition-fast;
+
+  &:hover:not(:disabled) { color: t.$brand-accent; border-color: t.$brand-accent; }
+  &:disabled { opacity: 0.4; }
+}
+
+.filter-pill {
+  min-width: 44px;
+  color: t.$text-muted;
+  border-radius: t.$radius-pill;
+
+  &.active-pill {
+    color: t.$color-bg-deepest;
+    background: t.$brand-accent;
+    border-color: t.$brand-accent;
+    @include t.glow-cyan(0.5);
+  }
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: t.$space-2;
+  white-space: nowrap;
+
+  &.open { color: t.$brand-accent; border-color: t.$brand-accent; }
+}
+
+.filter-badge,
+.apply-btn {
+  color: t.$color-bg-deepest;
+  background: t.$brand-accent;
+}
+
+.filter-badge {
+  border-radius: t.$radius-pill;
+  font-size: t.$font-size-xs;
+}
+
+.apply-btn {
+  border: 1px solid t.$brand-accent;
+  border-radius: t.$radius-md;
+  font-weight: 600;
+
+  &:hover { @include t.glow-cyan(0.5); }
+}
+
+// Capped and scrollable: with every column filterable the panel is taller than the
+// viewport, and it must not push the results table off-screen.
+.filter-panel {
+  flex-shrink: 0;
+  max-height: 45vh;
+  overflow-y: auto;
+  margin-bottom: t.$space-3;
+  padding: t.$space-4;
+  background: t.$surface-panel;
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+}
+
+.filter-group + .filter-group { margin-top: t.$space-4; }
+.filter-group-title { margin-bottom: t.$space-2; }
+
+.filter-group-hint {
+  color: t.$text-subtle;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: t.$space-3;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-1;
+
+  > span {
+    color: t.$text-muted;
+    font-size: t.$font-size-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+}
+
+.filter-actions {
+  margin-top: t.$space-4;
+  padding-top: t.$space-3;
+  border-top: 1px solid t.$color-border-subtle;
+}
+
+// The stat line is wide by design — it scrolls sideways inside its own box so the
+// page itself never gets a horizontal scrollbar.
+.players-table {
+  position: relative;
+  flex-grow: 1;
+  min-height: 0;
+  overflow: auto;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  // No top padding: the sticky header is offset from the scrollport edge, not the
+  // padding box, so padding here would leave a gap for rows to show through.
+  padding: 0 t.$space-3 t.$space-3;
+
+  &.is-loading .table { opacity: 0.35; }
+
+  &::-webkit-scrollbar { width: 8px; height: 8px; }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
+
+    &:hover { background: rgba(t.$text-on-dark, 0.4); }
+  }
+
+  .table {
+    color: t.$text-on-dark;
+    margin-bottom: 0;
+    white-space: nowrap;
+
+    // Bootstrap's striping/hover paints its own background, so the dark theme has
+    // to be re-applied through the --bs-table-* custom properties.
+    --bs-table-color: #{t.$text-on-dark};
+    --bs-table-bg: transparent;
+    --bs-table-border-color: #{t.$color-border-card};
+    --bs-table-striped-color: #{t.$text-on-dark};
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+    --bs-table-hover-color: #{t.$text-on-dark};
+    --bs-table-hover-bg: rgba(t.$brand-secondary, 0.15);
+
+    thead th {
+      position: sticky;
+      top: 0; // stat rows scroll under the header rather than past it
+      z-index: t.$z-sticky;
+      background: #1a1e33;
+      color: t.$brand-accent;
+      font-size: t.$font-size-sm;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid t.$color-border-card;
+    }
+
+    tbody td { font-size: t.$font-size-base; }
+  }
+}
+
+// Sits over the table so paging keeps the current rows visible while the next
+// page loads, instead of collapsing the layout to a bare spinner.
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: t.$brand-accent;
+  pointer-events: none;
+}
+
+// .players-pager / .page-size-select sizing comes from Bootstrap utilities in the template
+// (flex-shrink-0, w-auto) rather than duplicating it here.
+.pager-count,
+.pager-position {
+  font-size: t.$font-size-sm;
+  color: t.$text-muted;
+}
