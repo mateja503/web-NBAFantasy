@@ -1,0 +1,72 @@
+// image-placeholder.scss
+@use '../../styles/token.scss' as t;
+
+.image-slot {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: t.$radius-lg;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+
+  &--flush {
+    border-radius: 0;
+
+    .image-slot__fallback {
+      border-radius: 0;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: t.$space-2;
+    padding: t.$space-4;
+    text-align: center;
+    border: 1px dashed rgba(t.$brand-accent, 0.35);
+    border-radius: t.$radius-lg;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        rgba(t.$brand-accent, 0.04) 0 10px,
+        transparent 10px 20px
+      );
+  }
+
+  &__icon {
+    font-size: t.$font-size-3xl;
+    color: rgba(t.$brand-accent, 0.7);
+    line-height: 1;
+  }
+
+  &__label {
+    color: t.$text-on-dark;
+    font-size: t.$font-size-base;
+    font-weight: 600;
+  }
+
+  &__path {
+    color: rgba(t.$brand-accent, 0.85);
+    font-family: t.$font-family-mono;
+    font-size: t.$font-size-xs;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: t.$radius-sm;
+    padding: 2px t.$space-2;
+    word-break: break-all;
+  }
+
+  &__hint {
+    color: t.$text-subtle;
+    font-size: t.$font-size-xs;
+  }
+}

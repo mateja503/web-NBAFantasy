@@ -1,1 +1,195 @@
-<h1>homeWorks</h1>
+<!--
+  Home / landing page — public route, visible to signed-out visitors.
+
+  IMAGES: every picture on this page is an <app-image-placeholder>. Until the
+  file exists it draws a dashed box printing the exact path it expects, e.g.
+  `public/images/home/feature-draft.png`. Drop the file in at that path and it
+  renders automatically — no markup changes needed. Paths live in home.ts.
+-->
+<div class="home">
+  <!-- ============================ HERO ============================ -->
+  <section class="home-hero">
+    <div class="container-fluid px-3 px-lg-5 py-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="home-badge">
+            <i class="bi bi-mortarboard"></i>
+            Personal learning project — portfolio piece
+          </span>
+
+          <h1 class="home-hero__title">
+            NBA <span class="home-hero__title-accent">Fantasy</span>
+          </h1>
+
+          <p class="home-hero__lead">
+            A full-stack fantasy basketball app: run a live draft with your friends, trade players,
+            manage rosters across leagues and talk trash in the league chat — all updating in real
+            time.
+          </p>
+
+          <p class="home-hero__note">
+            Built end to end by one developer to practise production patterns: Angular 21 on the
+            front, a .NET API behind it, and WebSockets in between.
+          </p>
+
+          <div class="home-hero__actions">
+            <button type="button" class="home-btn home-btn--primary" (click)="scrollTo('features')">
+              <i class="bi bi-play-circle"></i> See what it does
+            </button>
+            <button type="button" class="home-btn home-btn--ghost" (click)="scrollTo('contact')">
+              <i class="bi bi-envelope"></i> Get in touch
+            </button>
+          </div>
+
+          <p class="home-hero__hint">
+            <i class="bi bi-arrow-up-right"></i>
+            Use <strong>Login</strong> or <strong>Sign Up</strong> in the top-right corner to try it
+            yourself.
+          </p>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="home-hero__media">
+            <app-image-placeholder
+              src="images/home/hero-draft-room.png"
+              alt="Screenshot of the live draft room"
+              label="Hero screenshot"
+              hint="Recommended 1600 × 900 (16:9)"
+              icon="display"
+              ratio="16 / 9"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LEARNING PROJECT NOTICE ==================== -->
+  <section class="home-section home-section--tight">
+    <div class="container-fluid px-3 px-lg-5">
+      <div class="home-notice">
+        <i class="bi bi-info-circle home-notice__icon"></i>
+        <div>
+          <h2 class="home-notice__title">This is a learning project, not a commercial product</h2>
+          <p class="home-notice__text">
+            I built WebNBAFantasy to teach myself how a real-time, multi-user web app is put
+            together — and to have something concrete to show employers. There are no ads, no
+            payments and no data selling. It is not affiliated with, endorsed by or sponsored by the
+            NBA; player and team names appear for educational purposes only.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== FEATURES ========================== -->
+  <section id="features" class="home-section">
+    <div class="container-fluid px-3 px-lg-5">
+      <p class="home-eyebrow">What's inside</p>
+      <h2 class="home-heading">Four features, one league night</h2>
+      <p class="home-subheading">
+        Each one exists to solve a different engineering problem — real-time fan-out, transactional
+        state, CRUD at scale and connection resilience.
+      </p>
+
+      <div class="row g-4 mt-1">
+        @for (feature of features; track feature.title) {
+          <div class="col-12 col-md-6">
+            <article class="home-card home-card--feature h-100">
+              <app-image-placeholder
+                [src]="feature.image"
+                [alt]="feature.imageLabel"
+                [label]="feature.imageLabel"
+                hint="Recommended 1200 × 675 (16:9)"
+                icon="camera"
+                ratio="16 / 9"
+                [flush]="true"
+              />
+
+              <div class="home-card__body">
+                <h3 class="home-card__title">
+                  <i class="bi bi-{{ feature.icon }}"></i>
+                  {{ feature.title }}
+                </h3>
+                <p class="home-card__text">{{ feature.description }}</p>
+                <div class="home-tags">
+                  @for (tag of feature.tags; track tag) {
+                    <span class="home-tag">{{ tag }}</span>
+                  }
+                </div>
+              </div>
+            </article>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== GALLERY ========================== -->
+  <section class="home-section">
+    <div class="container-fluid px-3 px-lg-5">
+      <p class="home-eyebrow">Screenshots</p>
+      <h2 class="home-heading">A look around the app</h2>
+
+      <div class="row g-4 mt-1">
+        @for (shot of shots; track shot.image) {
+          <div class="col-12 col-md-4">
+            <figure class="home-shot">
+              <app-image-placeholder
+                [src]="shot.image"
+                [alt]="shot.caption"
+                [label]="shot.label"
+                hint="Recommended 900 × 600 (3:2)"
+                icon="images"
+                ratio="3 / 2"
+              />
+              <figcaption class="home-shot__caption">{{ shot.caption }}</figcaption>
+            </figure>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== CONTACT ========================== -->
+  <section id="contact" class="home-section home-section--last">
+    <div class="container-fluid px-3 px-lg-5">
+      <div class="home-contact">
+        <div class="home-contact__avatar">
+          <app-image-placeholder
+            src="images/home/profile.png"
+            alt="Photo of the developer"
+            label="Your photo"
+            hint="Square, 600 × 600"
+            icon="person-circle"
+            ratio="1 / 1"
+          />
+        </div>
+
+        <div class="home-contact__body">
+          <p class="home-eyebrow">Say hello</p>
+          <h2 class="home-heading home-heading--sm">Hiring, feedback or just curious?</h2>
+          <p class="home-contact__text">
+            I am always happy to walk through the architecture, the trade-offs I made, or the parts
+            I would build differently next time. The fastest way to reach me is email.
+          </p>
+
+          <a class="home-btn home-btn--primary" [href]="'mailto:' + email">
+            <i class="bi bi-envelope-fill"></i> {{ email }}
+          </a>
+
+          <!--
+            Add your profile links here once you are ready, e.g.:
+            <a class="home-btn home-btn--ghost" href="https://github.com/<user>" target="_blank" rel="noopener">
+              <i class="bi bi-github"></i> GitHub
+            </a>
+          -->
+        </div>
+      </div>
+
+      <p class="home-footnote">
+        WebNBAFantasy — a personal, non-commercial learning project. Not affiliated with the NBA.
+      </p>
+    </div>
+  </section>
+</div>
