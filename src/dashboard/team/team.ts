@@ -3,11 +3,12 @@ import { SharedModule } from '../../app/app.module';
 import { TeamService } from '../../services/team-service';
 import { UserTeamResponse } from '../../models/team';
 import { GlobalStore } from '../../store/globalStore';
+import { PlayerTableView } from '../../components/player-table-view/player-table-view';
 
 @Component({
   selector: 'app-team',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, PlayerTableView],
   templateUrl: './team.html',
   styleUrl: './team.scss',
 })

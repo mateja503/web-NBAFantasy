@@ -6,6 +6,7 @@ import { Subject, debounceTime, switchMap } from 'rxjs';
 import { PlayerService } from '../../services/player-service';
 import { Player, PlayersFilter } from '../../models/player';
 import { GlobalStore } from '../../store/globalStore';
+import { PlayerTableView } from '../../components/player-table-view/player-table-view';
 
 /** One min/max pair, as edited in the filter panel. */
 interface StatRange {
@@ -79,7 +80,7 @@ function cloneAdvanced(source: AdvancedFilters): AdvancedFilters {
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PlayerTableView],
   templateUrl: './players.html',
   styleUrl: './players.scss',
 })

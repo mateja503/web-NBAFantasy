@@ -6,7 +6,7 @@ import { ConfigService } from '../app/core/config/config.service';
 
 // Team now lives in the canonical models folder. Re-exported here so existing
 // `import { Team } from './team-service'` references keep resolving.
-export type { Team, GetLeagueTeamsResponse, TeamPlayer, UserTeamResponse } from '../models/team';
+export type { Team, GetLeagueTeamsResponse, UserTeamResponse } from '../models/team';
 
 @Injectable({
   providedIn: 'root',

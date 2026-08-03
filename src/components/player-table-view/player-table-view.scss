@@ -1,0 +1,79 @@
+// player-table-view.scss
+@use '../../../src/styles/token.scss' as t;
+
+// The host is a flex column so a page that gives it a bounded height (the Players page)
+// gets a table that scrolls internally; inside a plain block parent it simply grows.
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+// The stat line is wide by design — it scrolls sideways inside its own box so the
+// page itself never gets a horizontal scrollbar.
+.player-table {
+  position: relative;
+  flex-grow: 1;
+  min-height: 0;
+  overflow: auto;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  // No top padding: the sticky header is offset from the scrollport edge, not the
+  // padding box, so padding here would leave a gap for rows to show through.
+  padding: 0 t.$space-3 t.$space-3;
+
+  &.is-loading .table { opacity: 0.35; }
+
+  &::-webkit-scrollbar { width: 8px; height: 8px; }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
+
+    &:hover { background: rgba(t.$text-on-dark, 0.4); }
+  }
+
+  .table {
+    color: t.$text-on-dark;
+    margin-bottom: 0;
+    white-space: nowrap;
+
+    // Bootstrap's striping/hover paints its own background, so the dark theme has
+    // to be re-applied through the --bs-table-* custom properties.
+    --bs-table-color: #{t.$text-on-dark};
+    --bs-table-bg: transparent;
+    --bs-table-border-color: #{t.$color-border-card};
+    --bs-table-striped-color: #{t.$text-on-dark};
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+    --bs-table-hover-color: #{t.$text-on-dark};
+    --bs-table-hover-bg: rgba(t.$brand-secondary, 0.15);
+
+    thead th {
+      position: sticky;
+      top: 0; // stat rows scroll under the header rather than past it
+      z-index: t.$z-sticky;
+      background: #1a1e33;
+      color: t.$brand-accent;
+      font-size: t.$font-size-sm;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid t.$color-border-card;
+    }
+
+    tbody td { font-size: t.$font-size-base; }
+  }
+}
+
+// Sits over the table so paging keeps the current rows visible while the next
+// page loads, instead of collapsing the layout to a bare spinner.
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: t.$brand-accent;
+  pointer-events: none;
+}

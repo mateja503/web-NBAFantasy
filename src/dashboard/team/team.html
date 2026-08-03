@@ -43,48 +43,11 @@
         @if (selectedTeam(); as team) {
           <h4 class="fw-bold text-white mb-3">{{ team.name }} — Roster</h4>
 
-          @if (team.players.length) {
-            <div class="roster-table">
-              <table class="table table-striped table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th scope="col">Player</th>
-                    <th scope="col">Pos</th>
-                    <th scope="col">NBA Team</th>
-                    <th scope="col" class="text-end">PTS</th>
-                    <th scope="col" class="text-end">REB</th>
-                    <th scope="col" class="text-end">AST</th>
-                    <th scope="col" class="text-end">STL</th>
-                    <th scope="col" class="text-end">BLK</th>
-                    <th scope="col" class="text-end">3PM</th>
-                    <th scope="col" class="text-end">TO</th>
-                    <th scope="col" class="text-end">FG</th>
-                    <th scope="col" class="text-end">FT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (player of team.players; track player.playerid) {
-                    <tr>
-                      <td class="fw-semibold">{{ player.name }} {{ player.surname }}</td>
-                      <td>{{ player.position ?? '—' }}</td>
-                      <td>{{ player.irlteamname ?? '—' }}</td>
-                      <td class="text-end">{{ (player.points ?? 0) | number: '1.0-1' }}</td>
-                      <td class="text-end">{{ (player.rebounds ?? 0) | number: '1.0-1' }}</td>
-                      <td class="text-end">{{ (player.assists ?? 0) | number: '1.0-1' }}</td>
-                      <td class="text-end">{{ (player.steals ?? 0) | number: '1.0-1' }}</td>
-                      <td class="text-end">{{ (player.blocks ?? 0) | number: '1.0-1' }}</td>
-                      <td class="text-end">{{ (player.threepointers ?? 0) | number: '1.0-1' }}</td>
-                      <td class="text-end">{{ (player.turnovers ?? 0) | number: '1.0-1' }}</td>
-                      <td class="text-end">{{ (player.fieldgoal ?? 0) | number: '1.0-3' }}</td>
-                      <td class="text-end">{{ (player.freethrow ?? 0) | number: '1.0-3' }}</td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          } @else {
-            <p class="text-muted">No players on this team yet.</p>
-          }
+          <!-- Same table as the Players page, minus the fantasy-team column: every row here
+               already belongs to this team. -->
+          <app-player-table-view
+            [players]="team.players"
+            emptyMessage="No players on this team yet." />
         } @else {
           <p class="text-muted">Select a team to see its roster.</p>
         }
