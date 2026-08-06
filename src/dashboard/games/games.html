@@ -1,0 +1,102 @@
+<div class="games-container container-fluid px-5 py-4">
+
+  <div class="games-header pb-3">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+      <div>
+        <h2 class="fw-bold text-white mb-1">Games</h2>
+        <p class="text-white mb-0">
+          Every NBA game scheduled today, tomorrow and for the rest of this week. No account needed.
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <span class="games-count">
+          {{ totalGames() }} game{{ totalGames() === 1 ? '' : 's' }} scheduled
+        </span>
+        <button
+          type="button"
+          class="btn btn-sm refresh-btn"
+          [disabled]="loading()"
+          (click)="load()">
+          <i class="bi bi-arrow-clockwise"></i>
+          Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="games-body">
+    @if (error()) {
+      <div class="alert alert-danger" role="alert">{{ error() }}</div>
+    } @else {
+
+      <div class="games-scroll" [class.is-loading]="loading()">
+        @for (section of sections(); track section.key) {
+          <section class="games-section">
+            <div class="games-section-header d-flex flex-wrap align-items-baseline gap-2">
+              <h5 class="games-section-title mb-0">{{ section.title }}</h5>
+              <span class="games-section-subtitle">{{ section.subtitle }}</span>
+              <span class="badge games-section-badge ms-auto">{{ section.games.length }}</span>
+            </div>
+
+            <div class="games-grid">
+              @for (game of section.games; track game.gameId) {
+                <article class="game-card" [class.is-postponed]="game.postponed">
+                  <div class="game-card-top d-flex justify-content-between align-items-center">
+                    <span class="game-status">{{ gameStatus(game) }}</span>
+                    <span class="game-flags d-flex gap-1">
+                      @if (game.postseason) {
+                        <span class="badge game-flag game-flag-postseason">Playoffs</span>
+                      }
+                      @if (game.postponed) {
+                        <span class="badge game-flag game-flag-postponed">Postponed</span>
+                      }
+                    </span>
+                  </div>
+
+                  <div class="game-matchup">
+                    <div class="game-team">
+                      <span class="game-team-abbr">{{ teamShortName(game.visitorTeam) }}</span>
+                      <span class="game-team-name">{{ teamFullName(game.visitorTeam) }}</span>
+                      @if (hasScore(game)) {
+                        <span class="game-team-score">{{ game.visitorTeam?.score ?? 0 }}</span>
+                      }
+                    </div>
+
+                    <span class="game-at">&#64;</span>
+
+                    <div class="game-team">
+                      <span class="game-team-abbr">{{ teamShortName(game.homeTeam) }}</span>
+                      <span class="game-team-name">{{ teamFullName(game.homeTeam) }}</span>
+                      @if (hasScore(game)) {
+                        <span class="game-team-score">{{ game.homeTeam?.score ?? 0 }}</span>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="game-card-bottom">
+                    <span class="game-date font-monospace">{{ game.date }}</span>
+                    @if (game.homeTeam?.city) {
+                      <span class="game-venue">{{ game.homeTeam?.city }}</span>
+                    }
+                  </div>
+                </article>
+              } @empty {
+                <p class="games-empty mb-0">No games scheduled.</p>
+              }
+            </div>
+          </section>
+        }
+      </div>
+
+      @if (loading()) {
+        <div class="loading-overlay">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading games...</span>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+</div>

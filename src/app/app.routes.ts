@@ -16,6 +16,12 @@ export const routes: Routes = [
     loadComponent: () => import('../dashboard/players/players').then((m) => m.Players),
   },
   {
+    // Public for the same reason as /players: the NBA schedule is public data, which is why
+    // there is no authGuard here and why GET /v1/games is anonymous on the API.
+    path: 'games',
+    loadComponent: () => import('../dashboard/games/games').then((m) => m.Games),
+  },
+  {
     path: 'draft',
     canActivate: [authGuard],
     loadComponent: () => import('../dashboard/draft/draft').then((m) => m.Draft),

@@ -1,0 +1,221 @@
+// games.scss
+@use '../../../src/styles/token.scss' as t;
+
+// Same shell as the players page: a fixed-height card that scrolls internally, so the
+// page itself never grows a second scrollbar next to the sidebar.
+.games-container {
+  background-color: t.$brand-primary;
+  border-radius: t.$radius-lg;
+  margin: t.$space-6;
+  width: auto;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.games-header {
+  flex-shrink: 0;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+.games-body {
+  position: relative; // anchors the loading overlay
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: t.$space-4;
+}
+
+// The single scroll region. The three sections stack inside it so one gesture moves
+// through today -> tomorrow -> rest of week.
+.games-scroll {
+  flex-grow: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: t.$space-2;
+
+  &.is-loading { opacity: 0.35; }
+
+  &::-webkit-scrollbar { width: 8px; }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
+
+    &:hover { background: rgba(t.$text-on-dark, 0.4); }
+  }
+}
+
+.games-count {
+  font-size: t.$font-size-sm;
+  color: t.$text-muted;
+  white-space: nowrap;
+}
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: t.$space-2;
+  color: t.$text-on-dark;
+  background: t.$surface-row;
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-md;
+  white-space: nowrap;
+  transition: all t.$transition-fast;
+
+  &:hover:not(:disabled) { color: t.$brand-accent; border-color: t.$brand-accent; }
+  &:disabled { opacity: 0.4; }
+}
+
+.games-section + .games-section { margin-top: t.$space-6; }
+
+// Sticky so you always know which day the cards under the cursor belong to.
+.games-section-header {
+  position: sticky;
+  top: 0;
+  z-index: t.$z-sticky;
+  padding: t.$space-2 t.$space-1;
+  margin-bottom: t.$space-3;
+  background: t.$brand-primary;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+.games-section-title {
+  color: t.$brand-accent;
+  font-size: t.$font-size-lg;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.games-section-subtitle {
+  color: rgba(t.$text-on-dark, 0.75);
+  font-size: t.$font-size-sm;
+}
+
+.games-section-badge {
+  color: t.$color-bg-deepest;
+  background: t.$brand-accent;
+  border-radius: t.$radius-pill;
+  font-size: t.$font-size-xs;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: t.$space-3;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-3;
+  padding: t.$space-4;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  color: t.$text-on-dark;
+  transition: all t.$transition-fast;
+
+  &:hover {
+    border-color: t.$brand-accent;
+    @include t.glow-cyan(0.35);
+  }
+
+  // Dimmed rather than hidden: a postponed game still answers "is there basketball tonight".
+  &.is-postponed { opacity: 0.6; }
+}
+
+.game-status {
+  color: t.$brand-accent;
+  font-size: t.$font-size-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.game-flag {
+  border-radius: t.$radius-pill;
+  font-size: t.$font-size-xs;
+}
+
+.game-flag-postseason { color: t.$color-bg-deepest; background: t.$color-accent-orange; }
+.game-flag-postponed { color: t.$text-on-dark; background: t.$color-accent-red; }
+
+.game-matchup {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: t.$space-2;
+}
+
+.game-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: t.$space-1;
+  min-width: 0;
+  text-align: center;
+}
+
+.game-team-abbr {
+  font-size: t.$font-size-xl;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+// Truncated instead of wrapped so every card in a row keeps the same height.
+.game-team-name {
+  max-width: 100%;
+  color: t.$text-muted;
+  font-size: t.$font-size-xs;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-team-score {
+  color: t.$brand-accent;
+  font-size: t.$font-size-lg;
+  font-weight: 700;
+}
+
+.game-at {
+  color: t.$text-subtle;
+  font-size: t.$font-size-sm;
+}
+
+.game-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: t.$space-2;
+  padding-top: t.$space-2;
+  border-top: 1px solid t.$color-border-subtle;
+  color: t.$text-subtle;
+  font-size: t.$font-size-xs;
+}
+
+.game-venue {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.games-empty {
+  grid-column: 1 / -1;
+  padding: t.$space-6 0;
+  color: t.$text-muted;
+  font-size: t.$font-size-base;
+  text-align: center;
+}
+
+// Overlays the list rather than replacing it, so a refresh keeps the current slate on screen.
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: t.$brand-accent;
+  pointer-events: none;
+}
