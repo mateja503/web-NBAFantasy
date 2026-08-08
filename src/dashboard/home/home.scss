@@ -366,6 +366,12 @@
     justify-content: center;
   }
 
+  // The hero CTAs are <app-button> now. We can only size the host from here; the button
+  // inside is `flex: 1 1 auto`, so it stretches to fill it.
+  .home-hero__actions app-button {
+    width: 100%;
+  }
+
   .home-contact {
     padding: t.$space-5;
 

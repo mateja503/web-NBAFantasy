@@ -12,14 +12,17 @@
       <h3 class="column-title">Your Offer</h3>
       <div class="scroll-list">
         @for (player of myPlayers(); track player.playerId) {
-          <button
-            type="button"
-            class="player-row"
-            [class.selected]="offeredPlayerIds().includes(player.playerId)"
-            (click)="toggleOfferedPlayer(player.playerId)">
+          <app-button
+            label=""
+            variant="row"
+            shape="square"
+            [ariaLabel]="player.fullName"
+            [active]="offeredPlayerIds().includes(player.playerId)"
+            [pressable]="true"
+            (btnClick)="toggleOfferedPlayer(player.playerId)">
             <span class="pos-badge">{{ player.position }}</span>
             <span class="player-name">{{ player.fullName }}</span>
-          </button>
+          </app-button>
         } @empty {
           <p class="empty-text">You have no drafted players to offer.</p>
         }
@@ -31,13 +34,16 @@
       <h3 class="column-title">Trade With</h3>
       <div class="scroll-list">
         @for (team of otherTeams(); track team.teamid) {
-          <button
-            type="button"
-            class="team-row"
-            [class.selected]="selectedTeamId() === team.teamid"
-            (click)="selectTeam(team.teamid)">
-            {{ team.name }}
-          </button>
+          <app-button
+            label=""
+            variant="row"
+            shape="square"
+            [ariaLabel]="team.name"
+            [active]="selectedTeamId() === team.teamid"
+            [pressable]="true"
+            (btnClick)="selectTeam(team.teamid)">
+            <span class="team-name">{{ team.name }}</span>
+          </app-button>
         } @empty {
           <p class="empty-text">No other teams in this draft.</p>
         }
@@ -52,14 +58,17 @@
           <p class="empty-text">Pick a team to see their players.</p>
         } @else {
           @for (player of partnerPlayers(); track player.playerId) {
-            <button
-              type="button"
-              class="player-row"
-              [class.selected]="requestedPlayerIds().includes(player.playerId)"
-              (click)="toggleRequestedPlayer(player.playerId)">
+            <app-button
+              label=""
+              variant="row"
+              shape="square"
+              [ariaLabel]="player.fullName"
+              [active]="requestedPlayerIds().includes(player.playerId)"
+              [pressable]="true"
+              (btnClick)="toggleRequestedPlayer(player.playerId)">
               <span class="pos-badge">{{ player.position }}</span>
               <span class="player-name">{{ player.fullName }}</span>
-            </button>
+            </app-button>
           } @empty {
             <p class="empty-text">This team has no drafted players.</p>
           }

@@ -7,6 +7,7 @@ import { PlayerService } from '../../services/player-service';
 import { Player, PlayersFilter } from '../../models/player';
 import { GlobalStore } from '../../store/globalStore';
 import { PlayerTableView } from '../../components/player-table-view/player-table-view';
+import { Button } from '../../components/button/button';
 
 /** One min/max pair, as edited in the filter panel. */
 interface StatRange {
@@ -80,7 +81,7 @@ function cloneAdvanced(source: AdvancedFilters): AdvancedFilters {
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [CommonModule, FormsModule, PlayerTableView],
+  imports: [CommonModule, FormsModule, PlayerTableView, Button],
   templateUrl: './players.html',
   styleUrl: './players.scss',
 })

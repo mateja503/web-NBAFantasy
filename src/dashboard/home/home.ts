@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ImagePlaceholder } from '../../components/image-placeholder/image-placeholder';
+import { Button } from '../../components/button/button';
 
 interface FeatureCard {
   icon: string;
@@ -18,7 +19,7 @@ interface Shot {
 
 @Component({
   selector: 'app-home',
-  imports: [ImagePlaceholder],
+  imports: [ImagePlaceholder, Button],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

@@ -54,32 +54,28 @@
   white-space: nowrap;
 }
 
-.refresh-btn {
-  display: flex;
-  align-items: center;
-  gap: t.$space-2;
-  color: t.$text-on-dark;
-  background: t.$surface-row;
+// Each day gets its own black panel, so the three buckets read as three separate slates
+// instead of one long list running over the blue page background.
+.games-section {
+  padding: t.$space-4;
+  background: t.$color-bg-deepest;
   border: 1px solid t.$color-border-card;
-  border-radius: t.$radius-md;
-  white-space: nowrap;
-  transition: all t.$transition-fast;
-
-  &:hover:not(:disabled) { color: t.$brand-accent; border-color: t.$brand-accent; }
-  &:disabled { opacity: 0.4; }
+  border-radius: t.$radius-lg;
 }
 
-.games-section + .games-section { margin-top: t.$space-6; }
+.games-section + .games-section { margin-top: t.$space-5; }
 
-// Sticky so you always know which day the cards under the cursor belong to.
+// Sticky so you always know which day the cards under the cursor belong to. The negative
+// margins pull it out to the panel edges so the sticky bar spans the full black box.
 .games-section-header {
   position: sticky;
   top: 0;
   z-index: t.$z-sticky;
-  padding: t.$space-2 t.$space-1;
-  margin-bottom: t.$space-3;
-  background: t.$brand-primary;
+  margin: (t.$space-4 * -1) (t.$space-4 * -1) t.$space-3;
+  padding: t.$space-3 t.$space-4;
+  background: t.$color-bg-deepest;
   border-bottom: 1px solid t.$color-border-subtle;
+  border-radius: t.$radius-lg t.$radius-lg 0 0;
 }
 
 .games-section-title {

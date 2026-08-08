@@ -1,35 +1,221 @@
-// button.scss
+// button.scss — the one button in the app. Variant = colour, shape = radius, size = padding.
 @use '../../../src/styles/token.scss' as t;
 
+// The host hugs its button, so a parent can size it (`app-button { width: 100% }`) and the
+// button follows. Without this the host would be a full-width block and break inline rows.
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
 .button {
-  display: flex;
-  justify-content: center;
+  flex: 1 1 auto;
+  display: inline-flex;
   align-items: center;
-  background-color: t.$color-bg-btn;
-  color: t.$text-on-dark;
-  border: t.$text-on-dark solid 1px;
-  padding: t.$space-2 + 2 t.$space-5;
+  justify-content: center;
+  gap: t.$space-2;
+  border: 1px solid transparent;
+  font-family: inherit;
+  line-height: 1.2;
+  white-space: nowrap;
   cursor: pointer;
-  border-radius: 15px;
-  width: 100px;
   transition:
-    background-color t.$transition-slow,
+    background-color t.$transition-base,
+    border-color t.$transition-base,
+    color t.$transition-base,
+    box-shadow t.$transition-base,
     opacity t.$transition-slow,
     transform t.$transition-fast;
-
-  &:hover {
-    background-color: t.$color-bg-btn-hover;
-    opacity: 0.9;
-  }
 
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
-    background-color: rgba(30, 68, 114, 0.5);
     pointer-events: none;
   }
 
   &:active:not(:disabled) {
     transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid t.$brand-accent;
+    outline-offset: 2px;
+  }
+}
+
+.button__icon {
+  line-height: 1;
+}
+
+// -----------------------------------------------------------------------------
+// SHAPE
+// -----------------------------------------------------------------------------
+
+.button--square { border-radius: t.$radius-sm; }
+.button--rounded { border-radius: t.$radius-btn; }
+.button--pill { border-radius: t.$radius-pill; }
+
+// -----------------------------------------------------------------------------
+// SIZE
+// -----------------------------------------------------------------------------
+
+.button--sm {
+  padding: t.$space-1 + 2 t.$space-3;
+  font-size: t.$font-size-sm;
+}
+
+.button--md {
+  padding: t.$space-2 t.$space-4;
+  font-size: t.$font-size-base;
+}
+
+.button--lg {
+  padding: t.$space-3 t.$space-6;
+  font-size: t.$font-size-md;
+  font-weight: 600;
+}
+
+// Short codes (PG, SF, C…) read better fixed-width, and a one-letter pill needs a floor.
+.button--mono {
+  min-width: 44px;
+  font-family: t.$font-family-mono;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// -----------------------------------------------------------------------------
+// VARIANTS
+// -----------------------------------------------------------------------------
+
+// Unchanged from the original component: fixed box, dark navy, white hairline. Inline
+// [width]/[height] still win over these, exactly as they did before.
+.button--primary {
+  width: 100px;
+  height: 40px;
+  padding: t.$space-2 + 2 t.$space-5;
+  background-color: t.$color-bg-btn;
+  border-color: t.$text-on-dark;
+  color: t.$text-on-dark;
+
+  &:hover:not(:disabled) {
+    background-color: t.$color-bg-btn-hover;
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    background-color: rgba(30, 68, 114, 0.5);
+  }
+}
+
+.button--brand {
+  background-color: t.$brand-primary;
+  border-color: rgba(t.$text-on-dark, 0.25);
+  color: t.$text-on-dark;
+  @include t.glow-blue(0.35);
+
+  &:hover:not(:disabled) {
+    background-color: t.$color-accent-blue;
+    transform: translateY(-2px);
+    @include t.glow-blue(0.55);
+  }
+}
+
+.button--accent {
+  background-color: t.$brand-accent;
+  border-color: t.$brand-accent;
+  color: t.$color-bg-deepest;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    @include t.glow-cyan(0.5);
+  }
+}
+
+.button--ghost {
+  background-color: t.$surface-row;
+  border-color: t.$color-border-card;
+  color: t.$text-on-dark;
+
+  &:hover:not(:disabled) {
+    color: t.$brand-accent;
+    border-color: t.$brand-accent;
+  }
+
+  // Tinted rather than solid cyan: these carry a count badge or sit in a dense pill row,
+  // and a solid fill would swallow the badge and shout over the table beside it.
+  &.is-active {
+    background-color: rgba(t.$brand-accent, 0.15);
+    border-color: t.$brand-accent;
+    color: t.$brand-accent;
+    @include t.glow-cyan();
+  }
+}
+
+.button--outline {
+  background-color: transparent;
+  border-color: rgba(t.$brand-accent, 0.5);
+  color: t.$brand-accent;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(t.$brand-accent, 0.1);
+    transform: translateY(-2px);
+    @include t.glow-cyan(0.3);
+  }
+}
+
+.button--success {
+  background-color: transparent;
+  border-color: t.$color-accent-green;
+  color: t.$color-accent-green;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  &:hover:not(:disabled) {
+    background-color: t.$color-accent-green;
+    color: t.$text-on-dark;
+  }
+}
+
+// Segmented control: no chrome until selected, so the group reads as one strip.
+.button--toggle {
+  background-color: transparent;
+  border-color: transparent;
+  color: t.$color-text-dark;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    color: t.$text-on-dark;
+  }
+
+  &.is-active {
+    background-color: t.$brand-secondary;
+    color: t.$text-on-dark;
+    @include t.glow-blue();
+  }
+}
+
+// A selectable list item that happens to be a button — full width, content left-aligned.
+.button--row {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  background-color: t.$surface-row;
+  border-color: t.$border-card;
+  color: t.$text-on-dark;
+
+  &:hover:not(:disabled) {
+    border-color: t.$brand-accent;
+  }
+
+  &.is-active {
+    background-color: rgba(t.$brand-accent, 0.12);
+    border-color: t.$brand-accent;
+    @include t.glow-cyan(0.35);
+  }
+
+  .button__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

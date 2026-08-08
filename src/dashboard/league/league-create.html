@@ -262,7 +262,9 @@
         </section>
 
         <div class="submit-btn">
-            <app-button label="Create League" width="350px"></app-button>
+            <!-- type="submit" is explicit now: <app-button> defaults to type="button", so it
+                 no longer submits the form by accident (or by luck, as this one did). -->
+            <app-button label="Create League" type="submit" width="350px"></app-button>
         </div>
     </form>
 </div>

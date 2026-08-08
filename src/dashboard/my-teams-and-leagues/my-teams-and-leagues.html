@@ -20,13 +20,13 @@
         </app-button>
       <!-- } -->
 
-      <div class="btn-group filter-group p-1" role="group">
-        <button (click)="setFilter('all')" [class.active]="currentFilter() === 'all'"
-          class="btn btn-filter px-4 py-2">All</button>
-        <button (click)="setFilter('team')" [class.active]="currentFilter() === 'team'"
-          class="btn btn-filter px-4 py-2">Teams</button>
-        <button (click)="setFilter('league')" [class.active]="currentFilter() === 'league'"
-          class="btn btn-filter px-4 py-2">Leagues</button>
+      <div class="filter-group p-1" role="group" aria-label="Filter by type">
+        <app-button label="All" variant="toggle" shape="pill"
+          [active]="currentFilter() === 'all'" [pressable]="true" (btnClick)="setFilter('all')" />
+        <app-button label="Teams" variant="toggle" shape="pill"
+          [active]="currentFilter() === 'team'" [pressable]="true" (btnClick)="setFilter('team')" />
+        <app-button label="Leagues" variant="toggle" shape="pill"
+          [active]="currentFilter() === 'league'" [pressable]="true" (btnClick)="setFilter('league')" />
       </div>
     </div>
   </div>

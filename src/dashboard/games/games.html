@@ -13,14 +13,14 @@
         <span class="games-count">
           {{ totalGames() }} game{{ totalGames() === 1 ? '' : 's' }} scheduled
         </span>
-        <button
-          type="button"
-          class="btn btn-sm refresh-btn"
+        <app-button
+          label="Refresh"
+          variant="ghost"
+          size="sm"
+          icon="arrow-clockwise"
+          [showIcon]="true"
           [disabled]="loading()"
-          (click)="load()">
-          <i class="bi bi-arrow-clockwise"></i>
-          Refresh
-        </button>
+          (btnClick)="load()" />
       </div>
     </div>
   </div>

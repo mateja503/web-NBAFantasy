@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Button } from '../../components/button/button';
 import { Game, GameService, ScheduledGames } from '../../services/game-service';
 
 /** One rendered block on the page. The API already returns the three buckets pre-split. */
@@ -14,7 +15,7 @@ interface GameSection {
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Button],
   templateUrl: './games.html',
   styleUrl: './games.scss',
 })

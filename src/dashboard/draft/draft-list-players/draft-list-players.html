@@ -11,15 +11,15 @@
             </span>
         </div>
             @for (pos of positions; track pos) {
-                <button 
-                    type="button"
-                    (click)="togglePosition(pos)"
-                    class="btn btn-sm filter-pill font-monospace fw-bold transition-all text-uppercase"
-                    [class.active-pill]="selectedPositions().includes(pos)"
-                    [class.inactive-pill]="!selectedPositions().includes(pos)"
-                >
-                    {{ pos }}
-                </button>
+                <app-button
+                    [label]="pos"
+                    variant="ghost"
+                    shape="square"
+                    size="sm"
+                    [mono]="true"
+                    [active]="selectedPositions().includes(pos)"
+                    [pressable]="true"
+                    (btnClick)="togglePosition(pos)" />
             }
         </div>
 
@@ -46,11 +46,12 @@
                 </div>
             </div>
 
-            <button (click)="draftPlayer(player.playerId)"
+            <app-button
+                label="Draft"
+                variant="success"
+                size="sm"
                 [disabled]="!draftStarted"
-                class="btn btn-sm btn-outline-success fw-bold px-3 text-uppercase shadow-sm hover-draft-btn">
-                Draft
-            </button>
+                (btnClick)="draftPlayer(player.playerId)" />
         </div>
         } @empty {
         <div class="text-center py-5 text-muted">
