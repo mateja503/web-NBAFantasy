@@ -20,30 +20,34 @@
             (ngModelChange)="onSearch($event)" />
         </div>
 
-        <button
-          type="button"
-          class="btn btn-sm filter-toggle"
-          [class.open]="filtersOpen()"
-          (click)="toggleFilters()">
-          <i class="bi bi-sliders"></i>
-          Filters
+        <app-button
+          label="Filters"
+          variant="ghost"
+          size="sm"
+          icon="sliders"
+          [showIcon]="true"
+          [active]="filtersOpen()"
+          [pressable]="true"
+          (btnClick)="toggleFilters()">
           @if (activeFilterCount() > 0) {
             <span class="badge filter-badge">{{ activeFilterCount() }}</span>
           }
-        </button>
+        </app-button>
       </div>
     </div>
 
     <div class="d-flex flex-wrap align-items-center gap-2 pt-3">
       <span class="filter-label text-uppercase font-monospace">Filter by positions:</span>
       @for (pos of positions; track pos) {
-        <button
-          type="button"
-          class="btn btn-sm filter-pill font-monospace fw-bold text-uppercase"
-          [class.active-pill]="selectedPositions().includes(pos)"
-          (click)="togglePosition(pos)">
-          {{ pos }}
-        </button>
+        <app-button
+          [label]="pos"
+          variant="ghost"
+          shape="pill"
+          size="sm"
+          [mono]="true"
+          [active]="selectedPositions().includes(pos)"
+          [pressable]="true"
+          (btnClick)="togglePosition(pos)" />
       }
     </div>
   </div>
@@ -151,8 +155,8 @@
       </div>
 
       <div class="filter-actions d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-sm pager-btn" (click)="resetFilters()">Reset all</button>
-        <button type="button" class="btn btn-sm apply-btn" (click)="applyFilters()">Apply filters</button>
+        <app-button label="Reset all" variant="ghost" size="sm" (btnClick)="resetFilters()" />
+        <app-button label="Apply filters" variant="accent" size="sm" (btnClick)="applyFilters()" />
       </div>
     </div>
   }
@@ -175,25 +179,28 @@
         </span>
 
         <div class="d-flex align-items-center gap-3">
-          <button
-            type="button"
-            class="btn btn-sm pager-btn"
+          <app-button
+            label="Prev"
+            variant="ghost"
+            size="sm"
+            icon="chevron-left"
+            [showIcon]="true"
             [disabled]="page() <= 1 || loading()"
-            (click)="goToPage(page() - 1)">
-            ‹ Prev
-          </button>
+            (btnClick)="goToPage(page() - 1)" />
 
           <span class="pager-position font-monospace">
             Page {{ page() }} of {{ totalPages() || 1 }}
           </span>
 
-          <button
-            type="button"
-            class="btn btn-sm pager-btn"
+          <app-button
+            label="Next"
+            variant="ghost"
+            size="sm"
+            icon="chevron-right"
+            iconPosition="right"
+            [showIcon]="true"
             [disabled]="page() >= totalPages() || loading()"
-            (click)="goToPage(page() + 1)">
-            Next ›
-          </button>
+            (btnClick)="goToPage(page() + 1)" />
 
           <select
             class="form-select form-select-sm page-size-select w-auto"

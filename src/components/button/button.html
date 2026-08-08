@@ -1,8 +1,26 @@
-<button mat-elevated-button class="button"
+<button
+  [type]="type"
+  [class]="classes"
   [disabled]="disabled"
+  [attr.aria-label]="ariaLabel || null"
+  [attr.aria-pressed]="ariaPressed"
   [style.width]="width"
   [style.height]="height"
   [style.background-color]="color"
-  (click)="onClick($event)" >
-  {{ label }}
+  (click)="onClick($event)">
+
+  @if (renderIcon && iconPosition === 'left') {
+    <i [class]="iconClass" aria-hidden="true"></i>
+  }
+
+  @if (hasLabel) {
+    <span class="button__label">{{ label }}</span>
+  }
+
+  <!-- Anything the inputs can't express: count badges, the position badge in a trade row. -->
+  <ng-content />
+
+  @if (renderIcon && iconPosition === 'right') {
+    <i [class]="iconClass" aria-hidden="true"></i>
+  }
 </button>

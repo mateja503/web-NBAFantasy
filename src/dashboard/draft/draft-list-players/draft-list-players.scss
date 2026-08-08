@@ -50,28 +50,6 @@
 
 .gap-1\.5 { gap: 0.375rem !important; }
 
-// Filter pills
-.filter-pill {
-  border-radius: t.$radius-sm;
-  font-size: t.$font-size-sm;
-  padding: t.$space-1 t.$space-1 + 2;
-  border: 1px solid t.$color-border-subtle;
-}
-
-.inactive-pill {
-  background-color: t.$surface-row;
-  color: #a0aec0;
-
-  &:hover {
-    background-color: #22272f;
-    color: t.$text-on-dark;
-    border-color: rgba(t.$brand-accent, 0.4);
-  }
-}
-
-.active-pill {
-  background-color: rgba(t.$brand-accent, 0.15) !important;
-  color: t.$brand-accent !important;
-  border-color: t.$brand-accent !important;
-  @include t.glow-cyan();
-}
+// The position pills and the Draft button are <app-button> now (ghost/square/mono and
+// success). Their chrome lives in button.scss — the `!important` overrides that used to
+// be needed to beat Bootstrap's .btn went away with them.

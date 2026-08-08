@@ -68,36 +68,15 @@
   gap: t.$space-1;
 }
 
-.player-row,
-.team-row {
+// The rows are <app-button variant="row"> now; their chrome lives in button.scss. We can
+// only reach the host from here, so the host has to stretch and the button inside follows.
+.scroll-list app-button {
   display: flex;
-  align-items: center;
-  gap: t.$space-2;
   width: 100%;
-  text-align: left;
-  padding: t.$space-2;
-  background: t.$surface-row;
-  border: 1px solid t.$border-card;
-  border-radius: t.$radius-sm;
-  color: t.$text-on-dark;
-  cursor: pointer;
-  transition: t.$transition-base;
-
-  &:hover {
-    border-color: t.$brand-accent;
-  }
-
-  &.selected {
-    border-color: t.$brand-accent;
-    background: rgba(t.$brand-accent, 0.12);
-    @include t.glow-cyan(0.35);
-  }
 }
 
-.team-row {
-  font-weight: 600;
-}
-
+// Projected into the button but styled here — projected nodes keep this component's
+// encapsulation, so these two selectors still match.
 .pos-badge {
   flex-shrink: 0;
   min-width: 34px;
@@ -113,6 +92,13 @@
 
 .player-name {
   font-size: t.$font-size-base;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-name {
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

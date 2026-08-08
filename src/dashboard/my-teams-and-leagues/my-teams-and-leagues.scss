@@ -42,27 +42,15 @@
   }
 }
 
+// Segmented control. The three segments are <app-button variant="toggle">, so only the
+// strip around them lives here — Bootstrap's .btn-group is gone because it targets .btn
+// children, which these no longer are.
 .filter-group {
+  display: inline-flex;
+  gap: t.$space-1;
   background-color: #1a1d2e;
   border-radius: t.$radius-pill;
   border: 1px solid t.$color-border-card;
-
-  .btn-filter {
-    color: t.$color-text-dark;
-    border: none;
-    border-radius: 25px;
-    font-weight: 600;
-    font-size: t.$font-size-base;
-    transition: all t.$transition-base;
-
-    &:hover { color: t.$text-on-dark; }
-
-    &.active {
-      background-color: t.$brand-secondary;
-      color: t.$text-on-dark;
-      @include t.glow-blue();
-    }
-  }
 }
 
 .sports-card {

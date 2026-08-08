@@ -33,12 +33,22 @@
           </p>
 
           <div class="home-hero__actions">
-            <button type="button" class="home-btn home-btn--primary" (click)="scrollTo('features')">
-              <i class="bi bi-play-circle"></i> See what it does
-            </button>
-            <button type="button" class="home-btn home-btn--ghost" (click)="scrollTo('contact')">
-              <i class="bi bi-envelope"></i> Get in touch
-            </button>
+            <app-button
+              label="See what it does"
+              variant="brand"
+              shape="pill"
+              size="lg"
+              icon="play-circle"
+              [showIcon]="true"
+              (btnClick)="scrollTo('features')" />
+            <app-button
+              label="Get in touch"
+              variant="outline"
+              shape="pill"
+              size="lg"
+              icon="envelope"
+              [showIcon]="true"
+              (btnClick)="scrollTo('contact')" />
           </div>
 
           <p class="home-hero__hint">
