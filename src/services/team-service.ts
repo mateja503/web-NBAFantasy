@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GetLeagueTeamsResponse, UserTeamResponse } from '../models/team';
+import { Player } from '../models/player';
 import { ConfigService } from '../app/core/config/config.service';
 
 // Team now lives in the canonical models folder. Re-exported here so existing
@@ -24,5 +25,12 @@ export class TeamService {
   // match the one the bearer token was issued for, so this can only ever return your own teams.
   getUserTeams(userId: number): Observable<UserTeamResponse[]> {
     return this.http.get<UserTeamResponse[]>(`${this.teamUrl}/get-user-teams/${userId}`);
+  }
+
+  // Any roster in a league you play in — what the trade board needs to show the other side of an
+  // offer, which getUserTeams (your teams only) cannot answer. The API enforces the
+  // league-membership check, so a teamId from another league comes back as an error, not a roster.
+  getTeamPlayers(teamId: number): Observable<Player[]> {
+    return this.http.get<Player[]>(`${this.teamUrl}/get-team-players/${teamId}`);
   }
 }

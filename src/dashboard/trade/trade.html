@@ -1,1 +1,376 @@
-<p>trade works!</p>
+<div class="trade-container container-fluid px-5 py-4">
+
+  <div class="trade-header pb-3">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+      <div>
+        <h2 class="fw-bold text-white mb-1">Trades</h2>
+        <p class="text-white mb-0">
+          @if (leagueName) {
+            Every offer on the table in {{ leagueName }}. Answer one, counter it, or put your own up.
+          } @else {
+            Every offer on the table in your league. Answer one, counter it, or put your own up.
+          }
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        @if (hasContext) {
+          <span class="trade-live" [class.is-live]="connected()">
+            <i class="bi bi-broadcast" aria-hidden="true"></i>
+            {{ connected() ? 'Live' : 'Offline' }}
+          </span>
+          <span class="trade-count">
+            {{ openCount() }} open offer{{ openCount() === 1 ? '' : 's' }}
+          </span>
+          <app-button
+            label="Refresh"
+            variant="ghost"
+            size="sm"
+            icon="arrow-clockwise"
+            [showIcon]="true"
+            [disabled]="loading()"
+            (btnClick)="load()" />
+          <app-button
+            label="New offer"
+            variant="accent"
+            size="sm"
+            icon="plus-lg"
+            [showIcon]="true"
+            (btnClick)="startNewOffer()" />
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="trade-body">
+    @if (!hasContext) {
+      <!-- The page is scoped to one team in one league; without both there is nothing to show. -->
+      <div class="alert alert-warning" role="alert">
+        Pick the league and the team you manage on <strong>My Teams &amp; Leagues</strong> first —
+        the trade board is scoped to one team in one league.
+      </div>
+    } @else if (error()) {
+      <div class="alert alert-danger" role="alert">{{ error() }}</div>
+    } @else {
+
+      <div class="trade-filters d-flex flex-wrap align-items-center gap-2">
+        <app-button
+          label="Open"
+          variant="toggle"
+          size="sm"
+          [pressable]="true"
+          [active]="filter() === 'open'"
+          (btnClick)="setFilter('open')" />
+        <app-button
+          variant="toggle"
+          size="sm"
+          label="To me"
+          [pressable]="true"
+          [active]="filter() === 'incoming'"
+          (btnClick)="setFilter('incoming')">
+          @if (incomingCount() > 0) {
+            <span class="badge trade-filter-badge">{{ incomingCount() }}</span>
+          }
+        </app-button>
+        <app-button
+          label="From me"
+          variant="toggle"
+          size="sm"
+          [pressable]="true"
+          [active]="filter() === 'outgoing'"
+          (btnClick)="setFilter('outgoing')" />
+        <app-button
+          label="Settled"
+          variant="toggle"
+          size="sm"
+          [pressable]="true"
+          [active]="filter() === 'settled'"
+          (btnClick)="setFilter('settled')" />
+      </div>
+
+      <div class="trade-layout">
+
+        <!-- The board: every offer in the league, not just the ones aimed at me. -->
+        <section class="trade-list" [class.is-loading]="loading()">
+          @for (view of visibleTrades(); track view.trade.tradeguid) {
+            <!-- Selectable by keyboard as well as pointer: the panel is the only way to act on an
+                 offer, so reaching it must not require a mouse. -->
+            <article
+              class="trade-card"
+              role="button"
+              tabindex="0"
+              [attr.aria-pressed]="selectedTradeId() === view.trade.tradeguid"
+              [class.is-selected]="selectedTradeId() === view.trade.tradeguid"
+              [class.is-incoming]="view.isIncoming"
+              [class.is-settled]="!view.isOpen"
+              (click)="selectTrade(view)"
+              (keydown.enter)="selectTrade(view)"
+              (keydown.space)="$event.preventDefault(); selectTrade(view)">
+
+              <header class="trade-card-top d-flex justify-content-between align-items-center gap-2">
+                <span class="trade-teams">
+                  <span class="trade-team-name">{{ view.fromTeamName }}</span>
+                  <i class="bi bi-arrow-left-right mx-2" aria-hidden="true"></i>
+                  <span class="trade-team-name">{{ view.toTeamName }}</span>
+                </span>
+
+                <span class="d-flex align-items-center gap-1">
+                  @if (view.isIncoming) {
+                    <span class="badge trade-tag trade-tag-incoming">To you</span>
+                  }
+                  @if (view.isOutgoing) {
+                    <span class="badge trade-tag trade-tag-outgoing">From you</span>
+                  }
+                  <span class="badge trade-status" [class]="'trade-status-' + view.trade.status">
+                    {{ statusLabel(view.trade) }}
+                  </span>
+                </span>
+              </header>
+
+              <div class="trade-sides">
+                <div class="trade-side">
+                  <span class="trade-side-label">{{ view.fromTeamName }} sends</span>
+                  @for (player of view.gives; track player.playerid) {
+                    <span class="trade-chip">
+                      <span class="trade-chip-pos">{{ positionLabel(player) }}</span>
+                      {{ playerLabel(player) }}
+                    </span>
+                  } @empty {
+                    <span class="trade-chip trade-chip-empty">Nothing</span>
+                  }
+                </div>
+
+                <div class="trade-side">
+                  <span class="trade-side-label">{{ view.toTeamName }} sends</span>
+                  @for (player of view.gets; track player.playerid) {
+                    <span class="trade-chip">
+                      <span class="trade-chip-pos">{{ positionLabel(player) }}</span>
+                      {{ playerLabel(player) }}
+                    </span>
+                  } @empty {
+                    <span class="trade-chip trade-chip-empty">Nothing</span>
+                  }
+                </div>
+              </div>
+
+              <footer class="trade-card-bottom">
+                <span class="font-monospace">{{ formatDate(view.trade.tscreated) }}</span>
+              </footer>
+            </article>
+          } @empty {
+            <p class="trade-empty mb-0">
+              @switch (filter()) {
+                @case ('incoming') { No one has offered you a trade yet. }
+                @case ('outgoing') { You have no offers on the table. }
+                @case ('settled') { Nothing has been settled in this league yet. }
+                @default { No open offers in this league. Put one up and get things moving. }
+              }
+            </p>
+          }
+        </section>
+
+        <!-- One panel, three states: the builder, the selected offer, or a prompt. -->
+        <aside class="trade-panel">
+
+          @if (builderOpen()) {
+            <div class="trade-panel-head">
+              <h5 class="trade-panel-title mb-0">
+                {{ counterOf() ? 'Counter offer' : 'New offer' }}
+              </h5>
+              <app-button label="Cancel" variant="ghost" size="sm" (btnClick)="cancelBuilder()" />
+            </div>
+
+            @if (counterOf(); as original) {
+              <p class="trade-panel-note">
+                Sending this closes {{ teamName(original.fromteamid) }}'s offer and puts yours up
+                in its place.
+              </p>
+            }
+
+            <div class="trade-panel-scroll">
+              <div class="trade-builder-block">
+                <span class="trade-side-label">Trade with</span>
+                <div class="trade-team-picker">
+                  @for (team of otherTeams(); track team.teamid) {
+                    <app-button
+                      [label]="team.name"
+                      variant="ghost"
+                      size="sm"
+                      shape="pill"
+                      [pressable]="true"
+                      [active]="partnerTeamId() === team.teamid"
+                      (btnClick)="selectPartner(team.teamid)" />
+                  } @empty {
+                    <span class="trade-empty-inline">No other teams in this league yet.</span>
+                  }
+                </div>
+              </div>
+
+              <div class="trade-builder-block">
+                <span class="trade-side-label">You put up</span>
+                <div class="trade-roster">
+                  @for (player of myRoster(); track player.playerid) {
+                    <button
+                      type="button"
+                      class="trade-roster-row"
+                      [class.is-picked]="isOffered(player.playerid)"
+                      (click)="toggleOffered(player.playerid)">
+                      <span class="trade-chip-pos">{{ positionLabel(player) }}</span>
+                      <span class="trade-roster-name">{{ playerLabel(player) }}</span>
+                      <span class="trade-roster-stat">{{ player.points ?? 0 }} pts</span>
+                    </button>
+                  } @empty {
+                    <span class="trade-empty-inline">Your roster is empty.</span>
+                  }
+                </div>
+              </div>
+
+              <div class="trade-builder-block">
+                <span class="trade-side-label">You ask for</span>
+                @if (partnerTeamId() === null) {
+                  <span class="trade-empty-inline">Pick a team above to see their roster.</span>
+                } @else {
+                  <div class="trade-roster">
+                    @for (player of partnerRoster(); track player.playerid) {
+                      <button
+                        type="button"
+                        class="trade-roster-row"
+                        [class.is-picked]="isRequested(player.playerid)"
+                        (click)="toggleRequested(player.playerid)">
+                        <span class="trade-chip-pos">{{ positionLabel(player) }}</span>
+                        <span class="trade-roster-name">{{ playerLabel(player) }}</span>
+                        <span class="trade-roster-stat">{{ player.points ?? 0 }} pts</span>
+                      </button>
+                    } @empty {
+                      <span class="trade-empty-inline">That team has no players to trade.</span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="trade-panel-foot">
+              @if (actionError()) {
+                <p class="trade-error mb-2">{{ actionError() }}</p>
+              }
+              <p class="trade-summary mb-2">
+                Giving {{ offeredPlayers().length }} · asking for {{ requestedPlayers().length }}
+              </p>
+              <app-button
+                [label]="sending() ? 'Sending...' : 'Send offer'"
+                variant="accent"
+                size="md"
+                [disabled]="!canSend()"
+                (btnClick)="send()" />
+            </div>
+
+          } @else if (selectedTrade(); as view) {
+            <div class="trade-panel-head">
+              <h5 class="trade-panel-title mb-0">{{ statusLabel(view.trade) }} offer</h5>
+              <span class="badge trade-status" [class]="'trade-status-' + view.trade.status">
+                {{ statusLabel(view.trade) }}
+              </span>
+            </div>
+
+            <div class="trade-panel-scroll">
+              <div class="trade-builder-block">
+                <span class="trade-side-label">{{ view.fromTeamName }} sends</span>
+                <div class="trade-roster">
+                  @for (player of view.gives; track player.playerid) {
+                    <div class="trade-roster-row is-static">
+                      <span class="trade-chip-pos">{{ positionLabel(player) }}</span>
+                      <span class="trade-roster-name">{{ playerLabel(player) }}</span>
+                      <span class="trade-roster-stat">{{ player.points ?? 0 }} pts</span>
+                    </div>
+                  } @empty {
+                    <span class="trade-empty-inline">Nothing.</span>
+                  }
+                </div>
+              </div>
+
+              <div class="trade-builder-block">
+                <span class="trade-side-label">{{ view.toTeamName }} sends</span>
+                <div class="trade-roster">
+                  @for (player of view.gets; track player.playerid) {
+                    <div class="trade-roster-row is-static">
+                      <span class="trade-chip-pos">{{ positionLabel(player) }}</span>
+                      <span class="trade-roster-name">{{ playerLabel(player) }}</span>
+                      <span class="trade-roster-stat">{{ player.points ?? 0 }} pts</span>
+                    </div>
+                  } @empty {
+                    <span class="trade-empty-inline">Nothing.</span>
+                  }
+                </div>
+              </div>
+
+              <p class="trade-panel-note mb-0">
+                Proposed {{ formatDate(view.trade.tscreated) }}.
+              </p>
+            </div>
+
+            <div class="trade-panel-foot">
+              @if (actionError()) {
+                <p class="trade-error mb-2">{{ actionError() }}</p>
+              }
+
+              @if (view.isIncoming) {
+                <div class="d-flex flex-wrap gap-2">
+                  <app-button
+                    label="Accept"
+                    variant="accent"
+                    size="sm"
+                    [disabled]="sending()"
+                    (btnClick)="accept(view)" />
+                  <app-button
+                    label="Counter"
+                    variant="outline"
+                    size="sm"
+                    [disabled]="sending()"
+                    (btnClick)="startCounter(view)" />
+                  <app-button
+                    label="Decline"
+                    variant="ghost"
+                    size="sm"
+                    [disabled]="sending()"
+                    (btnClick)="decline(view)" />
+                </div>
+              } @else if (view.isOutgoing) {
+                <p class="trade-panel-note mb-2">
+                  Waiting on {{ view.toTeamName }} to answer.
+                </p>
+                <app-button
+                  label="Withdraw"
+                  variant="ghost"
+                  size="sm"
+                  [disabled]="sending()"
+                  (btnClick)="decline(view)" />
+              } @else if (view.isOpen) {
+                <p class="trade-panel-note mb-0">
+                  This offer is between {{ view.fromTeamName }} and {{ view.toTeamName }} — you can
+                  watch it, but only they can answer it.
+                </p>
+              } @else {
+                <p class="trade-panel-note mb-0">This offer is settled. Nothing left to do.</p>
+              }
+            </div>
+
+          } @else {
+            <div class="trade-panel-placeholder">
+              <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+              <p class="mb-0">Pick an offer to see both sides, or start one of your own.</p>
+            </div>
+          }
+        </aside>
+      </div>
+
+      @if (loading()) {
+        <div class="loading-overlay">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading trades...</span>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+</div>
