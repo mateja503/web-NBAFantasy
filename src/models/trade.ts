@@ -3,12 +3,12 @@
  * methods. Mirrors the API's TradeDto one for one (all-lowercase names, because the DTO
  * mirrors the nba.trades column casing).
  *
- * `tradeguid` — not `tradeid` — is the id every other call quotes back: it is the id that
- * also travels over SignalR, while `tradeid` is a database surrogate.
+ * `tradeid` is a UUID string, not a surrogate number: nba.trades.tradeid is itself the UUID
+ * primary key, and the same id travels in the Redis copy and over SignalR. It is the only id
+ * a trade has, and the one every call quotes back.
  */
 export interface Trade {
-  tradeid: number;
-  tradeguid: string;
+  tradeid: string;
   leagueid: number;
   fromteamid: number;
   toteamid: number;

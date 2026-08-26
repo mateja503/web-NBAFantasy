@@ -125,14 +125,12 @@ export class TradeHub extends Hubservice {
    * do nothing when the event is dropped (a reconnect mid-call, a backplane hiccup).
    */
   public applyTrade(trade: Trade): void {
-    if (!trade?.tradeguid) return;
+    if (!trade?.tradeid) return;
 
     this.upsertTrade(trade);
 
     if (trade.status !== 'pending') {
-      this.incomingTradeRequests.update((prev) =>
-        prev.filter((t) => t.tradeId !== trade.tradeguid),
-      );
+      this.incomingTradeRequests.update((prev) => prev.filter((t) => t.tradeId !== trade.tradeid));
     }
   }
 
@@ -203,11 +201,13 @@ export class TradeHub extends Hubservice {
     return this.hubConnection.invoke<T>(method, ...args);
   }
 
-  /** The SignalR payload carries no status or row id — the event it arrived on supplies both. */
+  /** The SignalR payload carries no status — the event it arrived on supplies it. */
   private toTrade(trade: TradeBetweenTeams, status: TradeStatus): Trade {
     return {
-      tradeid: 0,
-      tradeguid: trade.tradeId,
+      // Same id the REST row carries: nba.trades.tradeid is the UUID, and TradeBetweenTeams.TradeId
+      // is that same value. Keying both sources on it is what stops a pushed offer from landing
+      // next to its own REST copy as a second card.
+      tradeid: trade.tradeId,
       leagueid: this.connectedLeagueId ?? 0,
       fromteamid: trade.fromTeam,
       toteamid: trade.toTeam,
@@ -218,17 +218,22 @@ export class TradeHub extends Hubservice {
     };
   }
 
-  /** Keyed on the guid so a re-delivered event (reconnect, backlog replay) updates, not duplicates. */
+  /** Keyed on the id so a re-delivered event (reconnect, backlog replay) updates, not duplicates. */
   private upsertTrade(trade: Trade): void {
     this.leagueTrades.update((trades) => {
-      const index = trades.findIndex((t) => t.tradeguid === trade.tradeguid);
+      const index = trades.findIndex((t) => t.tradeid === trade.tradeid);
 
       if (index === -1) return [trade, ...trades];
 
       const next = [...trades];
-      // The row already on the board came from REST and knows things the event does not (the real
-      // tradeid, the true timestamps), so those are kept and only the event's fields overwrite.
-      next[index] = { ...next[index], ...trade, tradeid: next[index].tradeid || trade.tradeid };
+      next[index] = {
+        ...next[index],
+        ...trade,
+        // A trade built from a SignalR payload has no expiry and defaults its timestamp to now
+        // (see toTrade), so an event must not blank or rewrite what the REST row already knows.
+        tscreated: next[index].tscreated || trade.tscreated,
+        tsexpires: next[index].tsexpires || trade.tsexpires,
+      };
       return next;
     });
   }
@@ -238,7 +243,7 @@ export class TradeHub extends Hubservice {
     if (!trade?.tradeId) return;
 
     this.leagueTrades.update((trades) =>
-      trades.map((t) => (t.tradeguid === trade.tradeId ? { ...t, status } : t)),
+      trades.map((t) => (t.tradeid === trade.tradeId ? { ...t, status } : t)),
     );
 
     this.incomingTradeRequests.update((prev) => prev.filter((t) => t.tradeId !== trade.tradeId));

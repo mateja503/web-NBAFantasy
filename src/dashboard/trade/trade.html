@@ -92,15 +92,15 @@
 
         <!-- The board: every offer in the league, not just the ones aimed at me. -->
         <section class="trade-list" [class.is-loading]="loading()">
-          @for (view of visibleTrades(); track view.trade.tradeguid) {
+          @for (view of visibleTrades(); track view.trade.tradeid) {
             <!-- Selectable by keyboard as well as pointer: the panel is the only way to act on an
                  offer, so reaching it must not require a mouse. -->
             <article
               class="trade-card"
               role="button"
               tabindex="0"
-              [attr.aria-pressed]="selectedTradeId() === view.trade.tradeguid"
-              [class.is-selected]="selectedTradeId() === view.trade.tradeguid"
+              [attr.aria-pressed]="selectedTradeId() === view.trade.tradeid"
+              [class.is-selected]="selectedTradeId() === view.trade.tradeid"
               [class.is-incoming]="view.isIncoming"
               [class.is-settled]="!view.isOpen"
               (click)="selectTrade(view)"

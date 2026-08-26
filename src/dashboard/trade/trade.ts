@@ -132,10 +132,19 @@ export class Trade implements OnInit {
   readonly openCount = computed(() => this.tradeViews().filter((v) => v.isOpen).length);
   readonly incomingCount = computed(() => this.tradeViews().filter((v) => v.isIncoming).length);
 
+  /**
+   * The offer the panel is showing — resolved against the *visible* list, not the whole board.
+   *
+   * That is what empties the panel once an offer is settled: accepting or declining drops the card
+   * out of every open tab, and a panel still describing it would be the only thing left on screen
+   * claiming there is an offer to answer. Scoping it this way also means the Settled tab keeps
+   * showing a settled offer when its card is right there in the list, which is the one place
+   * reviewing it makes sense.
+   */
   readonly selectedTrade = computed<TradeView | null>(() => {
     const id = this.selectedTradeId();
     if (!id) return null;
-    return this.tradeViews().find((v) => v.trade.tradeguid === id) ?? null;
+    return this.visibleTrades().find((v) => v.trade.tradeid === id) ?? null;
   });
 
   /** Both sides of the offer being built, resolved for the summary line. */
@@ -239,18 +248,18 @@ export class Trade implements OnInit {
   selectTrade(view: TradeView): void {
     this.actionError.set(null);
     this.builderOpen.set(false);
-    this.selectedTradeId.set(view.trade.tradeguid);
+    this.selectedTradeId.set(view.trade.tradeid);
   }
 
   // ---- Actions -------------------------------------------------------------------------------
 
   accept(view: TradeView): void {
-    this.runAction(this.tradeHub.acceptSeasonTrade(this.leagueId, view.trade.tradeguid));
+    this.runAction(this.tradeHub.acceptSeasonTrade(this.leagueId, view.trade.tradeid));
   }
 
   /** Declining an offer aimed at you and withdrawing your own are the same server call. */
   decline(view: TradeView): void {
-    this.runAction(this.tradeHub.rejectSeasonTrade(this.leagueId, view.trade.tradeguid));
+    this.runAction(this.tradeHub.rejectSeasonTrade(this.leagueId, view.trade.tradeid));
   }
 
   startNewOffer(): void {
@@ -358,7 +367,7 @@ export class Trade implements OnInit {
           // A failure here is not fatal: the counter is already on the board, it just leaves the
           // old offer open too. Surfaced rather than swallowed so the manager can withdraw it.
           await this.tradeHub
-            .rejectSeasonTrade(this.leagueId, original.tradeguid)
+            .rejectSeasonTrade(this.leagueId, original.tradeid)
             .then((rejected) => this.tradeHub.applyTrade(rejected))
             .catch(() =>
               this.actionError.set(
@@ -369,7 +378,7 @@ export class Trade implements OnInit {
 
         this.builderOpen.set(false);
         this.counterOf.set(null);
-        this.selectedTradeId.set(created?.tradeguid ?? null);
+        this.selectedTradeId.set(created?.tradeid ?? null);
         this.filter.set('outgoing');
       })
       .catch((err: unknown) => this.actionError.set(this.toMessage(err)))
