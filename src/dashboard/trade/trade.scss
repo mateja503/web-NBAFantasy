@@ -1,4 +1,402 @@
-:host {
-  display: block; /* Custom elements are inline by default; change to block */
+// trade.scss
+@use '../../../src/styles/token.scss' as t;
+
+// Same shell as the games and players pages: a fixed-height blue card that scrolls internally,
+// so the page never grows a second scrollbar next to the sidebar.
+.trade-container {
+  background-color: t.$brand-primary;
+  border-radius: t.$radius-lg;
+  margin: t.$space-6;
+  width: auto;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.trade-header {
+  flex-shrink: 0;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+.trade-body {
+  position: relative; // anchors the loading overlay
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: t.$space-4;
+}
+
+.trade-count {
+  font-size: t.$font-size-sm;
+  color: t.$text-muted;
+  white-space: nowrap;
+}
+
+// Connection state, not a decoration: everything still works offline, it just stops updating on
+// its own, and the user is entitled to know which of the two they have.
+.trade-live {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-1;
+  font-size: t.$font-size-sm;
+  color: t.$text-subtle;
+  white-space: nowrap;
+
+  &.is-live { color: t.$brand-accent; }
+}
+
+.trade-filters {
+  flex-shrink: 0;
+  padding-bottom: t.$space-3;
+}
+
+.trade-filter-badge {
+  margin-left: t.$space-1;
+  padding: 1px 6px;
+  color: t.$color-bg-deepest;
+  background: t.$brand-accent;
+  border-radius: t.$radius-pill;
+  font-size: t.$font-size-xs;
+}
+
+// List and detail side by side on a wide screen; stacked below, where the panel would otherwise
+// squeeze the cards down to unreadable slivers.
+.trade-layout {
+  flex-grow: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: t.$space-4;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto;
+  }
+}
+
+.trade-list {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: t.$space-2;
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-3;
+
+  &.is-loading { opacity: 0.35; }
+
+  &::-webkit-scrollbar { width: 8px; }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
+
+    &:hover { background: rgba(t.$text-on-dark, 0.4); }
+  }
+}
+
+.trade-card {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-3;
+  padding: t.$space-4;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-left: 3px solid transparent;
+  border-radius: t.$radius-lg;
+  color: t.$text-on-dark;
+  cursor: pointer;
+  transition: all t.$transition-fast;
+
+  &:hover {
+    border-color: t.$brand-accent;
+    @include t.glow-cyan(0.35);
+  }
+
+  // The left rail is the "does this need me" signal — an offer aimed at your team is the only
+  // card on the board you can actually act on.
+  &.is-incoming { border-left-color: t.$brand-accent; }
+
+  &.is-selected {
+    border-color: t.$brand-accent;
+    @include t.glow-cyan(0.5);
+  }
+
+  // Dimmed rather than hidden: settled trades are the league's history.
+  &.is-settled { opacity: 0.65; }
+}
+
+.trade-teams {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  color: t.$text-on-dark;
+  font-weight: 700;
+
+  i { color: t.$text-subtle; }
+}
+
+.trade-team-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trade-tag,
+.trade-status {
+  border-radius: t.$radius-pill;
+  font-size: t.$font-size-xs;
+}
+
+.trade-tag-incoming { color: t.$color-bg-deepest; background: t.$brand-accent; }
+.trade-tag-outgoing { color: t.$text-on-dark; background: t.$brand-secondary; }
+
+.trade-status-pending { color: t.$color-bg-deepest; background: t.$color-accent-orange; }
+.trade-status-accepted { color: t.$text-on-dark; background: t.$color-accent-green; }
+.trade-status-rejected { color: t.$text-on-dark; background: t.$color-accent-red; }
+.trade-status-superseded { color: t.$text-on-dark; background: t.$color-border-dark; }
+
+// Both halves of the offer, side by side, so "what am I getting for what" reads at a glance.
+.trade-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: t.$space-3;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.trade-side {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: t.$space-1;
+  min-width: 0;
+  padding: t.$space-2;
+  background: t.$color-bg-deepest;
+  border: 1px solid t.$color-border-subtle;
+  border-radius: t.$radius-md;
+}
+
+.trade-side-label {
+  flex-basis: 100%;
+  margin-bottom: t.$space-1;
+  color: t.$brand-accent;
+  font-size: t.$font-size-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trade-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$space-1;
+  max-width: 100%;
+  padding: 2px t.$space-2;
+  background: t.$surface-row;
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-pill;
+  font-size: t.$font-size-sm;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trade-chip-empty {
+  color: t.$text-subtle;
+  font-style: italic;
+}
+
+.trade-chip-pos {
+  color: t.$brand-accent;
+  font-family: t.$font-family-mono;
+  font-size: t.$font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.trade-card-bottom {
+  padding-top: t.$space-2;
+  border-top: 1px solid t.$color-border-subtle;
+  color: t.$text-subtle;
+  font-size: t.$font-size-xs;
+}
+
+// The panel is its own column with its own scroll, so picking a trade never moves the list.
+.trade-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: t.$color-bg-deepest;
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  color: t.$text-on-dark;
+  overflow: hidden;
+}
+
+.trade-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$space-2;
+  flex-shrink: 0;
+  padding: t.$space-3 t.$space-4;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+.trade-panel-title {
+  color: t.$brand-accent;
+  font-size: t.$font-size-lg;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trade-panel-scroll {
+  flex-grow: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: t.$space-4;
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-4;
+
+  &::-webkit-scrollbar { width: 6px; }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
+  }
+}
+
+// Pinned: the send/accept buttons must never scroll out of reach on a long roster.
+.trade-panel-foot {
+  flex-shrink: 0;
+  padding: t.$space-3 t.$space-4;
+  border-top: 1px solid t.$color-border-subtle;
+}
+
+.trade-panel-note {
+  margin: t.$space-2 t.$space-4 0;
+  color: t.$text-muted;
+  font-size: t.$font-size-sm;
+}
+
+.trade-panel-scroll .trade-panel-note { margin-left: 0; margin-right: 0; }
+
+.trade-builder-block {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-2;
+}
+
+.trade-team-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: t.$space-2;
+}
+
+.trade-roster {
+  display: flex;
+  flex-direction: column;
+  gap: t.$space-1;
+}
+
+.trade-roster-row {
+  display: flex;
+  align-items: center;
+  gap: t.$space-2;
   width: 100%;
+  padding: t.$space-2 t.$space-3;
+  background: t.$surface-row;
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-md;
+  color: t.$text-on-dark;
+  font-size: t.$font-size-sm;
+  text-align: left;
+  cursor: pointer;
+  transition: all t.$transition-fast;
+
+  &:hover { border-color: t.$brand-accent; }
+
+  // Selected players carry the accent so the offer being built is readable without counting
+  // checkboxes.
+  &.is-picked {
+    border-color: t.$brand-accent;
+    background: rgba(t.$color-accent-cyan, 0.12);
+  }
+
+  // The detail view reuses the row purely as a layout, so it must not look clickable.
+  &.is-static {
+    cursor: default;
+
+    &:hover { border-color: t.$color-border-card; }
+  }
+}
+
+.trade-roster-name {
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trade-roster-stat {
+  color: t.$text-subtle;
+  font-family: t.$font-family-mono;
+  font-size: t.$font-size-xs;
+  white-space: nowrap;
+}
+
+.trade-summary {
+  color: t.$text-muted;
+  font-size: t.$font-size-sm;
+}
+
+.trade-error {
+  color: t.$color-accent-red;
+  font-size: t.$font-size-sm;
+}
+
+.trade-empty {
+  padding: t.$space-10 0;
+  color: t.$text-on-dark;
+  font-size: t.$font-size-base;
+  text-align: center;
+}
+
+.trade-empty-inline {
+  color: t.$text-subtle;
+  font-size: t.$font-size-sm;
+}
+
+.trade-panel-placeholder {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: t.$space-3;
+  padding: t.$space-6;
+  color: t.$text-subtle;
+  font-size: t.$font-size-sm;
+  text-align: center;
+
+  i {
+    color: t.$brand-accent;
+    font-size: t.$font-size-3xl;
+  }
+}
+
+// Overlays the board rather than replacing it, so a refresh keeps the current offers on screen.
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: t.$brand-accent;
+  pointer-events: none;
 }
