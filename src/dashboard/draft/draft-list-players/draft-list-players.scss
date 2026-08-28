@@ -12,7 +12,12 @@
 .bg-dark-row  { background-color: t.$surface-row; }
 
 .list-container {
-  max-height: calc(9.8vh * 5 - 100px);
+  // Fills whatever height the grid tile gives us (.flex-grow-1 in the template does the growing).
+  // min-height: 0 is required — a flex item defaults to min-height: auto, which refuses to shrink
+  // below its content and would push the list past the tile instead of scrolling inside it.
+  // Deliberately NOT a calc() off the tile's rowspan: that has to be hand-edited every time the
+  // rowspan changes, which is exactly how it drifted out of sync last time.
+  min-height: 0;
 
   &::-webkit-scrollbar { width: 6px; }
   &::-webkit-scrollbar-track { background: t.$surface-card; }

@@ -11,33 +11,33 @@
         [draftStarted]="isDraftStarted()" [draftEnded]="isDraftEnded()"></app-draft-header>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
+    <mat-grid-tile colspan="4" rowspan="8" class="tile-draft-board">
       <app-draft-board [round]="draftHub.round()" [onTheClock]="draftHub.teamOnTheClock()"
         [draftOrder]="draftHub.draftTeams()"></app-draft-board>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
+    <mat-grid-tile colspan="4" rowspan="8" class="tile-draft-board">
       <app-draft-list-players [draftPlayers]="draftHub.draftPlayers()" [onTheClock]="draftHub.teamOnTheClock()"
         (onPlayerDrafted)="draftHub.draftPlayer(leagueId, $event.playerId, $event.pick)"
         [draftStarted]="isDraftStarted()"></app-draft-list-players>
 
     </mat-grid-tile>
     
-    <mat-grid-tile colspan="4" rowspan="5" class="tile-draft-board">
+    <mat-grid-tile colspan="4" rowspan="8" class="tile-draft-board">
       <app-drafted-players [draftedPlayers]="draftHub.teamsDraftedPlayers()[globalStore.selectedTeamId() ?? 0] || []"></app-drafted-players>
     </mat-grid-tile>
 
     <!-- <mat-grid-tile colspan="4" rowspan="3" class="tile-draft-board">
       <h1>Trades on draft night</h1>
     </mat-grid-tile> -->
-    <mat-grid-tile colspan="12 " rowspan="3" class="tile-draft-board">
+    <!-- <mat-grid-tile colspan="12 " rowspan="3" class="tile-draft-board">
       @if (isDraftStarted()) {
         <app-draft-make-trade
           [draftedPlayersPerTeam]="draftHub.teamsDraftedPlayers()"></app-draft-make-trade>
       } @else {
         <h1>Draft hasn't started</h1>
       }
-    </mat-grid-tile>
+    </mat-grid-tile> -->
 
 
   </mat-grid-list>
