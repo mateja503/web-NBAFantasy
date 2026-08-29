@@ -33,7 +33,7 @@ export class TradeHub extends Hubservice {
   private connectedLeagueId: number | null = null;
   private connectedTeamId: number | null = null;
 
-  /** Offers addressed to *my* team. The draft room's trade panel renders exactly this. */
+  /** Offers addressed to *my* team. The trade page's incoming panel renders exactly this. */
   incomingTradeRequests = signal<TradeBetweenTeams[]>([]);
 
   lastAcceptedTrade = signal<TradeBetweenTeams | null>(null);
@@ -162,30 +162,6 @@ export class TradeHub extends Hubservice {
   public rejectSeasonTrade(leagueId: number, tradeId: string): Promise<Trade> {
     return this.invoke<Trade>(HubMethods.Client.RejectSeasonTrade, leagueId, tradeId);
   }
-
-  // ---- Draft-time trades ---------------------------------------------------------------------
-  // Kept for the draft room, which validates against the live DraftState instead of the rosters.
-
-  public proposeTrade = (
-    leagueId: number,
-    fromTeam: number,
-    toTeam: number,
-    playersIds: number[],
-  ) => {
-    this.hubConnection
-      .invoke(HubMethods.Client.ProposeTrade, leagueId, fromTeam, toTeam, playersIds)
-      .catch((err: unknown) => {
-        console.error('Error while invoking ProposeTrade: ' + err);
-      });
-  };
-
-  public acceptTrade = (leagueId: number, tradeId: string) => {
-    this.hubConnection
-      .invoke(HubMethods.Client.AcceptTrade, leagueId, tradeId)
-      .catch((err: unknown) => {
-        console.error('Error while invoking AcceptTrade: ' + err);
-      });
-  };
 
   // ---- Internals -----------------------------------------------------------------------------
 

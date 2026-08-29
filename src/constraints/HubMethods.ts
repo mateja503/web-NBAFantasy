@@ -19,11 +19,8 @@ export const HubMethods = {
         SendMessage: 'SendMessage',
         ResetTimer: 'ResetTimer',
         DraftPlayer: 'DraftPlayer',
-        // Draft-time trades: validated against the live DraftState in Redis.
-        ProposeTrade: 'ProposeTrade',
-        AcceptTrade: 'AcceptTrade',
-        // In-season trades: validated against the Postgres rosters. Deliberately a separate pair —
-        // by the season the draft state no longer exists, so the two cannot share an implementation.
+        // Trades, validated against the Postgres rosters. Trading during the draft was removed, so
+        // this is the only trade flow: there is no draft-time pair reading the Redis draft state.
         ProposeSeasonTrade: 'ProposeSeasonTrade',
         AcceptSeasonTrade: 'AcceptSeasonTrade',
         RejectSeasonTrade: 'RejectSeasonTrade',
