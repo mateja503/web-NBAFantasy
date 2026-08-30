@@ -42,3 +42,7 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# graphify extraction cache
+graphify-out/cache/
+graphify-out/cost.json  
