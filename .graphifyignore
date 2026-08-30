@@ -1,0 +1,15 @@
+# .graphifyignore
+
+# build + tooling output
+dist/
+.angular/
+coverage/
+node_modules/
+
+# duplicate full checkout of this same repo - would double every node
+.claude/worktrees/
+
+# binary assets and lockfiles
+public/images/
+public/favicon.ico
+package-lock.json
