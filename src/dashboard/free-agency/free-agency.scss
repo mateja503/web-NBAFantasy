@@ -1,0 +1,287 @@
+// free-agency.scss
+// Deliberately mirrors players.scss: same dark container, header rule, filter-pill label and
+// dark-field treatment. Only the results surface differs — a card grid instead of a table.
+@use '../../../src/styles/token.scss' as t;
+
+.free-agency-container {
+  background-color: t.$brand-primary;
+  border-radius: t.$radius-lg;
+  margin: t.$space-6;
+  width: auto;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.free-agency-header {
+  flex-shrink: 0;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+// The grid scrolls inside the container rather than growing the page, matching how the
+// Players table scrolls internally.
+.free-agency-body {
+  flex-grow: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-top: t.$space-4;
+  padding-right: t.$space-1;
+
+  &::-webkit-scrollbar { width: 8px; }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$text-on-dark, 0.25);
+    border-radius: t.$radius-sm;
+
+    &:hover { background: rgba(t.$text-on-dark, 0.4); }
+  }
+}
+
+.league-name { font-weight: 600; }
+
+.agent-count {
+  color: t.$brand-accent;
+  font-weight: 600;
+}
+
+.header-sep {
+  color: rgba(t.$text-on-dark, 0.5);
+  padding: 0 t.$space-1;
+}
+
+.search-box { max-width: 360px; }
+
+.search-box .input-group-text {
+  background: t.$surface-row;
+  border-color: t.$color-border-card;
+  color: t.$text-muted;
+}
+
+.search-box .form-control {
+  color: t.$text-on-dark;
+  background-color: t.$surface-row;
+  border-color: t.$color-border-card;
+  box-shadow: none;
+
+  &::placeholder { color: t.$text-subtle; }
+  &:focus { border-color: t.$brand-accent; box-shadow: none; }
+}
+
+.filter-label {
+  color: t.$brand-accent;
+  font-size: t.$font-size-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// -----------------------------------------------------------------------------
+// Player card
+// -----------------------------------------------------------------------------
+// Same surface gradient and hairline as the shared player table, so the two results
+// surfaces read as one system. Flex column + `margin-top: auto` on the action block keeps
+// every BID button on the same baseline regardless of name length.
+.agent-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: t.$space-4;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  transition: border-color t.$transition-base, box-shadow t.$transition-base;
+
+  &:hover {
+    border-color: rgba(t.$brand-accent, 0.5);
+    @include t.glow-cyan(0.15);
+  }
+}
+
+.agent-name {
+  color: t.$text-on-dark;
+  font-size: t.$font-size-lg;
+  font-weight: 600;
+  margin-bottom: t.$space-2;
+}
+
+.agent-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$space-2;
+  margin-bottom: t.$space-3;
+}
+
+.agent-team {
+  color: t.$text-muted;
+  font-size: t.$font-size-sm;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agent-position {
+  flex-shrink: 0;
+  padding: 2px t.$space-2;
+  border: 1px solid rgba(t.$brand-accent, 0.5);
+  border-radius: t.$radius-pill;
+  color: t.$brand-accent;
+  background: rgba(t.$brand-accent, 0.08);
+  font-family: t.$font-family-mono;
+  font-size: t.$font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Three across at every card width — six headline stats land as a tidy 3x2 block.
+.agent-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: t.$space-2;
+  margin: 0;
+  padding: t.$space-3 0;
+  border-top: 1px solid t.$color-border-subtle;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+.agent-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  dt {
+    color: t.$text-subtle;
+    font-size: t.$font-size-xs;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  dd {
+    margin: 0;
+    color: t.$text-on-dark;
+    font-family: t.$font-family-mono;
+    font-size: t.$font-size-md;
+    font-weight: 600;
+  }
+}
+
+// `margin-top: auto` pushes the action block to the card floor, so cards of unequal
+// content height still line their buttons up across a row.
+.agent-action {
+  margin-top: auto;
+  padding-top: t.$space-3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: t.$space-1;
+}
+
+// Sits directly under the BID button, on its own line — not a tooltip, not a sibling.
+.not-implemented-note {
+  color: #ffc107;
+  font-size: 0.75rem;
+}
+
+// -----------------------------------------------------------------------------
+// Empty / error states
+// -----------------------------------------------------------------------------
+.empty-state-card,
+.error-state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: t.$space-10 t.$space-6;
+  background: linear-gradient(145deg, #16192b, #1e223a);
+  border: 1px solid t.$color-border-card;
+  border-radius: t.$radius-lg;
+  color: t.$text-muted;
+}
+
+.error-state-card {
+  border-color: rgba(t.$color-accent-red, 0.5);
+  color: t.$text-on-dark;
+}
+
+.empty-state-icon {
+  font-size: t.$font-size-3xl;
+  color: t.$brand-accent;
+  margin-bottom: t.$space-3;
+}
+
+.empty-state-title {
+  color: t.$text-on-dark;
+  margin-bottom: t.$space-2;
+}
+
+.empty-state-text {
+  max-width: 420px;
+  font-size: t.$font-size-base;
+  margin-bottom: t.$space-4;
+}
+
+.empty-state-link {
+  color: t.$brand-accent;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+// -----------------------------------------------------------------------------
+// Loading skeletons
+// -----------------------------------------------------------------------------
+// Skeleton cards rather than the table's dim-and-spinner overlay: on first load there are no
+// previous cards to keep visible, so a spinner over an empty grid would collapse the layout.
+.agent-card--skeleton {
+  pointer-events: none;
+
+  &:hover {
+    border-color: t.$color-border-card;
+    box-shadow: none;
+  }
+}
+
+.skeleton-line {
+  background: rgba(t.$text-on-dark, 0.08);
+  border-radius: t.$radius-sm;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-line--title {
+  height: 18px;
+  width: 70%;
+  margin-bottom: t.$space-3;
+}
+
+.skeleton-line--subtitle {
+  height: 12px;
+  width: 45%;
+  margin-bottom: t.$space-4;
+}
+
+.skeleton-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: t.$space-2;
+  padding: t.$space-3 0;
+  border-top: 1px solid t.$color-border-subtle;
+  border-bottom: 1px solid t.$color-border-subtle;
+}
+
+.skeleton-line--stat { height: 28px; }
+
+.skeleton-line--action {
+  height: 32px;
+  width: 60%;
+  margin: t.$space-4 auto 0;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}

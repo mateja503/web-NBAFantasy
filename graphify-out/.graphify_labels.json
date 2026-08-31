@@ -1,1 +1,23 @@
-{"0": "App Config, Routing and Guards", "1": "App Shell and Runtime Config", "2": "Angular Build Configuration", "3": "Architecture Decisions", "4": "SignalR Hubs and Trade Model", "5": "Runtime Dependencies", "6": "Trade Feature", "7": "Dev Tooling and Test Deps", "8": "Custom Input and Dialog", "9": "Games Schedule Feature", "10": "SharedModule and Layout Shell", "11": "Draft Room Components", "12": "Home Landing and Image Placeholder", "13": "Chatroom and Trade Board", "14": "Players Browser and Filters", "15": "Draft Player Selection Templates", "16": "My Teams and Leagues", "17": "Button Component", "18": "DraftHub Live State", "19": "Draft Header Controls", "20": "Real-Time Scaling Concerns", "21": "Draft REST Service", "22": "Draft Status Enum", "23": "Button Type Definitions", "24": "Team Selection Component", "25": "Draft Page Entry", "26": "Docker Entrypoint Script", "27": "Coupling Bug Finding"}
+{
+  "0": "globalStore.ts",
+  "1": "app.module.ts",
+  "2": "options",
+  "3": "Real-Time Layer (Hubservice base, DraftHub, ChatHub)",
+  "4": "Trade",
+  "5": "dependencies",
+  "6": "Trade",
+  "7": "package.json",
+  "8": "Custominput",
+  "9": "games.ts",
+  "10": "DraftService",
+  "11": "draft.ts",
+  "12": "button.ts",
+  "13": "Injectable",
+  "14": "players.ts",
+  "17": "Button",
+  "20": "Real-Time Layer Scaling Question (persistent WebSocket connections)",
+  "21": "app.config.ts",
+  "26": "entrypoint.sh",
+  "27": "Finding #7: Coupling Bugs (hardcoded leagueId, localStorage token exposure)",
+  "28": "Component"
+}

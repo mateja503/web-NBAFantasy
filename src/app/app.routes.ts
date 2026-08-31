@@ -47,6 +47,13 @@ export const routes: Routes = [
     loadComponent: () => import('../dashboard/team/team').then((m) => m.Team),
   },
   {
+    // Auth-guarded, unlike /players: GET /v1/free-agency/all-players requires a bearer token
+    // and a league id that only a signed-in user's store carries.
+    path: 'free-agency',
+    canActivate: [authGuard],
+    loadComponent: () => import('../dashboard/free-agency/free-agency').then((m) => m.FreeAgency),
+  },
+  {
     path: 'chatroom',
     canActivate: [authGuard],
     loadComponent: () => import('../dashboard/chatroom/chatroom').then((m) => m.Chatroom),

@@ -1,0 +1,177 @@
+<div class="free-agency-container container-fluid px-5 py-4">
+
+  <div class="free-agency-header pb-3">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+      <div>
+        <h2 class="fw-bold text-white mb-1">Free Agency</h2>
+        @if (hasLeague()) {
+          <p class="text-white mb-0">
+            <span class="league-name">{{ selectedLeagueName() ?? 'Selected league' }}</span>
+            <span class="header-sep">·</span>
+            <span class="agent-count">{{ totalCount() | number }}</span>
+            free agent{{ totalCount() === 1 ? '' : 's' }} available
+            @if (isFiltered()) {
+              <span class="header-sep">·</span>
+              <span class="agent-count">{{ filteredCount() | number }}</span> shown
+            }
+          </p>
+        } @else {
+          <p class="text-white mb-0">Pick a league to see who is available.</p>
+        }
+      </div>
+
+      @if (hasLeague()) {
+        <div class="d-flex align-items-center gap-2">
+          <div class="input-group search-box">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search free agents by name..."
+              [ngModel]="searchText()"
+              (ngModelChange)="onSearch($event)" />
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (hasLeague()) {
+      <div class="d-flex flex-wrap align-items-center gap-2 pt-3">
+        <span class="filter-label text-uppercase font-monospace">Filter by positions:</span>
+        @for (pos of positions; track pos) {
+          <app-button
+            [label]="pos"
+            variant="ghost"
+            shape="pill"
+            size="sm"
+            [mono]="true"
+            [active]="selectedPositions().includes(pos)"
+            [pressable]="true"
+            (btnClick)="togglePosition(pos)" />
+        }
+      </div>
+    }
+  </div>
+
+  <div class="free-agency-body">
+
+    @if (!hasLeague()) {
+      <!-- No selectedLeagueId in the store: the endpoint rejects leagueId <= 0, so no request
+           is fired at all — the user is sent to pick a league first. -->
+      <div class="empty-state-card">
+        <i class="bi bi-trophy empty-state-icon" aria-hidden="true"></i>
+        <h5 class="empty-state-title">No league selected</h5>
+        <p class="empty-state-text">
+          Free agency is scoped to a single league. Choose one of your teams or leagues to see its
+          available players.
+        </p>
+        <a class="empty-state-link" routerLink="/my-teams-leagues">Go to My Teams &amp; Leagues</a>
+      </div>
+    } @else if (error()) {
+      <div class="error-state-card">
+        <p class="mb-3">{{ error() }}</p>
+        <app-button
+          label="Retry"
+          variant="accent"
+          size="sm"
+          icon="arrow-clockwise"
+          [showIcon]="true"
+          (btnClick)="retry()" />
+      </div>
+    } @else if (loading()) {
+      <div class="row g-3">
+        @for (skeleton of skeletons; track skeleton) {
+          <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+            <div class="agent-card agent-card--skeleton h-100" aria-hidden="true">
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--subtitle"></div>
+              <div class="skeleton-stats">
+                @for (cell of skeletonStats; track cell) {
+                  <div class="skeleton-line skeleton-line--stat"></div>
+                }
+              </div>
+              <div class="skeleton-line skeleton-line--action"></div>
+            </div>
+          </div>
+        }
+      </div>
+      <span class="visually-hidden" role="status">Loading free agents…</span>
+    } @else {
+      <div class="row g-3">
+        @for (player of filteredPlayers(); track player.playerid) {
+          <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+            <div class="agent-card h-100">
+
+              <h5 class="agent-name">{{ player.name }} {{ player.surname }}</h5>
+
+              <div class="agent-subtitle">
+                <span class="agent-team">{{ player.irlteamname ?? '—' }}</span>
+                <span class="agent-position">{{ player.position ?? '—' }}</span>
+              </div>
+
+              <!-- Headline stats only. The full 19-column line lives on the Players table; a card
+                   is a summary surface. -->
+              <dl class="agent-stats">
+                <div class="agent-stat">
+                  <dt>PTS</dt>
+                  <dd>{{ (player.points ?? 0) | number: '1.0-1' }}</dd>
+                </div>
+                <div class="agent-stat">
+                  <dt>REB</dt>
+                  <dd>{{ (player.rebounds ?? 0) | number: '1.0-1' }}</dd>
+                </div>
+                <div class="agent-stat">
+                  <dt>AST</dt>
+                  <dd>{{ (player.assists ?? 0) | number: '1.0-1' }}</dd>
+                </div>
+                <div class="agent-stat">
+                  <dt>STL</dt>
+                  <dd>{{ (player.steals ?? 0) | number: '1.0-1' }}</dd>
+                </div>
+                <div class="agent-stat">
+                  <dt>BLK</dt>
+                  <dd>{{ (player.blocks ?? 0) | number: '1.0-1' }}</dd>
+                </div>
+                <div class="agent-stat">
+                  <dt>3PM</dt>
+                  <dd>{{ (player.threepointers ?? 0) | number: '1.0-1' }}</dd>
+                </div>
+              </dl>
+
+              <!-- Permanently disabled: there is no coin/budget/bid concept in the backend yet.
+                   No click handler on purpose. -->
+              <div class="agent-action">
+                <app-button
+                  label="BID"
+                  variant="outline"
+                  size="sm"
+                  [disabled]="true"
+                  [ariaLabel]="'Bid on ' + player.name + ' ' + player.surname + ' (not yet implemented)'" />
+                <span class="not-implemented-note">Not yet implemented</span>
+              </div>
+
+            </div>
+          </div>
+        } @empty {
+          <div class="col-12">
+            <div class="empty-state-card">
+              <i class="bi bi-people empty-state-icon" aria-hidden="true"></i>
+              <h5 class="empty-state-title">No free agents</h5>
+              <p class="empty-state-text">
+                @if (isFiltered()) {
+                  No free agents match the current search or position filters.
+                } @else {
+                  Every player in this league is already on a roster.
+                }
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+
+</div>
