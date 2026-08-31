@@ -1,7 +1,7 @@
 {
   ".claude/settings.json": {
-    "mtime": 1788108418.4353,
-    "seen": 1788108649.020341,
+    "mtime": 1788108710.5454657,
+    "seen": 1788148165.3032048,
     "ast_hash": "f25c75a8715420aef7fe9f9de185a245",
     "semantic_hash": ""
   },
@@ -26,8 +26,8 @@
   ".vscode/mcp.json": {
     "mtime": 1770062602.518785,
     "seen": 1788108313.5265458,
-    "ast_hash": "a73020575e74990ecd722ccc5122bb0c",
-    "semantic_hash": "a73020575e74990ecd722ccc5122bb0c"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   ".vscode/tasks.json": {
     "mtime": 1770062602.518785,
@@ -78,10 +78,10 @@
     "semantic_hash": "cd7165c747e764aa30c14cea54a11d1c"
   },
   "src/app/app.routes.ts": {
-    "mtime": 1787921573.7337992,
-    "seen": 1788108313.5265527,
-    "ast_hash": "009b0cca2f9c9934493da825daed0100",
-    "semantic_hash": "009b0cca2f9c9934493da825daed0100"
+    "mtime": 1788148059.2743053,
+    "seen": 1788148165.3047047,
+    "ast_hash": "6e7c35595530e15d4b24490603fd0284",
+    "semantic_hash": ""
   },
   "src/app/app.spec.ts": {
     "mtime": 1770062602.525422,
@@ -408,8 +408,8 @@
     "semantic_hash": "bd7d8d4dcf7261c37c6a35a892af2f35"
   },
   "CLAUDE.md": {
-    "mtime": 1788108418.4211154,
-    "seen": 1788108649.0205133,
+    "mtime": 1788108710.5554578,
+    "seen": 1788148165.312067,
     "ast_hash": "a7a7ce7d1b0481c6e6681c3033dc4fd1",
     "semantic_hash": ""
   },
@@ -570,9 +570,27 @@
     "semantic_hash": "d8f3fbaf28aca02b0232060a19ec440a"
   },
   "src/sidebar/sidebar.html": {
-    "mtime": 1787921573.7771554,
-    "seen": 1788108313.5266194,
-    "ast_hash": "21691fb3a951d620c813b13c2ea9b3b5",
-    "semantic_hash": "21691fb3a951d620c813b13c2ea9b3b5"
+    "mtime": 1788148059.276298,
+    "seen": 1788148165.3178282,
+    "ast_hash": "5065a183b41f16526dfc7e2ca27af0a9",
+    "semantic_hash": ""
+  },
+  "src/dashboard/free-agency/free-agency.ts": {
+    "mtime": 1788148016.9963,
+    "seen": 1788148165.30783,
+    "ast_hash": "93be428a811cbd23c3319b2fa7db4e31",
+    "semantic_hash": ""
+  },
+  "src/services/free-agency-service.ts": {
+    "mtime": 1788147938.4727912,
+    "seen": 1788148165.3108907,
+    "ast_hash": "3a2c5511d9a5d60c6c1b6a4f5c2bebb7",
+    "semantic_hash": ""
+  },
+  "src/dashboard/free-agency/free-agency.html": {
+    "mtime": 1788148016.9987774,
+    "seen": 1788148165.3139198,
+    "ast_hash": "10e7be981d255b12196c0405913ee185",
+    "semantic_hash": ""
   }
 }
