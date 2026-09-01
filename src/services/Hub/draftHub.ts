@@ -1,4 +1,4 @@
-import { computed, signal, } from '@angular/core';
+import { DestroyRef, computed, inject, signal, } from '@angular/core';
 import { Injectable, } from '@angular/core';
 import { HubMethods } from '../../constraints/HubMethods';
 import { Hubservice } from './hubservice';
@@ -62,15 +62,42 @@ export class DraftHub extends Hubservice {
     this.draftStatus() === DraftStatus.DraftEnded || this.draftStatus() === DraftStatus.DraftCompleted);
   private endTime: number | null = null;
 
+  /**
+   * The pick clock's interval handle, or null when the clock is stopped.
+   *
+   * The clock used to be started unconditionally in the constructor and never cleared. This is a
+   * root singleton, so that left a 1-second timer running for the life of the tab whether or not
+   * a draft was open — and there was no handle to stop it with. It is now driven by draft state:
+   * running while a draft is live, stopped once it ends, and always cleared on teardown.
+   */
+  private clockId: ReturnType<typeof setInterval> | null = null;
+
   constructor() {
     super();
-    setInterval(() => this.calculateTime(), 1000)
+    inject(DestroyRef).onDestroy(() => this.stopClock());
   }
 
-  public initialize(leagueId: number) {
-    this.startConnection({ leagueId }).then(() => {
-      this.updateDraftState();
-    });
+  /**
+   * Opens the draft hub and registers the state listener.
+   *
+   * Returns the promise rather than firing and forgetting, so a caller can await the connection
+   * (or handle its failure) instead of guessing when the listener is live.
+   */
+  public async initialize(leagueId: number): Promise<void> {
+    await this.startConnection({ leagueId });
+    this.updateDraftState();
+  }
+
+  private startClock(): void {
+    if (this.clockId !== null) return;
+    this.clockId = setInterval(() => this.calculateTime(), 1000);
+  }
+
+  /** Public so a view can stop the clock explicitly; also runs on injector teardown. */
+  public stopClock(): void {
+    if (this.clockId === null) return;
+    clearInterval(this.clockId);
+    this.clockId = null;
   }
 
 
@@ -113,6 +140,14 @@ export class DraftHub extends Hubservice {
 
     this.draftPlayers.set(data.draftPlayers ?? []);
     this.teamsDraftedPlayers.set(data.draftedPlayersPerTeam ?? {});
+
+    // Driven off the state we just applied, so the clock restarts by itself if a league that
+    // had finished starts a new draft.
+    if (this.isDraftOver()) {
+      this.stopClock();
+    } else {
+      this.startClock();
+    }
   }
 
   public updateDraftState() {

@@ -31,7 +31,9 @@ export class Draft implements OnInit {
       alert('Please select a league to start the draft!');
       return;
     }
-    this.draftHub.initialize(this.leagueId); 
+    // Explicitly fire-and-forget: initialize() now returns a promise, but ngOnInit cannot
+    // await it. A failed handshake is already swallowed into the hub's `isConnected` state.
+    void this.draftHub.initialize(this.leagueId);
   }
 
   readonly isDraftStarted = computed(() => this.draftHub.draftStatus() === DraftStatus.DraftStarted);

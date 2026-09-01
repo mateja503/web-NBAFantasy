@@ -17,6 +17,10 @@
                     </div>
                 </div>
 
+                @if (leaguesError()) {
+                    <div class="alert alert-danger" role="alert">{{ leaguesError() }}</div>
+                }
+
                 <div class="table-scroll">
                     <table mat-table class="league-table" [dataSource]="(leagues$ | async) || []" matSort
                         aria-label="Select a league to join">

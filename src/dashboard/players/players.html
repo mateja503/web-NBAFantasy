@@ -13,11 +13,12 @@
             <i class="bi bi-search"></i>
           </span>
           <input
+            #searchInput
             type="text"
             class="form-control"
             placeholder="Search players by name..."
-            [ngModel]="searchQuery()"
-            (ngModelChange)="onSearch($event)" />
+            [value]="searchQuery()"
+            (input)="onSearch(searchInput.value)" />
         </div>
 
         <app-button
@@ -203,12 +204,13 @@
             (btnClick)="goToPage(page() + 1)" />
 
           <select
+            #pageSizeSelect
             class="form-select form-select-sm page-size-select w-auto"
-            [ngModel]="pageSize()"
-            (ngModelChange)="changePageSize($event)"
+            [value]="pageSize()"
+            (change)="changePageSize(pageSizeSelect.value)"
             aria-label="Players per page">
             @for (size of pageSizeOptions; track size) {
-              <option [ngValue]="size">{{ size }} / page</option>
+              <option [value]="size">{{ size }} / page</option>
             }
           </select>
         </div>

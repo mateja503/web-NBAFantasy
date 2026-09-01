@@ -73,7 +73,38 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "tsconfig.spec.json",
+            "runner": "vitest",
+            "coverage": true,
+            "coverageInclude": [
+              "src/**/*.ts"
+            ],
+            "coverageExclude": [
+              "src/**/*.spec.ts",
+              "src/**/*.d.ts",
+              "src/main.ts",
+              "src/models/**",
+              "src/constraints/**",
+              "src/components/dialog/dialogFormField.ts",
+              "src/components/dialog/dynamicDialogConfig.ts",
+              "src/app/app.module.ts",
+              "src/app/app.routes.ts",
+              "src/testing/**"
+            ],
+            "coverageReporters": [
+              "text-summary",
+              "html",
+              "lcovonly"
+            ],
+            "coverageThresholds": {
+              "statements": 87,
+              "branches": 87,
+              "functions": 87,
+              "lines": 87
+            }
+          }
         }
       }
     }

@@ -76,7 +76,23 @@ export class Header {
     })
 
     dialogRef.afterClosed().subscribe((result?: DialogResponse) => {
-        console.log('This is the dialog results from sign up page', result);
+        // Dialog was cancelled / dismissed, or a required field came back blank.
+        if (!result?.username || !result?.email || !result?.password) {
+          return;
+        }
+
+        this.authService
+          .register({ username: result.username, email: result.email, password: result.password })
+          .subscribe({
+            // The register endpoint issues a token, so a successful sign-up signs the user in
+            // rather than bouncing them to the login dialog to type it all again.
+            next: (response: UserResponse) => {
+              this.globalStore.loginSuccess(response);
+            },
+            error: (error) => {
+              console.error('Sign up failed:', error);
+            },
+          });
     });
   }
 

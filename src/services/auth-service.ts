@@ -10,6 +10,13 @@ export interface LoginRequest {
   password: string;
 }
 
+/** Mirrors the API's SignUpRequest — all three fields are required server-side. */
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export interface UserResponse {
   token?: string;
   username?: string;
@@ -32,5 +39,11 @@ export class AuthService {
   // GlobalStore.loginSuccess(), which stores the token and flips isLoggedIn().
   login(credentials: LoginRequest): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.baseUrl}/login`, credentials);
+  }
+
+  // POST /v1/auth/register returns the same LoginDto as /login — a token plus empty teams and
+  // leagues — so a successful sign-up signs the user straight in, with no second round trip.
+  register(details: RegisterRequest): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${this.baseUrl}/register`, details);
   }
 }

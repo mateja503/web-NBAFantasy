@@ -75,10 +75,14 @@ export const GlobalStore = signalStore(
   { providedIn: 'root' },
 
   // 1. Initialize State (Instantly reads from LocalStorage on refresh!)
-  withState<GlobalState>({
+  // Passed as a FACTORY, not a literal: a literal is evaluated once when this
+  // module is first imported, so the store would hydrate from whatever
+  // localStorage held at import time. The factory defers the read to store
+  // creation, which is both correct and testable.
+  withState<GlobalState>(() => ({
     user: loadUserFromStorage(),
     leagueTeamsCache: loadLeagueTeamsFromStorage(),
-  }),
+  })),
 
   // 2. Computed Getters
   withComputed(({ user, leagueTeamsCache }) => ({
