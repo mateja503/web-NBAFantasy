@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject, model, Signal, signal } from '@an
 import { FormControl, FormGroup } from '@angular/forms';
 import { League } from '../../models/league';
 import { LeagueService } from '../../services/league-service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, catchError, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalStore } from '../../store/globalStore';
@@ -24,7 +24,18 @@ export class JoinLeague {
   private subscribers: Subscription[] = [];
   readonly globalStore = inject(GlobalStore);
 
-  leagues$: Observable<League[]> = this.leagueService.getLeagues();
+  /** Set when the league list could not be loaded, so the empty table is explained. */
+  leaguesError = signal<string | null>(null);
+
+  // The service used to swallow its own errors, which left this page showing an empty table
+  // with no indication anything had gone wrong. It now reports, and the fallback keeps the
+  // async pipe alive with an empty list.
+  leagues$: Observable<League[]> = this.leagueService.getLeagues().pipe(
+    catchError(() => {
+      this.leaguesError.set('We could not load the leagues. Please try again.');
+      return of<League[]>([]);
+    }),
+  );
 
   // Changed from an array signal to a single object/null signal
   selectedLeague = signal<League | null>(null);

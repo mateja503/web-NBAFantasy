@@ -31,6 +31,6 @@ export class PlayerTableView {
   readonly emptyMessage = input('No players to show.');
 
   // Kept in step with the template's header cells: the empty row has to span the lot.
-  private readonly baseColumnCount = 19;
+  private readonly baseColumnCount = 18;
   readonly columnCount = computed(() => this.baseColumnCount + (this.showTeamColumn() ? 1 : 0));
 }

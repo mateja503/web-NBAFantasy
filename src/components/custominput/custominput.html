@@ -11,7 +11,7 @@
             <!-- {{label}} is required and cannot be left empty -->
         </div>
         }@else if(type == 'select'){
-        <select [(ngModel)]="value" [required]="required">
+        <select matNativeControl [(ngModel)]="value" [required]="required" (ngModelChange)="onModelChanging($event)">
             <option value="" disabled>Select an option</option>
             <option *ngFor="let opt of options" [value]="opt.value">{{opt.label}}</option>
         </select>

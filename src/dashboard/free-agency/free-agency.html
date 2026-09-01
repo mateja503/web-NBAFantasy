@@ -27,11 +27,12 @@
               <i class="bi bi-search"></i>
             </span>
             <input
+              #freeAgentSearch
               type="text"
               class="form-control"
               placeholder="Search free agents by name..."
-              [ngModel]="searchText()"
-              (ngModelChange)="onSearch($event)" />
+              [value]="searchText()"
+              (input)="onSearch(freeAgentSearch.value)" />
           </div>
         </div>
       }

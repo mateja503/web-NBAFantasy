@@ -4,6 +4,7 @@ import { ChangeDetectorRef, Component, inject, model, Signal, signal, } from '@a
 import { HubMethods } from '../../constraints/HubMethods';
 import { ConfigService } from '../../app/core/config/config.service';
 import { GlobalStore } from '../../store/globalStore';
+import { HUB_CONNECTION_BUILDER } from './hub-connection-builder';
 
 
 @Injectable({
@@ -18,6 +19,9 @@ export abstract class Hubservice {
 
   protected config = inject(ConfigService);
   protected store = inject(GlobalStore);
+  // Injected rather than constructed inline so specs can supply a fake connection;
+  // the token's default factory is `new signalR.HubConnectionBuilder()`.
+  protected connectionBuilder = inject(HUB_CONNECTION_BUILDER);
 
   public startConnection = (params?: {[key:string]:string | number}): Promise<void> => {
     let url =`${this.config.apiBaseUrl}/${this.hubUrl}`;
@@ -30,7 +34,7 @@ export abstract class Hubservice {
       url += `?${queryParams.toString()}`;
     }
 
-    this.hubConnection = new signalR.HubConnectionBuilder()
+    this.hubConnection = this.connectionBuilder()
       // SignalR has its own transport, so the HttpClient authInterceptor does
       // NOT apply here. accessTokenFactory is the SignalR-native way to auth:
       // it sends the token as an Authorization header on negotiate and as the

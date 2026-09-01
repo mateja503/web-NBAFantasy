@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { League } from '../models/league';
 import { ConfigService } from '../app/core/config/config.service';
 import { PaginationResponses } from '../models';
@@ -56,15 +56,18 @@ export class LeagueService {
   private get leagueUrl() { return `${this.config.apiBaseUrl}/v1/league`; }
 
 
+  /**
+   * Unwraps the pagination envelope and nothing more.
+   *
+   * Errors are deliberately NOT swallowed here: httpErrorInterceptor already handles 401/0/5xx
+   * centrally, and a service that completes without emitting leaves the caller unable to tell
+   * "no leagues" from "the request failed". The caller decides what to show.
+   */
   getLeagues(): Observable<League[]> {
-  return this.http.get<PaginationResponses<League>>(this.leagueUrl).pipe(
-    map((response) => response.items ?? []),
-    catchError((error) => {
-      console.error('Failed to fetch leagues', error);
-      return EMPTY;//leave it like this for know in the future the error handling should be in one place and not in the service
-    })
-  );
-}
+    return this.http
+      .get<PaginationResponses<League>>(this.leagueUrl)
+      .pipe(map((response) => response.items ?? []));
+  }
 
   addleague(data: CreateLeagueRequest): Observable<League> {
     return this.http.post<League>(`${this.leagueUrl}/add`, data);

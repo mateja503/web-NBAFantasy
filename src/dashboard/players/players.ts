@@ -210,7 +210,8 @@ export class Players implements OnInit {
     this.resetToFirstPage();
   }
 
-  changePageSize(size: number): void {
+  /** Accepts the select's raw string value as well as a number; both are coerced here. */
+  changePageSize(size: number | string): void {
     this.pageSize.set(Number(size));
     this.resetToFirstPage();
   }
