@@ -5,38 +5,38 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 685 nodes · 1396 edges · 40 communities (32 shown, 8 thin omitted)
+- 685 nodes · 1386 edges · 40 communities (31 shown, 9 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 44 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5284e614`
+- Built from commit: `e7146c06`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - trade/trade.ts
-- join-league.ts
+- dynamicDialog.ts
 - options
 - Real-Time Layer (Hubservice base, DraftHub, ChatHub)
 - trade/trade.spec.ts
 - dependencies
 - Trade
 - package.json
-- Trade Board Template
+- ConfigService
 - games.ts
 - globalStore.ts
 - draftHub.ts
 - home.ts
 - app.module.ts
-- players.ts
+- Players
 - FakeHubConnection
 - coverageExclude
 - Button
 - DraftHub
 - options
 - Real-Time Layer Scaling Question (persistent WebSocket connections)
-- app.routes.ts
+- app.config.ts
 - Draft Room Template
 - Team
 - production
@@ -58,10 +58,10 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `provideConfigStub()` - 35 edges
-2. `Trade` - 33 edges
-3. `GlobalStore` - 33 edges
-4. `Button` - 25 edges
-5. `TEST_API_BASE_URL` - 25 edges
+2. `GlobalStore` - 33 edges
+3. `Trade` - 33 edges
+4. `TEST_API_BASE_URL` - 25 edges
+5. `Button` - 25 edges
 6. `makeUserResponse()` - 24 edges
 7. `Player` - 22 edges
 8. `Trade` - 21 edges
@@ -71,12 +71,12 @@
 ## Surprising Connections (you probably didn't know these)
 - `Drafted Players Template` --semantically_similar_to--> `PlayerTableView`  [INFERRED] [semantically similar]
   src/dashboard/draft/drafted-players/drafted-players.html → src/components/player-table-view/player-table-view.ts
-- `Active Team/League Context Selection` --conceptually_related_to--> `GlobalStore`  [INFERRED]
-  src/dashboard/my-teams-and-leagues/my-teams-and-leagues.html → src/store/globalStore.ts
 - `Vitest Test Runner (via @angular/build:unit-test)` --semantically_similar_to--> `Vitest (README ng test entrypoint)`  [INFERRED] [semantically similar]
   CLAUDE.md → README.md
 - `Container-Start Runtime Config (entrypoint.sh + envsubst)` --semantically_similar_to--> `Runtime Configuration (config.json + provideAppInitializer)`  [INFERRED] [semantically similar]
   docs/DEPLOYMENT.md → CLAUDE.md
+- `Active Team/League Context Selection` --conceptually_related_to--> `GlobalStore`  [INFERRED]
+  src/dashboard/my-teams-and-leagues/my-teams-and-leagues.html → src/store/globalStore.ts
 - `Material-to-Custominput Form Migration` --conceptually_related_to--> `Custominput`  [INFERRED]
   src/dashboard/league/league-create.html → src/components/custominput/custominput.ts
 
@@ -91,15 +91,15 @@
 - **Surfaces Rendering Player Position + Name Rows** — src_dashboard_draft_draft_list_players_draft_list_players_template, src_dashboard_draft_drafted_players_drafted_players_template, src_dashboard_players_players_template, src_dashboard_team_team_template, src_dashboard_trade_trade_template, src_components_player_table_view_player_table_view_playertableview [INFERRED 0.85]
 - **Selected Team/League Context Flow Across Features** — src_dashboard_my_teams_and_leagues_my_teams_and_leagues_template, src_store_globalstore_globalstore, src_dashboard_draft_draft_template, src_dashboard_trade_trade_template, src_dashboard_team_team_template [INFERRED 0.95]
 
-## Communities (40 total, 8 thin omitted)
+## Communities (40 total, 9 thin omitted)
 
 ### Community 0 - "trade/trade.ts"
 Cohesion: 0.07
-Nodes (21): AppConfig, ConfigService, Injectable, PlayerTableView, Component, FreeAgency, Component, TradeFilter (+13 more)
+Nodes (24): routes, authGuard(), PlayerTableView, Component, FreeAgency, Component, AdvancedFilters, cloneAdvanced() (+16 more)
 
-### Community 1 - "join-league.ts"
-Cohesion: 0.06
-Nodes (23): Custominput, Component, Input, Output, DialogFormField, DynamicDialog, Component, DynamicDialogConfig (+15 more)
+### Community 1 - "dynamicDialog.ts"
+Cohesion: 0.10
+Nodes (13): Custominput, Component, Input, Output, DialogFormField, DynamicDialog, Component, DynamicDialogConfig (+5 more)
 
 ### Community 2 - "options"
 Cohesion: 0.22
@@ -121,17 +121,17 @@ Nodes (33): @angular/animations, @angular/cdk, @angular/common, @angular/compile
 Cohesion: 0.06
 Nodes (31): @angular/build, @angular/compiler-cli, jsdom, devDependencies, @angular/build, @angular/cli, @angular/compiler-cli, jsdom (+23 more)
 
-### Community 8 - "Trade Board Template"
-Cohesion: 0.40
-Nodes (5): Chatroom Template, Active Team/League Context Selection, League+Team Context Guard, Trade Board Template, Trade Panel Three-State Aside
+### Community 8 - "ConfigService"
+Cohesion: 0.07
+Nodes (18): AppConfig, ConfigService, Injectable, DialogResponse, flushLeagues(), LeagueCreate, Component, League (+10 more)
 
 ### Community 9 - "games.ts"
 Cohesion: 0.19
 Nodes (9): Games, GameSection, load(), Component, Game, GameTeam, ScheduledGames, GameService (+1 more)
 
 ### Community 10 - "globalStore.ts"
-Cohesion: 0.08
-Nodes (37): httpErrorInterceptor(), build(), build(), expectAgentsRequest(), initWith(), selectLeague(), DashboardItem, signInWithOneOfEach() (+29 more)
+Cohesion: 0.09
+Nodes (36): build(), build(), expectAgentsRequest(), initWith(), selectLeague(), Active Team/League Context Selection, DashboardItem, signInWithOneOfEach() (+28 more)
 
 ### Community 11 - "draftHub.ts"
 Cohesion: 0.29
@@ -145,17 +145,13 @@ Nodes (6): FeatureCard, Home, Shot, HomeInternals, Home Landing Template, Compon
 Cohesion: 0.18
 Nodes (9): NgModule, APP_COMPONENTS, MATERIAL_MODULES, SharedModule, Draft, Tile, Component, Sidebar (+1 more)
 
-### Community 14 - "players.ts"
-Cohesion: 0.12
-Nodes (11): AdvancedFilters, cloneAdvanced(), emptyAdvanced(), Players, STAT_FILTERS, StatRange, Component, PaginationResponses (+3 more)
-
 ### Community 16 - "coverageExclude"
 Cohesion: 0.18
 Nodes (11): coverageExclude, src/app/app.module.ts, src/app/app.routes.ts, src/components/dialog/dialogFormField.ts, src/components/dialog/dynamicDialogConfig.ts, src/constraints/**, src/**/*.d.ts, src/main.ts (+3 more)
 
 ### Community 17 - "Button"
-Cohesion: 0.20
-Nodes (4): Button, Component, Input, Output
+Cohesion: 0.17
+Nodes (7): Button, Component, Input, Output, Chatroom Template, Trade Board Template, Trade Panel Three-State Aside
 
 ### Community 19 - "options"
 Cohesion: 0.20
@@ -165,9 +161,9 @@ Nodes (10): coverage, coverageInclude, coverageReporters, runner, tsConfig, opti
 Cohesion: 0.29
 Nodes (7): Full-State Broadcast on Every UpdateDraftState, Real-Time Layer Scaling Question (persistent WebSocket connections), Unbounded Chat Message Array, Delta Updates + Snapshot-on-Resync (planned backend follow-up), MAX_MESSAGES Retained-Chat Cap, Redis SignalR Backplane (AddStackExchangeRedis), Sticky Sessions (session affinity) Requirement
 
-### Community 21 - "app.routes.ts"
-Cohesion: 0.12
-Nodes (10): App, appConfig, routes, Component, authGuard(), authInterceptor(), GlobalErrorHandler, Injectable (+2 more)
+### Community 21 - "app.config.ts"
+Cohesion: 0.11
+Nodes (11): App, appConfig, Component, authInterceptor(), GlobalErrorHandler, Injectable, httpErrorInterceptor(), Header (+3 more)
 
 ### Community 22 - "Draft Room Template"
 Cohesion: 0.28
@@ -228,22 +224,22 @@ Nodes (5): branches, functions, lines, statements, coverageThresholds
 ## Knowledge Gaps
 - **124 isolated node(s):** `$schema`, `version`, `packageManager`, `newProjectRoot`, `projectType` (+119 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `App Shell Layout Template (header + sidebar + router-outlet)` and `Footer Template (MDBootstrap boilerplate)`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
-- **Why does `Trade` connect `Trade` to `trade/trade.ts`, `Trade Board Template`, `trade/trade.spec.ts`, `app.module.ts`?**
+- **Why does `Trade` connect `Trade` to `trade/trade.ts`, `Button`, `trade/trade.spec.ts`, `app.module.ts`?**
   _High betweenness centrality (0.054) - this node is a cross-community bridge._
-- **Why does `Button` connect `Button` to `trade/trade.ts`, `join-league.ts`, `Trade Board Template`, `games.ts`, `home.ts`, `app.module.ts`, `players.ts`, `Draft Room Template`, `Team`, `DraftHeader`, `button.ts`?**
+- **Why does `Button` connect `Button` to `trade/trade.ts`, `dynamicDialog.ts`, `games.ts`, `home.ts`, `app.module.ts`, `Draft Room Template`, `Team`, `DraftHeader`, `button.ts`?**
   _High betweenness centrality (0.046) - this node is a cross-community bridge._
-- **Why does `GlobalStore` connect `globalStore.ts` to `trade/trade.ts`, `join-league.ts`, `trade/trade.spec.ts`, `Trade Board Template`, `app.module.ts`, `players.ts`, `app.routes.ts`, `Draft Room Template`?**
+- **Why does `GlobalStore` connect `globalStore.ts` to `trade/trade.ts`, `trade/trade.spec.ts`, `ConfigService`, `app.module.ts`, `app.config.ts`, `Draft Room Template`?**
   _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `GlobalStore` (e.g. with `Active Team/League Context Selection` and `League+Team Context Guard`) actually correct?**
   _`GlobalStore` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `version`, `packageManager` to the rest of the system?**
   _124 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `trade/trade.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.07102040816326531 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07390648567119155 - nodes in this community are weakly interconnected._
